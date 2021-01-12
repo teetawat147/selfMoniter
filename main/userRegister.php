@@ -11,7 +11,7 @@
     <title>userRegister</title>
      <style>
         .container {
-  width: 100%;
+     width: 100%;
 }
 
 .progressbar {
@@ -84,6 +84,7 @@
 }
     </style>
   </head>
+
   <body>
         <div class = "container">
         <center>
@@ -94,8 +95,9 @@
             </ul>
         </div>
         </center>
+        
           <h3>ลงทะเบียน</h3>
-    <form>
+     <form>
         <div class="form-row">
             <div class="form-group col-md-12">
                 <label for="inputnumId">เลขบัตรประจำตัวประชาชน</label>
@@ -193,7 +195,7 @@
                 <button type="cancel" class="btn btn-primary">ยกเลิก</button>
                 <button type="next" class="btn btn-primary">ถัดไป</button>
             </center>
-    </form>
+     </form>
 
     
 </div>

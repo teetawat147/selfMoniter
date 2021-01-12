@@ -15,12 +15,14 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script> -->
 
     <link rel="stylesheet" href="../css/sty.css">
+
 <body>
+
 <div class="container" >
     <div class="row justify-content-center">
         <div class="col-11 col-sm-9 col-md-7 col-lg-6 col-xl-5 text-center p-0 mt-3 mb-2">
             <div class="card px-0 pt-4 pb-0 mt-3 mb-3">
-                <h2 style="text-align: center;">Self-Moniter</h2>
+                <!-- <h2 style="text-align: center;">Self-Moniter</h2> -->
                 <form id="msform">
                     <!-- progressbar -->
                     
@@ -28,6 +30,7 @@
                         <li class="active">ลงทะเบียน</li>
                         <li >ข้อตกลงการใช้งาน</li>
                     </ul>
+
                     
                     <!-- <div class="progress">
                         <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuemin="0" aria-valuemax="100"></div>
@@ -42,77 +45,61 @@
                                     <h2 class="fs-title">ลงทะเบียน</h2>
                                 </div>
                             </div> 
-                            <div class="form-row">
+                            
+                        <div class="form-row">
+                            <div class="form-group col-md-12">
+                                <label for="inputEmail4">เลขบัตรประจำตัวประชาชน</label>
+                                <input type="email" class="form-control" id="inputEmail4" placeholder="เลขบัตรประจำตัวประชาชน">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="inputEmail4">ชื่อ</label>
+                                <input type="email" class="form-control" id="inputEmail4" placeholder="ชื่อ">
+                            </div>
+        
+                            <div class="form-group col-md-6">
+                                <label for="inputPassword4">นามสกุล</label>
+                                <input type="password" class="form-control" id="inputPassword4" placeholder="นามสกุล">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group col-md-12">
+                                <label for="inputEmail4">เบอร์โทรศัพท์</label>
+                                <input type="email" class="form-control" id="inputEmail4" placeholder="เบอร์โทรศัพท์">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="inputEmail4">ที่อยู่</label>
+                                <input type="email" class="form-control" id="inputEmail4" placeholder="ที่อยู่">
+                            </div>
+        
+                            <div class="form-group col-md-6">
+                                <label for="inputPassword4">จังหวัด</label>
+                                <input type="password" class="form-control" id="inputPassword4" placeholder="จังหวัด">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="inputEmail4">อำเภอ</label>
+                                <input type="email" class="form-control" id="inputEmail4" placeholder="อำเภอ">
+                            </div>
+        
+                            <div class="form-group col-md-6">
+                                <label for="inputPassword4">ตำบล</label>
+                                <input type="password" class="form-control" id="inputPassword4" placeholder="ตำบล">
+                            </div>
+                        </div>
+
+                        <div class="form-row">   
             <div class="form-group col-md-12">
-                <label for="inputEmail4">เลขบัตรประจำตัวประชาชน</label>
-                <input type="email" class="form-control" id="inputEmail4" placeholder="เลขบัตรประจำตัวประชาชน">
-            </div>
-        </div>
-
-        <div class="form-row">
-            <div class="form-group col-md-6">
-                <label for="inputEmail4">ชื่อ</label>
-                <input type="email" class="form-control" id="inputEmail4" placeholder="ชื่อ">
-            </div>
-        
-
-        
-            <div class="form-group col-md-6">
-                <label for="inputPassword4">นามสกุล</label>
-                <input type="password" class="form-control" id="inputPassword4" placeholder="นามสกุล">
-            </div>
-        </div>
-
-        <div class="form-row">
-            <div class="form-group col-md-12">
-                <label for="inputEmail4">เบอร์โทรศัพท์</label>
-                <input type="email" class="form-control" id="inputEmail4" placeholder="เบอร์โทรศัพท์">
-            </div>
-        </div>
-
-        <div class="form-row">
-            <div class="form-group col-md-6">
-                <label for="inputEmail4">ที่อยู่</label>
-                <input type="email" class="form-control" id="inputEmail4" placeholder="ที่อยู่">
-            </div>
-        
-
-       
-            <div class="form-group col-md-6">
-                <label for="inputPassword4">จังหวัด</label>
-                <input type="password" class="form-control" id="inputPassword4" placeholder="จังหวัด">
-            </div>
-        </div>
-
-        <div class="form-row">
-            <div class="form-group col-md-6">
-                <label for="inputEmail4">อำเภอ</label>
-                <input type="email" class="form-control" id="inputEmail4" placeholder="อำเภอ">
-            </div>
-        
-     
-        
-            <div class="form-group col-md-6">
-                <label for="inputPassword4">ตำบล</label>
-                <input type="password" class="form-control" id="inputPassword4" placeholder="ตำบล">
-            </div>
-        </div>
-
-        <div class="form-row">   
-            <div class="form-group col-md-12">
-                <label for="inputState">ชื่อหน่วยงาน</label>
-                <select id="inputState" class="form-control">
-                <option selected>Choose...</option>
-                <option>หน่วยงาน A</option>
-                <option>หน่วยงาน B</option>
-                </select>
-            </div>
-        </div>
-
-        <div class="form-row">   
-            <div class="form-group col-md-12">
-                <label for="inputState">ชื่อแผนก</label>
-                <select id="inputState" class="form-control">
+                <label for="department">ชื่อแผนก</label>
+                <select id="department" class="form-control">
                 <option selected>Choose...</option>
                 <option>แผนก A</option>
                 <option>แผนก B</option>
@@ -120,30 +107,39 @@
             </div>
         </div>
 
-        <div class="form-row">
-            <div class="form-group col-md-6">
-                <label for="inputEmail4">น้ำหนัก</label>
-                <input type="email" class="form-control" id="inputEmail4" placeholder="น้ำหนัก">
-            </div>
+                        <div class="form-row">   
+                            <div class="form-group col-md-12">
+                                <label for="inputState">ชื่อแผนก</label>
+                                <select id="inputState" class="form-control">
+                                <option selected>Choose...</option>
+                                <option>แผนก A</option>
+                                <option>แผนก B</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="inputEmail4">น้ำหนัก</label>
+                                <input type="email" class="form-control" id="inputEmail4" placeholder="น้ำหนัก">
+                            </div>
         
-     
-        
-            <div class="form-group col-md-6">
-                <label for="inputPassword4">ส่วนสูง</label>
-                <input type="password" class="form-control" id="inputPassword4" placeholder="ส่วนสูง">
-            </div>
-        </div>
-    </div> 
-                    <input type="button" name="next" class="next action-button" value="Next" />
+                            <div class="form-group col-md-6">
+                                <label for="inputPassword4">ส่วนสูง</label>
+                                <input type="password" class="form-control" id="inputPassword4" placeholder="ส่วนสูง">
+                            </div>
+                        </div>
+
+                     <input type="button" name="next" class="next action-button" value="Next" />
                     </fieldset>
 
                     <fieldset>
                         <div class="form-card">
-                        <center>
+                         <center>
                             <h1 class="title">ข้อตกลงการใช้งาน</h1>
-                        </center>
-                        <form method="POST">
-                        <label class="label">
+                         </center>
+                         <form method="POST">
+                           <label class="label">
                                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                     1.ข้อมูลภายใน Web Application นี้ และ
                                     ประชาชนหรือผู้ป่วยที่ปรากฏชื่อภายใน 
@@ -161,7 +157,7 @@
                                     
                                     <br>
                                     
-                                    </label>
+                            </label>
                         </div>
                         <input type="button" name="previous" class="previous action-button-previous" value="Previous" />
                         <input type="button" name="next" class="next action-button" value="Next" /> 
