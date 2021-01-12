@@ -27,7 +27,7 @@
                 </select>
             </div>
         </div>
-    
+
         <div class="form-row">   
             <div class="form-group col-md-12">
                 <label for="inputState">คุณเป็นโรคความดันโลหิตใช่หรือไม่</label>
