@@ -90,7 +90,7 @@
         <div class="container progressive">
             <ul class="progressbar">
                 <li class="active">ลงทะเบียน</li>
-                <li >ข้อตกลง</li>
+                <li >ข้อตกลงการใช้งาน</li>
             </ul>
         </div>
         </center>
@@ -189,10 +189,13 @@
         </div>
   
             <center>
-                <button type="submit" class="btn btn-primary">ยกเลิก</button>
-                <button type="submit" class="btn btn-primary">ถัดไป</button>
+
+                <button type="cancel" class="btn btn-primary">ยกเลิก</button>
+                <button type="next" class="btn btn-primary">ถัดไป</button>
             </center>
     </form>
+
+    
 </div>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
