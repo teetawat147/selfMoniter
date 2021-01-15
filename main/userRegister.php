@@ -1,14 +1,20 @@
 <!doctype html>
 <html lang="en">
-  <head>
+<head>
+    <title>userRegister</title>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
+</head>
+    <link href='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css'>
+    <link href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.3/css/font-awesome.css'>
+    <script src='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
     <!-- Bootstrap CSS -->
+    
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-
-    <title>userRegister</title>
+    
+    
      <style>
         .container {
   width: 100%;
@@ -84,13 +90,13 @@
 }
     </style>
   </head>
-  <body>
+<body>
         <div class = "container">
         <center>
         <div class="container progressive">
             <ul class="progressbar">
                 <li class="active">ลงทะเบียน</li>
-                <li >ข้อตกลงการใช้งาน</li>
+                <li >ข้อตกลง</li>
             </ul>
         </div>
         </center>
@@ -191,11 +197,10 @@
             <center>
 
                 <button type="cancel" class="btn btn-primary">ยกเลิก</button>
-                <button type="next" class="btn btn-primary">ถัดไป</button>
-            </center>
+                <a class="btn btn-primary" href="consent.php" role="button">ถัดไป</a>               
+            </center>           
     </form>
 
-    
 </div>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->

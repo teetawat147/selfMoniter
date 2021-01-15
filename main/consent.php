@@ -87,10 +87,10 @@
   <body>
         <div class = "container">
         <center>
-        <div class="container progressive">
+        <div class="container progressive" style="margin-left: 0px;">
             <ul class="progressbar">
-                <li >ลงทะเบียน</li>
-                <li class="active">ข้อตกลงการใช้งาน</li>
+                <li class="active">ลงทะเบียน</li>
+                <li class="active">ข้อตกลง</li>
             </ul>
         </div>
         </center>
@@ -118,11 +118,50 @@
         </center>
        
        <center>
-                <button type="back" class="btn btn-primary">ย้อนกลับ</button>
-                <button type="cancel" class="btn btn-primary">ยกเลิก</button>
-                <button type="confirm" class="btn btn-primary">ยืนยันข้อตกลง</button>
+            <button type="back" class="btn btn-primary">ย้อนกลับ</button>
+            <button type="cancel" class="btn btn-primary">ยกเลิก</button>
+                       
+        <!-- Button trigger modal -->
+            <button type="confirm" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalLong">
+            ยืนยันข้อตกลง</button>
         </center>
-    
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">ยืนยันน้ำหนักและส่วนสูง</h5>
+        </button>
+        </div>
+        <div class="modal-body">
+
+      <form>
+          <div class="form-group col-md-6">
+              <label for="exampleInputEmail1">น้ำหนัก</label>
+              <input type="password" class="form-control" id="exampleInputPassword1" placeholder="น้ำหนัก">
+              <label for="exampleInputEmail1">กิโลกรัม</label>              
+          </div>
+
+          <div class="form-group col-md-6">
+              <label for="exampleInputPassword1">ส่วนสูง</label>
+              <input type="password" class="form-control " id="exampleInputPassword1" placeholder="ส่วนสูง">
+              <label for="exampleInputEmail1">เซนติเมตร</label>
+          </div>  
+
+      </form>
+          
+          <!-- <div class="modal-footer"> -->
+          <center>
+              <button type="button" class="btn btn-primary">ตกลง</button>
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">ยกเลิก</button> 
+          </center>
+          </div>
+      
+      </div> 
+    </div>    
+  </div>
+</div>
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
