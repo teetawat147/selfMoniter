@@ -15,7 +15,9 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script> -->
 
     <link rel="stylesheet" href="../css/sty.css">
+
 <body>
+
 <div class = "container"> 
 
                     <center>
@@ -28,15 +30,19 @@
                     </div>
                     </center>
 </div>                
+
+
+
 <div class="container" >
     <div class="row justify-content-center">
         <div class="col-11 col-sm-9 col-md-7 col-lg-6 col-xl-5 text-center p-0 mt-3 mb-2">
             <div class="card px-0 pt-4 pb-0 mt-3 mb-3">
+
                 <h2 style="text-align: center;">Self-Moniter</h2>
                 
                 <form id="msform">
                     <!-- progressbar -->
-                    
+                                  
                     <!-- <div class="progress">
                         <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuemin="0" aria-valuemax="100"></div>
                     </div>  -->
@@ -44,6 +50,7 @@
                     <br> <!-- fieldsets -->
 
                     <fieldset>
+
                     <div class="form-card">
                         <div class="row">
                             <div class="col-7">
@@ -137,15 +144,16 @@
                 </div> 
                 
                     <input type="button" name="next" class="next action-button" value="Next" />
+
                     </fieldset>
 
                     <fieldset>
                         <div class="form-card">
-                        <center>
+                         <center>
                             <h1 class="title">ข้อตกลงการใช้งาน</h1>
-                        </center>
-                        <form method="POST">
-                        <label class="label">
+                         </center>
+                         <form method="POST">
+                           <label class="label">
                                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                     1.ข้อมูลภายใน Web Application นี้ และ
                                     ประชาชนหรือผู้ป่วยที่ปรากฏชื่อภายใน 
@@ -163,7 +171,7 @@
                                     
                                     <br>
                                     
-                                    </label>
+                            </label>
                         </div>
                         <input type="button" name="previous" class="previous action-button-previous" value="Previous" />
                         <input type="button" name="next" class="next action-button" value="Next" /> 
@@ -176,6 +184,7 @@
 </div>
 </body>
 </html>
+
 <script>
 $(document).ready(function(){
 
