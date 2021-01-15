@@ -202,7 +202,7 @@
                 <button type="cancel" class="btn btn-primary">ถัดไป</button>
             </center> 
 
-    <!-- </fieldset>          
+    </fieldset>          
     </form>
     
     <fieldset >
@@ -243,15 +243,15 @@
             <button type="cancel" class="btn btn-primary">ยกเลิก</button>
                        
         <!-- Button trigger modal -->
-            <!-- <button type="confirm" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalLong">
+            <button type="confirm" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalLong">
             ยืนยันข้อตกลง</button>
         </center>
-    </fieldset> -->
- -->
+    </fieldset>
+
 
 
 <!-- Modal -->
-<!-- <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+<div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -272,10 +272,10 @@
               <input type="height" class="form-control " id="height" placeholder="ส่วนสูง">
               <label for="height">เซนติเมตร</label>
           </div> 
-      </form> -->
+      </form>
           
           <!-- <div class="modal-footer"> -->
-          <!-- <center>
+          <center>
               <button type="button" class="btn btn-primary">ตกลง</button>
               <button type="button" class="btn btn-secondary" data-dismiss="modal">ยกเลิก</button> 
           </center>
@@ -284,7 +284,7 @@
       </div> 
     </div>    
   </div>
-</div> -->
+</div>
 
 </div>
     <!-- Optional JavaScript -->
