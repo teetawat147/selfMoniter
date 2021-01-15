@@ -8,7 +8,7 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 
-    <title>Hello, world!</title>
+    <title>userRegister</title>
      <style>
         .container {
   width: 100%;
@@ -90,7 +90,7 @@
         <div class="container progressive">
             <ul class="progressbar">
                 <li class="active">ลงทะเบียน</li>
-                <li >ข้อตกลง</li>
+                <li >ข้อตกลงการใช้งาน</li>
             </ul>
         </div>
         </center>
@@ -98,64 +98,64 @@
     <form>
         <div class="form-row">
             <div class="form-group col-md-12">
-                <label for="inputEmail4">เลขบัตรประจำตัวประชาชน</label>
-                <input type="email" class="form-control" id="inputEmail4" placeholder="เลขบัตรประจำตัวประชาชน">
+                <label for="inputnumId">เลขบัตรประจำตัวประชาชน</label>
+                <input type="numId" class="form-control" id="inputnumId" placeholder="เลขบัตรประจำตัวประชาชน">
             </div>
         </div>
 
         <div class="form-row">
             <div class="form-group col-md-6">
-                <label for="inputEmail4">ชื่อ</label>
-                <input type="email" class="form-control" id="inputEmail4" placeholder="ชื่อ">
+                <label for="inputfname">ชื่อ</label>
+                <input type="fname" class="form-control" id="inputfname" placeholder="ชื่อ">
             </div>
         
 
         
             <div class="form-group col-md-6">
-                <label for="inputPassword4">นามสกุล</label>
-                <input type="password" class="form-control" id="inputPassword4" placeholder="นามสกุล">
+                <label for="inputlname">นามสกุล</label>
+                <input type="lname" class="form-control" id="inputlname" placeholder="นามสกุล">
             </div>
         </div>
 
         <div class="form-row">
             <div class="form-group col-md-12">
-                <label for="inputEmail4">เบอร์โทรศัพท์</label>
-                <input type="email" class="form-control" id="inputEmail4" placeholder="เบอร์โทรศัพท์">
+                <label for="inputphon">เบอร์โทรศัพท์</label>
+                <input type="phon" class="form-control" id="inputphon" placeholder="เบอร์โทรศัพท์">
             </div>
         </div>
 
         <div class="form-row">
             <div class="form-group col-md-6">
-                <label for="inputEmail4">ที่อยู่</label>
-                <input type="email" class="form-control" id="inputEmail4" placeholder="ที่อยู่">
+                <label for="inputaddress">ที่อยู่</label>
+                <input type="address" class="form-control" id="inputaddress" placeholder="ที่อยู่">
             </div>
         
 
        
             <div class="form-group col-md-6">
-                <label for="inputPassword4">จังหวัด</label>
-                <input type="password" class="form-control" id="inputPassword4" placeholder="จังหวัด">
+                <label for="inputprovince">จังหวัด</label>
+                <input type="province" class="form-control" id="inputprovince" placeholder="จังหวัด">
             </div>
         </div>
 
         <div class="form-row">
             <div class="form-group col-md-6">
-                <label for="inputEmail4">อำเภอ</label>
-                <input type="email" class="form-control" id="inputEmail4" placeholder="อำเภอ">
+                <label for="inputdistrict">อำเภอ</label>
+                <input type="district" class="form-control" id="inputdistrict" placeholder="อำเภอ">
             </div>
         
      
         
             <div class="form-group col-md-6">
-                <label for="inputPassword4">ตำบล</label>
-                <input type="password" class="form-control" id="inputPassword4" placeholder="ตำบล">
+                <label for="inputsubdistrict">ตำบล</label>
+                <input type="subdistrict" class="form-control" id="inputsubdistrict" placeholder="ตำบล">
             </div>
         </div>
 
         <div class="form-row">   
             <div class="form-group col-md-12">
-                <label for="inputState">ชื่อหน่วยงาน</label>
-                <select id="inputState" class="form-control">
+                <label for="agency">ชื่อหน่วยงาน</label>
+                <select id="agency" class="form-control">
                 <option selected>Choose...</option>
                 <option>หน่วยงาน A</option>
                 <option>หน่วยงาน B</option>
@@ -165,8 +165,8 @@
 
         <div class="form-row">   
             <div class="form-group col-md-12">
-                <label for="inputState">ชื่อแผนก</label>
-                <select id="inputState" class="form-control">
+                <label for="department">ชื่อแผนก</label>
+                <select id="department" class="form-control">
                 <option selected>Choose...</option>
                 <option>แผนก A</option>
                 <option>แผนก B</option>
@@ -176,23 +176,26 @@
 
         <div class="form-row">
             <div class="form-group col-md-6">
-                <label for="inputEmail4">น้ำหนัก</label>
-                <input type="email" class="form-control" id="inputEmail4" placeholder="อำเภอ">
+                <label for="inputweight">น้ำหนัก</label>
+                <input type="weight" class="form-control" id="inputweight" placeholder="น้ำหนัก">
             </div>
         
      
         
             <div class="form-group col-md-6">
-                <label for="inputPassword4">ส่วนสูง</label>
-                <input type="password" class="form-control" id="inputPassword4" placeholder="ตำบล">
+                <label for="inputheight">ส่วนสูง</label>
+                <input type="height" class="form-control" id="inputheight" placeholder="ส่วนสูง">
             </div>
         </div>
   
             <center>
-                <button type="submit" class="btn btn-primary">ยกเลิก</button>
-                <button type="submit" class="btn btn-primary">ถัดไป</button>
+
+                <button type="cancel" class="btn btn-primary">ยกเลิก</button>
+                <button type="next" class="btn btn-primary">ถัดไป</button>
             </center>
     </form>
+
+    
 </div>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
