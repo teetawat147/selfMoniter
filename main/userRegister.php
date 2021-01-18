@@ -197,6 +197,20 @@
             </div>
         </div>
   
+        <div class="form-row">
+            <div class="form-group col-md-12">
+                <label for="inputemail">Email</label>
+                <input type="email" class="form-control" id="inputemail" placeholder="Email">
+            </div>
+        
+     
+        
+            <div class="form-group col-md-12">
+                <label for="inputPassword">Password</label>
+                <input type="subPassword" class="form-control" id="inputPassword" placeholder="Password">
+            </div>
+        </div>
+
             <center>
                 <button type="cancel" class="btn btn-primary">ยกเลิก</button>
                 <button type="cancel" class="btn btn-primary">ถัดไป</button>
