@@ -21,16 +21,18 @@
             <div class="form-group col-md-12">
                 <label for="inputState">คุณเป็นโรคเบาหวานใช่หรือไม่</label>
                 <select id="inputState" class="form-control">
+                <option selected></option>
                 <option>ใช่</option>
                 <option>ไม่ใช่</option>
                 </select>
             </div>
         </div>
-    
+
         <div class="form-row">   
             <div class="form-group col-md-12">
                 <label for="inputState">คุณเป็นโรคความดันโลหิตใช่หรือไม่</label>
                 <select id="inputState" class="form-control">
+                <option selected></option>
                 <option>ใช่</option>
                 <option>ไม่ใช่</option>
                 </select>
@@ -79,6 +81,7 @@
             <div class="form-group col-md-12">
                 <label for="inputState">สูบบุหรี่</label>
                 <select id="inputState" class="form-control">
+                <option selected></option>
                 <option>สูบ</option>
                 <option>ไม่สูบ</option>
                 </select>
@@ -89,9 +92,11 @@
             <div class="form-group col-md-12">
                 <label for="inputState">ดื่มสุรา</label>
                 <select id="inputState" class="form-control">
+                <option selected></option>
                 <option>ดื่ม</option>
                 <option>ไม่ดื่ม</option>
                 <option>ดื่มบ้างบางโอกาส</option>
+                <option>ดื่มเป็นประจำ</option>
                 </select>
             </div>
         </div>
