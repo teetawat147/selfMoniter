@@ -96,6 +96,7 @@
                 <option>ดื่ม</option>
                 <option>ไม่ดื่ม</option>
                 <option>ดื่มบ้างบางโอกาส</option>
+                <option>ดื่มเป็นประจำ</option>
                 </select>
             </div>
         </div>
