@@ -74,7 +74,7 @@
 
       button:hover
       {
-        background-color: #000;
+        background-color: #fff;
         color: #C4C4C4;
       }
 
@@ -90,7 +90,7 @@
   <body>
 
   <?php
-    include "./header.php";
+      include "./header.php";
   ?>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
@@ -238,17 +238,19 @@
       </div>
 
       <script>
-        let chartBmiElem = document.getElementById('chart-bmi').getContext('2d');
-        let chartBmi = new Chart(chartBmiElem,{
-          type:"bar",
-          data:{
-            labels:['ม.ค.', 'มี.ค.', 'พ.ค.', 'ก.ค.', 'ก.ย.', 'พ.ย.'],
-            datasets:[
+
+      function chartOneData(id, typeChart, title, maxValue, minValue, stepSizeValue) {
+        let element = document.getElementById(id).getContext('2d');
+        let chart = new Chart(element, {
+          type: typeChart,
+          data: {
+            labels: ['ม.ค.', 'มี.ค.', 'พ.ค.', 'ก.ค.', 'ก.ย.', 'พ.ย.'],
+            datasets: [
               {
-                label:"BMI",
+                label: title,
                 data:[10,8,20,14,10,15,5],
                 fill:false,
-                backgroundColor:[
+                backgroundColor: [
                   "rgba(255, 99, 132, 0.2)",
                   "rgba(255, 159, 64, 0.2)",
                   "rgba(255, 205, 86, 0.2)",
@@ -256,127 +258,45 @@
                   "rgba(54, 162, 235, 0.2)",
                   "rgba(153, 102, 255, 0.2)",
                   "rgba(201, 203, 207, 0.2)"],
-                borderColor:[
+                borderColor: [
                   "rgb(255, 99, 132)",
                   "rgb(255, 159, 64)",
                   "rgb(255, 205, 86)",
                   "rgb(75, 192, 192)",
                   "rgb(54, 162, 235)",
                   "rgb(153, 102, 255)",
-                  "rgb(201, 203, 207)"],
-                borderWidth:1
+                  "rgb(201, 203, 207)"
+                ],
+                borderWidth: 1
               }
             ]
           },
-          options:{
-            legend:{display:false},
-            scales:{
-              yAxes:[{
-                ticks:{
-                  beginAtZero:true,
-                  max: 25,
-                  min: 0,
-                  stepSize: 5
+          options: {
+            legend: {
+              display: false
+            },
+            scales: {
+              yAxes: [{
+                ticks: {
+                  beginAtZero: true,
+                  max: maxValue,
+                  min: minValue,
+                  stepSize: stepSizeValue
                 }
               }]
             }
           }
-        });
+        })
+      }
 
-        let chartWeightElem = document.getElementById('chart-weight').getContext('2d');
-        let chartWeight = new Chart(chartWeightElem, {
-            type: "bar",
-            data: {
-                labels: ['ม.ค.', 'ม.ค.', 'พ.ค.', 'ก.ค.', 'ก.ย.', 'พ.ย.'],
-                datasets: [{
-                    label: 'น้ำหนัก',
-                    data: [12, 19, 3, 5, 2, 3],
-                    backgroundColor: [
-                        'rgba(255, 99, 132, 0.2)',
-                        'rgba(54, 162, 235, 0.2)',
-                        'rgba(255, 206, 86, 0.2)',
-                        'rgba(75, 192, 192, 0.2)',
-                        'rgba(153, 102, 255, 0.2)',
-                        'rgba(255, 159, 64, 0.2)'
-                    ],
-                    borderColor: [
-                        'rgba(255, 99, 132, 1)',
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(255, 206, 86, 1)',
-                        'rgba(75, 192, 192, 1)',
-                        'rgba(153, 102, 255, 1)',
-                        'rgba(255, 159, 64, 1)'
-                    ],
-                    borderWidth: 1
-                }]
-            },
-            options: {
-              legend:{
-                display:false
-              },
-              scales:{
-                yAxes:[{
-                  ticks:{
-                    beginAtZero:true,
-                    max: 25,
-                    min: 0,
-                    stepSize: 5
-                  }
-                }]
-              }
-            }
-        });
-
-        let chartWaistElem = document.getElementById('chart-waist').getContext('2d');
-        let chartWaist = new Chart(chartWaistElem, {
-            type: "bar",
-            data: {
-                labels: ['ม.ค.', 'มี.ค.', 'พ.ค.', 'ก.ค.', 'ก.ย.', 'พ.ย.'],
-                datasets: [{
-                    label: 'รอบเอว',
-                    data: [12, 19, 3, 5, 2, 3],
-                    backgroundColor: [
-                        'rgba(255, 99, 132, 0.2)',
-                        'rgba(54, 162, 235, 0.2)',
-                        'rgba(255, 206, 86, 0.2)',
-                        'rgba(75, 192, 192, 0.2)',
-                        'rgba(153, 102, 255, 0.2)',
-                        'rgba(255, 159, 64, 0.2)'
-                    ],
-                    borderColor: [
-                        'rgba(255, 99, 132, 1)',
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(255, 206, 86, 1)',
-                        'rgba(75, 192, 192, 1)',
-                        'rgba(153, 102, 255, 1)',
-                        'rgba(255, 159, 64, 1)'
-                    ],
-                    borderWidth: 1
-                }]
-            },
-            options: {
-              legend:{
-                display:false
-              },
-              scales:{
-                yAxes:[{
-                  ticks:{
-                    beginAtZero:true,
-                    max: 100,
-                    min: 0,
-                    stepSize: 10
-                  }
-                }]
-              }
-            }
-        });
-
-        let chartHighPressureElem = document.getElementById('high-pressure').getContext('2d');
-        let chartHighPressure = new Chart(chartHighPressureElem, {
-            type: "line",
-            data: {
-                labels: ['ม.ค.', 'มี.ค.', 'พ.ค.', 'ก.ค.', 'ก.ย.', 'พ.ย.'],
-                datasets: [{
+      function chartTwoData(id, typeChart, title, maxValue, minValue, stepSizeValue) {
+        let element = document.getElementById(id).getContext('2d');
+        let chart = new Chart(element, {
+          type: typeChart,
+          data: {
+            labels: ['ม.ค.', 'มี.ค.', 'พ.ค.', 'ก.ค.', 'ก.ย.', 'พ.ย.'],
+            datasets: [
+              {
                     label: 'ความดันโลหิต ความดันค่าล่าง',
                     data: [122, 19, 32, 52, 25, 38],
                     backgroundColor: [
@@ -391,8 +311,8 @@
                         'rgba(255, 159, 64, 1)'
                     ],
                     borderWidth: 7
-                },
-                {
+              },
+              {
                   label: 'ความดันโลหิต ความดันค่าบน',
                     data: [50, 60, 80, 100, 20, 30],
                     backgroundColor: [
@@ -407,68 +327,39 @@
                         'rgba(255, 159, 64, 1)'
                     ],
                     borderWidth: 7
-                }]
-            },
-            options: {
-              legend:{
-                display:false
-              },
-              scales:{
-                yAxes:[{
-                  ticks:{
-                    beginAtZero:true,
-                    max: 140,
-                    min: 0,
-                    stepSize: 20
-                  }
-                }]
               }
+            ]
+          },
+          options: {
+            legend: {
+              display: false
+            },
+            scales: {
+              yAxes: [
+                {
+                ticks: {
+                  beginAtZero: true,
+                  max: maxValue,
+                  min: minValue,
+                  stepSize: stepSizeValue
+                }
+                }
+              ]
             }
-        });
+          }
+        })
+      }
 
-        let chartBloodSugerElem = document.getElementById('chart-blood-suger').getContext('2d');
-        let chartBloodSuger = new Chart(chartBloodSugerElem, {
-            type: "bar",
-            data: {
-                labels: ['ม.ค.', 'มี.ค.', 'พ.ค.', 'ก.ค.', 'ก.ย.', 'พ.ย.'],
-                datasets: [{
-                    label: 'น้ำตาลในเลือด',
-                    data: [12, 19, 3, 5, 2, 3],
-                    backgroundColor: [
-                        'rgba(255, 99, 132, 0.2)',
-                        'rgba(54, 162, 235, 0.2)',
-                        'rgba(255, 206, 86, 0.2)',
-                        'rgba(75, 192, 192, 0.2)',
-                        'rgba(153, 102, 255, 0.2)',
-                        'rgba(255, 159, 64, 0.2)'
-                    ],
-                    borderColor: [
-                        'rgba(255, 99, 132, 1)',
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(255, 206, 86, 1)',
-                        'rgba(75, 192, 192, 1)',
-                        'rgba(153, 102, 255, 1)',
-                        'rgba(255, 159, 64, 1)'
-                    ],
-                    borderWidth: 1
-                }]
-            },
-            options: {
-              legend:{
-                display:false
-              },
-              scales:{
-                yAxes:[{
-                  ticks:{
-                    beginAtZero:true,
-                    max: 100,
-                    min: 0,
-                    stepSize: 10
-                  }
-                }]
-              }
-            }
-        });
+      function run() {
+        chartOneData('chart-bmi', "bar", "BMI", 25, 0, 5);
+        chartOneData('chart-weight', "bar", "น้ำหนัก", 25, 0, 5);
+        chartOneData('chart-waist', "bar", "รอบเอว", 100, 0, 10);
+        chartTwoData('high-pressure', "line", "ความดันโลหิต ความดันค่าล่าง", 140, 0, 20); // 2 data
+        chartOneData('chart-blood-suger', "bar", "น้ำตาลในเลือด", 100, 0, 10);
+      }
+
+      run();
+
       </script>
   </body>
 </html>
