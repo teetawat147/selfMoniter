@@ -93,7 +93,7 @@
 </style>
 </head>
 <body>
-    <fieldset>
+    <fieldset   id="userRegister" style="display:block;">
         <div class = "container">
         <center>
         <div class="container progressive">
@@ -212,14 +212,16 @@
         </div>
 
             <center>
-                <button type="cancel" class="btn btn-primary">ยกเลิก</button>
-                <button type="cancel" class="btn btn-primary">ถัดไป</button>
+                <button type="button" class="btn btn-primary">ยกเลิก</button>
+                <button type="button" class="btn btn-primary" onclick="showConsent()">ถัดไป</button>
+                
             </center> 
 
     </fieldset>          
     </form>
+
     
-    <fieldset >
+    <fieldset id="consent" style="display:none;">
         <div class = "container">
         <center>
         <div class="container progressive" style="margin-left: 0px;">
@@ -229,11 +231,10 @@
             </ul>
         </div>
         </center>
-
+    
         <br>
         <center><h5>ข้อตกลงการใช้งาน</h5></center>
         <br>
-
         <center>
             <label>
                 1.ข้อมูลภายใน Web Application นี้ และ ประชาชนหรือผู้ป่วยที่ปรากฎชื่อภายใน<br>
@@ -261,7 +262,7 @@
             ยืนยันข้อตกลง</button>
         </center>
     </fieldset>
-
+    
 
 
 <!-- Modal -->
@@ -287,6 +288,7 @@
               <label for="height">เซนติเมตร</label>
           </div> 
       </form>
+      
           
           <!-- <div class="modal-footer"> -->
           <center>
@@ -300,12 +302,20 @@
   </div>
 </div>
 
+
 </div>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+
+    <script>
+        function showConsent() 
+        {
+        document.getElementById("consent").style.display = "block";
+        document.getElementById("userRegister").style.display = "none";
+        }
+    </script>
   </body>
 </html>
-
