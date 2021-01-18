@@ -1,17 +1,25 @@
 <!doctype html>
 <html lang="en">
-  <head>
+<head>
+    <title>userRegister</title>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
+</head>
+<script
+  src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <link href='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css'>
+    <link href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.3/css/font-awesome.css'>
+    <script src='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
     <!-- Bootstrap CSS -->
+    
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-
-    <title>userRegister</title>
+    
+    
      <style>
         .container {
-     width: 100%;
+  width: 100%;
 }
 
 .progressbar {
@@ -82,22 +90,21 @@
     background: #C4C4C4;
     margin: 0px 50px;
 }
-    </style>
-  </head>
-
-  <body>
+</style>
+</head>
+<body>
+    <fieldset>
         <div class = "container">
         <center>
         <div class="container progressive">
             <ul class="progressbar">
                 <li class="active">ลงทะเบียน</li>
-                <li >ข้อตกลงการใช้งาน</li>
+                <li >ข้อตกลง</li>
             </ul>
         </div>
         </center>
-        
           <h3>ลงทะเบียน</h3>
-     <form>
+    <form>
         <div class="form-row">
             <div class="form-group col-md-12">
                 <label for="inputnumId">เลขบัตรประจำตัวประชาชน</label>
@@ -190,14 +197,109 @@
             </div>
         </div>
   
+        <div class="form-row">
+            <div class="form-group col-md-12">
+                <label for="inputemail">Email</label>
+                <input type="email" class="form-control" id="inputemail" placeholder="Email">
+            </div>
+        
+     
+        
+            <div class="form-group col-md-12">
+                <label for="inputPassword">Password</label>
+                <input type="subPassword" class="form-control" id="inputPassword" placeholder="Password">
+            </div>
+        </div>
+
             <center>
-
                 <button type="cancel" class="btn btn-primary">ยกเลิก</button>
-                <button type="next" class="btn btn-primary">ถัดไป</button>
-            </center>
-     </form>
+                <button type="cancel" class="btn btn-primary">ถัดไป</button>
+            </center> 
 
+    </fieldset>          
+    </form>
     
+    <fieldset >
+        <div class = "container">
+        <center>
+        <div class="container progressive" style="margin-left: 0px;">
+            <ul class="progressbar">
+                <li class="active">ลงทะเบียน</li>
+                <li class="active">ข้อตกลง</li>
+            </ul>
+        </div>
+        </center>
+
+        <br>
+        <center><h5>ข้อตกลงการใช้งาน</h5></center>
+        <br>
+
+        <center>
+            <label>
+                1.ข้อมูลภายใน Web Application นี้ และ ประชาชนหรือผู้ป่วยที่ปรากฎชื่อภายใน<br>
+                 Web Application ซึ่งถือว่าเป็นเจ้าของข้อมูล ได้รับความคุ้มครองตาม<br>
+                 `พระราชบัญญัติคุ้มครองข้อมูลส่วนบุคคล พ.ศ. ๒๕๖๒`<br>
+                 <br>
+            </label>
+        </center>
+
+        <center>
+            <label>
+                2.ผู้ใช้งาน Web Application ทุกระดับ และ ผู้ดูแลระบบทุกระดับ ที่กระทำการเปิดเผยข้อมูลอันปรากฏภายใน <br>
+                Web Application หรือกระทำการอื่นใดอันเป็นการฝ่าฝืน <br>
+                `พระราชบัญญัติคุ้มครองข้อมูลส่วนบุคคล พ.ศ. ๒๕๖๒` ต้องระวางโทษหรือปรับตามมาตราที่กระทำผิด<br>
+                <br>
+            </label>
+        </center>
+       
+       <center>
+            <button type="back" class="btn btn-primary">ย้อนกลับ</button>
+            <button type="cancel" class="btn btn-primary">ยกเลิก</button>
+                       
+        <!-- Button trigger modal -->
+            <button type="confirm" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalLong">
+            ยืนยันข้อตกลง</button>
+        </center>
+    </fieldset>
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">ยืนยันน้ำหนักและส่วนสูง</h5>
+        </button>
+        </div>
+        <div class="modal-body">
+
+      <form>
+          <div class="form-group col-md-12">
+              <label for="weight">น้ำหนัก</label>
+              <input type="weight" class="form-control" id="weight" placeholder="น้ำหนัก">
+              <label for="weight">กิโลกรัม</label>              
+          </div>
+
+          <div class="form-group col-md-12">
+              <label for="height">ส่วนสูง</label>
+              <input type="height" class="form-control " id="height" placeholder="ส่วนสูง">
+              <label for="height">เซนติเมตร</label>
+          </div> 
+      </form>
+          
+          <!-- <div class="modal-footer"> -->
+          <center>
+              <button type="button" class="btn btn-primary">ตกลง</button>
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">ยกเลิก</button> 
+          </center>
+          </div>
+      
+      </div> 
+    </div>    
+  </div>
+</div>
+
 </div>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
@@ -206,3 +308,4 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
   </body>
 </html>
+
