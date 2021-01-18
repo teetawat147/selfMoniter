@@ -13,19 +13,14 @@
     <script src='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js'></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
     
-    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous"> -->
-    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" > -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" >
-    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" > -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     
     
      <style>
         .container {
   width: 100%;
 }
-
 .progressbar {
   counter-reset: step;
 }
@@ -72,20 +67,16 @@
 .progressbar li.active + li:after {
   background-color: green;
 }
-
 .progressive {
     padding-top: 20px;
 }
-
 .body {
     margin-top: 15px;
 }
-
 .button {
     display: flex;
     justify-content: center;
 }
-
 .btn-cancel,
 .btn-next
 {
@@ -108,137 +99,110 @@
         </div>
         </center>
           <h3>ลงทะเบียน</h3>
-    <form class="form">
+    <form>
         <div class="form-row">
             <div class="form-group col-md-12">
                 <label for="inputnumId">เลขบัตรประจำตัวประชาชน</label>
-                <input id="inputnumId" class="form-control" min="3" required type="text" data-error-msg="กรุณากรอกเลขบัตรประจำตัวประชาชน">
+                <input type="numId" class="form-control" id="inputnumId" placeholder="เลขบัตรประจำตัวประชาชน">
             </div>
         </div>
-
         <div class="form-row">
             <div class="form-group col-md-6">
                 <label for="inputfname">ชื่อ</label>
-                <input id="inputfname" class="form-control" min="3" required type="text" data-error-msg="กรุณากรอกชื่อ">
+                <input type="fname" class="form-control" id="inputfname" placeholder="ชื่อ">
             </div>
         
-
         
             <div class="form-group col-md-6">
                 <label for="inputlname">นามสกุล</label>
-                <input id="inputlname" class="form-control" min="3" required type="text" data-error-msg="กรุณากรอกนามสกุล">
+                <input type="lname" class="form-control" id="inputlname" placeholder="นามสกุล">
             </div>
         </div>
-
         <div class="form-row">
             <div class="form-group col-md-12">
                 <label for="inputphon">เบอร์โทรศัพท์</label>
-                <input id="inputphon" class="form-control" min="3" required type="text" data-error-msg="กรุณากรอกเบอร์โทรศัพท์">
-                
+                <input type="phon" class="form-control" id="inputphon" placeholder="เบอร์โทรศัพท์">
             </div>
         </div>
-
         <div class="form-row">
             <div class="form-group col-md-6">
                 <label for="inputaddress">ที่อยู่</label>
-                <input id="inputaddress" class="form-control" min="3" required type="text" data-error-msg="กรุณากรอกที่อยู่">
-                
+                <input type="address" class="form-control" id="inputaddress" placeholder="ที่อยู่">
             </div>
         
-
        
             <div class="form-group col-md-6">
                 <label for="inputprovince">จังหวัด</label>
-                <input id="inputprovince" class="form-control" min="3" required type="text" data-error-msg="กรุณากรอกจังหวัด">
-                
+                <input type="province" class="form-control" id="inputprovince" placeholder="จังหวัด">
             </div>
         </div>
-
         <div class="form-row">
             <div class="form-group col-md-6">
                 <label for="inputdistrict">อำเภอ</label>
-                <input id="inputdistrict" class="form-control" min="3" required type="text" data-error-msg="กรุณากรอกอำเภอ">
-               
+                <input type="district" class="form-control" id="inputdistrict" placeholder="อำเภอ">
             </div>
         
      
         
             <div class="form-group col-md-6">
                 <label for="inputsubdistrict">ตำบล</label>
-                <input id="inputsubdistrict" class="form-control" min="3" required type="text" data-error-msg="กรุณากรอกตำบล">
-               
+                <input type="subdistrict" class="form-control" id="inputsubdistrict" placeholder="ตำบล">
             </div>
         </div>
-
         <div class="form-row">   
             <div class="form-group col-md-12">
-                <label for="office">ชื่อหน่วยงาน</label>
-                <select id='office' class='form-control' required data-error-msg="กรุณากรอกชื่อหน่วยงาน">
-                    <option selected disabled>Choose...</option>
-                    <option value="office A">หน่วยงาน A</option>
-                    <option value="office B">หน่วยงาน B</option>
+                <label for="agency">ชื่อหน่วยงาน</label>
+                <select id="agency" class="form-control">
+                <option selected>Choose...</option>
+                <option>หน่วยงาน A</option>
+                <option>หน่วยงาน B</option>
                 </select>
             </div>
         </div>
-
         <div class="form-row">   
             <div class="form-group col-md-12">
                 <label for="department">ชื่อแผนก</label>
-                <select id='department' class='form-control' required data-error-msg="กรุณากรอกชื่อหน่วยงาน">
-                    <option selected disabled>Choose...</option>
-                    <option value="dep A">แผนก A</option>
-                    <option value="dep B">แผนก B</option>
+                <select id="department" class="form-control">
+                <option selected>Choose...</option>
+                <option>แผนก A</option>
+                <option>แผนก B</option>
                 </select>
             </div>
         </div>
-
         <div class="form-row">
             <div class="form-group col-md-6">
                 <label for="inputweight">น้ำหนัก</label>
-                <input id="inputweight" class="form-control" min="3" required type="text" data-error-msg="กรุณากรอกน้ำหนัก">
+                <input type="weight" class="form-control" id="inputweight" placeholder="น้ำหนัก">
             </div>
         
      
         
             <div class="form-group col-md-6">
                 <label for="inputheight">ส่วนสูง</label>
-                <input id="inputheight" class="form-control" min="3" required type="text" data-error-msg="กรุณากรอกส่วนสูง">
-                
+                <input type="height" class="form-control" id="inputheight" placeholder="ส่วนสูง">
             </div>
         </div>
   
         <div class="form-row">
             <div class="form-group col-md-12">
                 <label for="inputemail">Email</label>
-                <input id="inputemail" class="form-control" min="3" required type="text" data-error-msg="กรุณากรอก Email">
+                <input type="email" class="form-control" id="inputemail" placeholder="Email">
             </div>
         
-      
+     
         
             <div class="form-group col-md-12">
                 <label for="inputPassword">Password</label>
-                <input id="inputPassword" class="form-control" min="3" required type="text" data-error-msg="กรุณากรอก Password">
+                <input type="subPassword" class="form-control" id="inputPassword" placeholder="Password">
             </div>
         </div>
-
-
-        <div class="checkbox disabled">
-                    <label>
-                        <input type="checkbox" name="option1" value="">
-                        CSS
-                    </label>
-                </div>
-            </div>
-
             <center>
                 <button type="button" class="btn btn-primary">ยกเลิก</button>
                 <button type="button" class="btn btn-primary" onclick="showConsent()">ถัดไป</button>
                 
             </center> 
-
     </fieldset>          
     </form>
-
     
     <fieldset id="consent" style="display:none;">
         <div class = "container">
@@ -262,7 +226,6 @@
                  <br>
             </label>
         </center>
-
         <center>
             <label>
                 2.ผู้ใช้งาน Web Application ทุกระดับ และ ผู้ดูแลระบบทุกระดับ ที่กระทำการเปิดเผยข้อมูลอันปรากฏภายใน <br>
@@ -273,19 +236,15 @@
         </center>
        
        <center>
-            <button type="button" class="btn btn-primary">ย้อนกลับ</button>
-            <button type="button" class="btn btn-primary">ยกเลิก</button>
+            <button type="back" class="btn btn-primary">ย้อนกลับ</button>
+            <button type="cancel" class="btn btn-primary">ยกเลิก</button>
                        
         <!-- Button trigger modal -->
-            <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalLong">
-            ยืนยันข้อตกลง</button> -->
-            <button type="button" class="btn btn-primary" onclick="showDialog();">
+            <button type="confirm" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalLong">
             ยืนยันข้อตกลง</button>
         </center>
     </fieldset>
     
-
-
 <!-- Modal -->
 <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
   <div class="modal-dialog" role="document">
@@ -295,14 +254,12 @@
         </button>
         </div>
         <div class="modal-body">
-
       <form>
           <div class="form-group col-md-12">
               <label for="weight">น้ำหนัก</label>
               <input type="weight" class="form-control" id="weight" placeholder="น้ำหนัก">
               <label for="weight">กิโลกรัม</label>              
           </div>
-
           <div class="form-group col-md-12">
               <label for="height">ส่วนสูง</label>
               <input type="height" class="form-control " id="height" placeholder="ส่วนสูง">
@@ -322,50 +279,18 @@
     </div>    
   </div>
 </div>
-
-
 </div>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-    <script src ="https://www.jquery-az.com/boots/js/validate-bootstrap/validate-bootstrap.jquery.min.js" ></script>
-    
     <script>
         function showConsent() 
         {
-            if ($('form').validator('check') < 1) {
-                // alert('กรอกข้อมูลครบ');
-                document.getElementById("consent").style.display = "block";
-                document.getElementById("userRegister").style.display = "none";
-                //submit
-            }else{
-                // alert('กรอกข้อมูลไม่ครบ');
-            }
-        // document.getElementById("consent").style.display = "block";
-        // document.getElementById("userRegister").style.display = "none";
+        document.getElementById("consent").style.display = "block";
+        document.getElementById("userRegister").style.display = "none";
         }
-
-        // $(function() {
-        // $('form').validator({
-        //     validHandlers: {
-        //         '.customhandler':function(input) {
-        //             //may do some formatting before validating
-        //             input.val(input.val().toUpperCase());
-        //             //return true if valid
-        //             return input.val() === 'JQUERY' ? true : false;
-        //             }
-        //         }
-        //     });
-
-        // })
-
-        function showDialog()
-        {
-            $("#exampleModalLong").modal("show");
-        }
-
     </script>
   </body>
 </html>
