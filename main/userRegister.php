@@ -191,6 +191,7 @@
                     <option selected disabled>Choose...</option>
                     <option value="dep A">แผนก A</option>
                     <option value="dep B">แผนก B</option>
+                    <option value="dep C">แผนก C</option>
                 </select>
             </div>
         </div>
