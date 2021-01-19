@@ -94,6 +94,9 @@
     background: #C4C4C4;
     margin: 0px 50px;
 }
+.has-error .help-block{
+    color: red;
+}
 </style>
 </head>
 <body>
@@ -277,10 +280,10 @@
             <button type="button" class="btn btn-primary">ยกเลิก</button>
                        
         <!-- Button trigger modal -->
-            <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalLong">
-            ยืนยันข้อตกลง</button> -->
-            <button type="button" class="btn btn-primary" onclick="showDialog();">
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalLong">
             ยืนยันข้อตกลง</button>
+            <!-- <button type="button" class="btn btn-primary" onclick="showDialog();">
+            ยืนยันข้อตกลง</button> -->
         </center>
     </fieldset>
     
