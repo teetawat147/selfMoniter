@@ -1,7 +1,10 @@
+<?php
+include("../include/connection.php");
+?>
 <!doctype html>
 <html lang="en">
 <head>
-    <title>userRegister</title>
+    <title>ลงทะเบียน</title>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -111,86 +114,94 @@
         </div>
         </center>
           <h3>ลงทะเบียน</h3>
-    <form class="form">
+    <form class="form" action="userRegisterInsert.php" method="POST">
         <div class="form-row">
             <div class="form-group col-md-12">
-                <label for="inputnumId">เลขบัตรประจำตัวประชาชน</label>
-                <input id="inputnumId" class="form-control" min="3" required type="text" data-error-msg="กรุณากรอกเลขบัตรประจำตัวประชาชน">
+                <label for="cid">เลขบัตรประจำตัวประชาชน</label>
+                <input name="cid" id="cid" class="form-control" min="3" required type="text" data-error-msg="กรุณากรอกเลขบัตรประจำตัวประชาชน">
             </div>
         </div>
 
         <div class="form-row">
             <div class="form-group col-md-6">
-                <label for="inputfname">ชื่อ</label>
-                <input id="inputfname" class="form-control" min="3" required type="text" data-error-msg="กรุณากรอกชื่อ">
+                <label for="fname">ชื่อ</label>
+                <input name="fname" id="fname" class="form-control" min="3" required type="text" data-error-msg="กรุณากรอกชื่อ">
             </div>
         
 
         
             <div class="form-group col-md-6">
-                <label for="inputlname">นามสกุล</label>
-                <input id="inputlname" class="form-control" min="3" required type="text" data-error-msg="กรุณากรอกนามสกุล">
+                <label for="lname">นามสกุล</label>
+                <input name="lname" id="lname" class="form-control" min="3"  type="text" data-error-msg="กรุณากรอกนามสกุล">
             </div>
         </div>
 
         <div class="form-row">
             <div class="form-group col-md-12">
-                <label for="inputphon">เบอร์โทรศัพท์</label>
-                <input id="inputphon" class="form-control" min="3" required type="text" data-error-msg="กรุณากรอกเบอร์โทรศัพท์">
+                <label for="phone">เบอร์โทรศัพท์</label>
+                <input name="phone" id="phone" class="form-control" min="3" required type="text" data-error-msg="กรุณากรอกเบอร์โทรศัพท์">
                 
             </div>
         </div>
 
         <div class="form-row">
             <div class="form-group col-md-6">
-                <label for="inputaddress">ที่อยู่</label>
-                <input id="inputaddress" class="form-control" min="3" required type="text" data-error-msg="กรุณากรอกที่อยู่">
+                <label for="address">ที่อยู่</label>
+                <input name="address" id="address" class="form-control" min="3" required type="text" data-error-msg="กรุณากรอกที่อยู่">
                 
             </div>
         
 
        
             <div class="form-group col-md-6">
-                <label for="inputprovince">จังหวัด</label>
-                <input id="inputprovince" class="form-control" min="3" required type="text" data-error-msg="กรุณากรอกจังหวัด">
+                <label for="province">จังหวัด</label>
+                <input name="provinceCode" id="province" class="form-control" min="3" required type="text" data-error-msg="กรุณากรอกจังหวัด">
                 
             </div>
         </div>
 
         <div class="form-row">
             <div class="form-group col-md-6">
-                <label for="inputdistrict">อำเภอ</label>
-                <input id="inputdistrict" class="form-control" min="3" required type="text" data-error-msg="กรุณากรอกอำเภอ">
+                <label for="district">อำเภอ</label>
+                <input name="districtCode" id="district" class="form-control" min="3" required type="text" data-error-msg="กรุณากรอกอำเภอ">
                
             </div>
         
      
         
             <div class="form-group col-md-6">
-                <label for="inputsubdistrict">ตำบล</label>
-                <input id="inputsubdistrict" class="form-control" min="3" required type="text" data-error-msg="กรุณากรอกตำบล">
+                <label for="subdistrict">ตำบล</label>
+                <input name="subdistrictCode" id="subdistrict" class="form-control" min="3" required type="text" data-error-msg="กรุณากรอกตำบล">
                
             </div>
         </div>
 
         <div class="form-row">   
             <div class="form-group col-md-12">
-                <label for="office">ชื่อหน่วยงาน</label>
-                <select id='office' class='form-control' required data-error-msg="กรุณากรอกชื่อหน่วยงาน">
+                <label for="officeId">ชื่อหน่วยงาน</label>
+                <select name='officeId' id='officeId' class='form-control' required data-error-msg="กรุณากรอกชื่อหน่วยงาน">
                     <option selected disabled>Choose...</option>
-                    <option value="office A">หน่วยงาน A</option>
-                    <option value="office B">หน่วยงาน B</option>
+                    <?php 
+                    $sql ="select * from office";
+                    $result = $conn->prepare($sql);
+                    $result->execute();
+                    while($row = $result->fetch()) {
+                        ?>
+                         <option value="<?php echo $row['officeId'];?>"><?php echo $row['officeName'];?></option>
+                        <?php   
+                    }
+                    ?>
                 </select>
             </div>
         </div>
 
         <div class="form-row">   
             <div class="form-group col-md-12">
-                <label for="department">ชื่อแผนก</label>
-                <select id='department' class='form-control' required data-error-msg="กรุณากรอกชื่อหน่วยงาน">
+                <label for="departmentId">ชื่อแผนก</label>
+                <select name='departmentId' id='departmentId' class='form-control' required data-error-msg="กรุณากรอกชื่อหน่วยงาน">
                     <option selected disabled>Choose...</option>
-                    <option value="dep A">แผนก A</option>
-                    <option value="dep B">แผนก B</option>
+                    <option value="1">แผนก A</option>
+                    <option value="2">แผนก B</option>
                     <option value="dep C">แผนก C</option>
                 </select>
             </div>
@@ -198,45 +209,36 @@
 
         <div class="form-row">
             <div class="form-group col-md-6">
-                <label for="inputweight">น้ำหนัก</label>
-                <input id="inputweight" class="form-control" min="3" required type="text" data-error-msg="กรุณากรอกน้ำหนัก">
+                <label for="personWeight">น้ำหนัก</label>
+                <input name="personWeight" id="personWeight" class="form-control" min="3" required type="text" data-error-msg="กรุณากรอกน้ำหนัก">
             </div>
         
      
         
             <div class="form-group col-md-6">
-                <label for="inputheight">ส่วนสูง</label>
-                <input id="inputheight" class="form-control" min="3" required type="text" data-error-msg="กรุณากรอกส่วนสูง">
+                <label for="personHeight">ส่วนสูง</label>
+                <input name="personHeight" id="personHeight" class="form-control" min="3" required type="text" data-error-msg="กรุณากรอกส่วนสูง">
                 
             </div>
         </div>
   
         <div class="form-row">
             <div class="form-group col-md-12">
-                <label for="inputemail">Email</label>
-                <input id="inputemail" class="form-control" min="3" required type="text" data-error-msg="กรุณากรอก Email">
+                <label for="email">Email</label>
+                <input name="email" id="email" class="form-control" min="3" required type="text" data-error-msg="กรุณากรอก Email">
             </div>
         
       
         
             <div class="form-group col-md-12">
-                <label for="inputPassword">Password</label>
-                <input id="inputPassword" class="form-control" min="3" required type="text" data-error-msg="กรุณากรอก Password">
+                <label for="password">Password</label>
+                <input name="password" id="password" class="form-control" min="3" required type="text" data-error-msg="กรุณากรอก Password">
             </div>
         </div>
 
-
-        <div class="checkbox disabled">
-                    <label>
-                        <input type="checkbox" name="option1" value="">
-                        CSS
-                    </label>
-                </div>
-            </div>
-
             <center>
                 <button type="button" class="btn btn-primary">ยกเลิก</button>
-                <button type="button" class="btn btn-primary" onclick="showConsent()">ถัดไป</button>
+                <button type="submit" class="btn btn-primary" onclick="showConsent()">ถัดไป</button>
                 
             </center> 
 
