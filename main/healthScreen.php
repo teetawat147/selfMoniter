@@ -255,7 +255,7 @@
         </div>
 
         <div class="button d-flex justify-content-center">
-          <button type="button">ดูประวัติการบันทึกสุขภาพ</button>
+          <button type="button" onclick="window.location.href='../main/historyHealth.php'">ดูประวัติการบันทึกสุขภาพ</button>
           <button type="button">ปิด</button>
         </div>
       </div>

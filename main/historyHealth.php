@@ -8,8 +8,12 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
 
     <style>
-        .title-month {
-            max-width: 10px !important;
+
+        thead tr th {
+            position: sticky;
+            top: 0;
+            background: whitesmoke !important;
+            z-index: 5;
         }
 
         button:hover {
@@ -19,19 +23,30 @@
             transform: scale(1.05);
         }
 
-        @media only screen and (max-width: 768px) {
-            body {
-                border-collapse: collapse;
+        thead tr th:nth-child(1) {
+                position: sticky;
+                left: 0;
+                background: #fff;
+                z-index: 6;
+                text-align: center;
             }
 
+            tbody tr th:nth-child(1) {
+                position: sticky;
+                left: 0;
+                background: #fff;
+                z-index: 3;
+            }
+
+        @media only screen and (max-width: 768px) {
             .table {
                 width: 120%;
             }
 
-            thead th {
+            thead tr th {
                 position: sticky;
                 top: 0;
-                background: whitesmoke !important;
+                background: whitesmoke;
                 z-index: 5;
             }
 
