@@ -74,8 +74,10 @@
 
       button:hover
       {
-        background-color: #fff;
-        color: #C4C4C4;
+        background-color: #e5e5e5;
+        color: #000;
+        border: 1px solid #000;
+        transform: scale(1.05);
       }
 
       @media screen and (max-width: 423px)
@@ -95,6 +97,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 
       <div class="container">
         <div class="title-main">
@@ -230,9 +233,29 @@
             <p>3. พบเจ้าหน้าที่ เพื่อช่วยเลิกแอลกอฮอล์</p>
           </div>
         </div>
+        
+        <div class="content">
+          <div class="content-title">
+            <p>Test line chart</p>
+          </div>
+          <div class="content-body">
+          <div class="chart" id="chart-line-test">
+          </div>
+          </div>
+        </div>
+
+        <div class="content">
+          <div class="content-title">
+            <p>Test bar chart</p>
+          </div>
+          <div class="content-body">
+          <div class="chart" id="chart-bar-test">
+          </div>
+          </div>
+        </div>
 
         <div class="button d-flex justify-content-center">
-          <button type="button">ดูประวัติการบันทึกสุขภาพ</button>
+          <button type="button" onclick="window.location.href='../main/historyHealth.php'">ดูประวัติการบันทึกสุขภาพ</button>
           <button type="button">ปิด</button>
         </div>
       </div>
@@ -350,12 +373,71 @@
         })
       }
 
+      function chartTestBar() {
+        let options = {
+          series: [{
+          name: 'ความดันโลหิต ความดันค่าบน',
+          data: [31, 40, 28, 51, 42, 109, 100]
+        }, {
+          name: 'ความดันโลหิต ความดันค่าล่าง',
+          data: [11, 32, 45, 32, 34, 52, 41]
+        }],
+          chart: {
+          height: 400,
+          type: 'area'
+        },
+        dataLabels: {
+          enabled: false
+        },
+        stroke: {
+          curve: 'smooth'
+        },
+        xaxis: {
+          categories: ['ม.ค.','มี.ค.','พ.ค.','ก.ค.','ก.ย.','พ.ค.']
+        },
+        yaxis: {
+          tickAmount: 7,
+          min: 0,
+          max: 140
+        }
+      };
+
+        let chart = new ApexCharts(document.getElementById('chart-line-test'), options);
+        chart.render();
+      }
+
+      function chartTestLine(typeChart, nameChart, categories, tickAmount, minValue, maxValue) {
+        var options = {
+          chart: {
+            type: typeChart
+          },
+          series: [{
+            name: nameChart,
+            data: [5, 10, 2, 15, 12, 10]
+          }],
+          xaxis: {
+            categories: categories
+          }, 
+          yaxis: {
+            tickAmount: tickAmount,
+            min: minValue,
+            max: maxValue
+          },
+          // colors: ['#008FFB']
+        }
+
+        let chart = new ApexCharts(document.getElementById('chart-bar-test'), options);
+        chart.render();
+      }
+
       function run() {
-        chartOneData('chart-bmi', "bar", "BMI", 25, 0, 5);
+        chartOneData('chart-bmi', "bar", "BMI", 25, 0, 5); // ต้องมีการรับ data เข้ามา แล้วคำนวณหาค่า BMI
         chartOneData('chart-weight', "bar", "น้ำหนัก", 25, 0, 5);
         chartOneData('chart-waist', "bar", "รอบเอว", 100, 0, 10);
-        chartTwoData('high-pressure', "line", "ความดันโลหิต ความดันค่าล่าง", 140, 0, 20); // 2 data
-        chartOneData('chart-blood-suger', "bar", "น้ำตาลในเลือด", 100, 0, 10);
+        chartTwoData('high-pressure', "line", "ความดันโลหิต ความดันค่าล่าง", 140, 0, 20); // 2 data // ต้องมีการรับ data เข้ามา แล้วคำนวณหาค่าความดันโลหิต
+        chartOneData('chart-blood-suger', "bar", "น้ำตาลในเลือด", 100, 0, 10); //ต้องมีการรับ data เข้ามา แล้วคำนวณหาค่าน้ำตาลในเลือด
+        chartTestBar();
+        chartTestLine('bar', 'BMI', ['ม.ค.','มี.ค.','พ.ค.','ก.ค.','ก.ย.','พ.ค.'], 5, 0, 25);
       }
 
       run();
