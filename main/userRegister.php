@@ -200,9 +200,16 @@ include("../include/connection.php");
                 <label for="departmentId">ชื่อแผนก</label>
                 <select name='departmentId' id='departmentId' class='form-control' required data-error-msg="กรุณากรอกชื่อหน่วยงาน">
                     <option selected disabled>Choose...</option>
-                    <option value="1">แผนก A</option>
-                    <option value="2">แผนก B</option>
-                    <option value="dep C">แผนก C</option>
+                    <?php 
+                    $sql ="select * from department";
+                    $result = $conn->prepare($sql);
+                    $result->execute();
+                    while($row = $result->fetch()) {
+                        ?>
+                         <option value="<?php echo $row['departmentId'];?>"><?php echo $row['departmentName'];?></option>
+                        <?php   
+                    }
+                    ?>
                 </select>
             </div>
         </div>
