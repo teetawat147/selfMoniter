@@ -1,3 +1,6 @@
+<?php
+include("../include/connection.php");
+?>
 <!doctype html>
 <html lang="en">
   <head>
@@ -17,94 +20,124 @@
           <h3>บันทึกข้อมูลสุขภาพ</h3>
 
 
-    <form>
+    <form action="HealthdatarecordInsert.php" method="POST">
         <div class="form-row">   
             <div class="form-group col-md-12">
-                <label for="inputState">คุณเป็นโรคเบาหวานใช่หรือไม่</label>
-                <select id="inputState" class="form-control" required>
+                <label for="smokeId">คุณเป็นโรคเบาหวานใช่หรือไม่</label>
+                <!-- <select id="smokeId" class="form-control" required>
                 <option selected></option>
                 <option>ใช่</option>
                 <option>ไม่ใช่</option>
-                </select>
-            </div>
+                </select>                -->
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="diabetesId" id="diabetesId" value="1" required data-error-msg="กรุณาเลือกข้อมูล">
+                    <label class="form-check-label" for="inlineRadio1">ใช่</label>
+
+                <!-- <div class="form-check form-check-inline"> -->
+                    <input style ="margin-left: 30px;" class="form-check-input" type="radio" name="diabetesId" id="inlineRadio2" value="2" required data-error-msg="กรุณาเลือกข้อมูล">
+                    <label class="form-check-label" for="inlineRadio2">ไม่ใช่</label>
+                </div>
+            </div>             
         </div>
 
         <div class="form-row">   
             <div class="form-group col-md-12">
-                <label for="inputState">คุณเป็นโรคความดันโลหิตใช่หรือไม่</label>
-                <select id="inputState" class="form-control" required>
+                <label for="smokeId">คุณเป็นโรคความดันโลหิตใช่หรือไม่</label>
+                <!-- <select id="smokeId" class="form-control" required>
                 <option selected></option>
                 <option>ใช่</option>
                 <option>ไม่ใช่</option>
-                </select>
+                </select> -->
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="bloodId" id="bloodId" value="1" required data-error-msg="กรุณาเลือกข้อมูล">
+                <label class="form-check-label" for="inlineRadio3">ใช่</label>
+            
+            <!-- <div class="form-check form-check-inline"> -->
+                <input style ="margin-left: 30px;" class="form-check-input" type="radio" name="bloodId" id="bloodId" value="2" required data-error-msg="กรุณาเลือกข้อมูล">
+                <label class="form-check-label" for="inlineRadio4">ไม่ใช่</label>
+                </div>
            </div>
         </div>
 
         <div class="form-row">
             <div class="form-group col-md-6">
-                <label for="height">ส่วนสูง(เซ็นติเมตร)</label>
-                <input type="text" class="form-control" id="height" required data-error-msg="กรุณากรอกข้อมูล!">
+                <label for="healthHeight">ส่วนสูง(เซ็นติเมตร)</label>
+                <input name="healthHeight" id="healthHeight" type="text" class="form-control"  required data-error-msg="กรุณากรอกข้อมูล!">
             </div>
         
             <div class="form-group col-md-6">
-                <label for="weight">น้ำหนัก(กิโลกรัม)</label>
-                <input type="text" class="form-control" id="weight" required data-error-msg="กรุณากรอกข้อมูล!">
+                <label for="healthWeight">น้ำหนัก(กิโลกรัม)</label>
+                <input name ="healthWeight" id="healthWeight" type="text" class="form-control"  required data-error-msg="กรุณากรอกข้อมูล!">
             </div>
         </div>
         
         <div class="form-row">
             <div class="form-group col-md-12">
                 <label for="waist">รอบเอว(เซ็นติเมตร)</label>
-                <input type="text" class="form-control" id="waist" required data-error-msg="กรุณากรอกข้อมูล!">
+                <input name="waist" id="waist" type="text" class="form-control"  required data-error-msg="กรุณากรอกข้อมูล!">
             </div>
         </div>
 
         <div class="form-row">
             <div class="form-group col-xs-6 col-6">
-                <label for="on">ความดันโลหิต(ค่าบน)</label>
-                <input type="text" class="form-control" id="on" required data-error-msg="กรุณากรอกข้อมูล!">
+                <label for="bpUpper">ความดันโลหิต(ค่าบน)</label>
+                <input name="bpUpper" id="bpUpper" type="text" class="form-control"  required data-error-msg="กรุณากรอกข้อมูล!">
             </div>
 
             <div class="form-group col-xs-6 col-6">
-                <label for="lower">ความดันโลหิต(ค่าล่าง)</label>
-                <input type="text" class="form-control" id="lower" required data-error-msg="กรุณากรอกข้อมูล!">
+                <label for="bpLower">ความดันโลหิต(ค่าล่าง)</label>
+                <input name="bpLower" id="bpLower" type="text" class="form-control"  required data-error-msg="กรุณากรอกข้อมูล!">
             </div>
         </div>
 
         <div class="form-row">
             <div class="form-group col-md-12">
-                <label for="sugar">น้ำตาลในเลือด</label>
-                <input type="text" class="form-control" id="inputPassword4" required data-error-msg="กรุณากรอกข้อมูล!">
+                <label for="bloodSugar">น้ำตาลในเลือด</label>
+                <input name="bloodSugar" id="bloodSugar" type="text" class="form-control"  required data-error-msg="กรุณากรอกข้อมูล!">
             </div>
         </div>
 
         <div class="form-row">   
             <div class="form-group col-md-12">
-                <label for="inputState">สูบบุหรี่</label>
-                <select id="inputState" class="form-control" required>
+                <label for="smokeId">สูบบุหรี่</label>
+                <select name="smokeId" id="smokeId" class="form-control" required>
                 <option selected></option>
-                <option>สูบ</option>
-                <option>ไม่สูบ</option>
+                <?php 
+                    $sql ="select * from smoke";
+                    $result = $conn->prepare($sql);
+                    $result->execute();
+                    while($row = $result->fetch()) {
+                        ?>
+                         <option value="<?php echo $row['smokeId'];?>"><?php echo $row['smokeName'];?></option>
+                        <?php   
+                    }
+                    ?>
                 </select>
             </div>
         </div>
 
         <div class="form-row">   
             <div class="form-group col-md-12">
-                <label for="inputState">ดื่มสุรา</label>
-                <select id="inputState" class="form-control" required>
+                <label for="alcoholId">ดื่มสุรา</label>
+                <select name="alcoholId" id="alcoholId" class="form-control" required>
                 <option selected></option>
-                <option>ดื่ม</option>
-                <option>ไม่ดื่ม</option>
-                <option>ดื่มบ้างบางโอกาส</option>
-                <option>ดื่มเป็นประจำ</option>
+                <?php 
+                    $sql ="select * from alcohol";
+                    $result = $conn->prepare($sql);
+                    $result->execute();
+                    while($row = $result->fetch()) {
+                        ?>
+                         <option value="<?php echo $row['alcoholId']; ?>"><?php echo $row['alcoholName']; ?></option>
+                        <?php   
+                    }
+                    ?>
                 </select>
             </div>
         </div>
   
             <center>
                 <button type="submit" class="btn btn-primary">บันทึก</button>
-                <button type="submit" class="btn btn-primary">ยกเลิก</button>
+                <button type="cancel" class="btn btn-primary">ยกเลิก</button>
             </center>
     </form>
 </div>
@@ -130,10 +163,12 @@
         });
 
         $('form').submit(function(e) {
-            e.preventDefault();
 
             if ($('form').validator('check') < 1) {
                 alert('Hurray, your information will be saved!');
+            }else{
+                e.preventDefault();
+                return false;
             }
         })
     })

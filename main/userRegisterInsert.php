@@ -39,5 +39,5 @@
  echo $sql ; 
  $result = $conn->prepare($sql);
  $result->execute();
-header("Location: ../main/consent.php");
+    header("Location: ../main/consent.php");
  ?>
