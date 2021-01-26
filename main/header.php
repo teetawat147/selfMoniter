@@ -28,24 +28,26 @@
     </style>
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-light">
+<nav class="navbar navbar-expand-lg navbar-light fixed-top">
+<!-- <nav class="navbar navbar-expand-lg navbar-light fixed-top"> -->
   <div class="container-fluid">
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+  <a class="navbar-brand" style="color:white;" href="./healthScreen.php">self-moniter</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse navbar-list" id="navbarTogglerDemo03">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+    <ul class="navbar-nav mr-auto">
         <li class="nav-item">
-          <a class="nav-link active text-white" aria-current="page" href="#">Dashboard</a>
+          
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white" href="#">แผนที่</a>
+          <a class="nav-link text-white" href="">รายงานภาพรวม</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white" href="#">ข้อมูลร้านค้า</a>
+          <a class="nav-link text-white" href="#">รายงานBMI</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white" href="#">ค้นหาร้านค้า</a>
+          <a class="nav-link text-white" href="#">รายงานการกรอกข้อมูลของบุคลากร</a>
         </li>
         <li class="nav-item">
           <a class="nav-link text-white" href="#">ติดต่อเรา</a>
