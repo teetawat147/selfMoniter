@@ -220,8 +220,6 @@ include("../include/connection.php");
                 <input name="personWeight" id="personWeight" class="form-control" min="3" required type="text" data-error-msg="กรุณากรอกน้ำหนัก">
             </div>
         
-     
-        
             <div class="form-group col-md-6">
                 <label for="personHeight">ส่วนสูง</label>
                 <input name="personHeight" id="personHeight" class="form-control" min="3" required type="text" data-error-msg="กรุณากรอกส่วนสูง">
@@ -234,9 +232,7 @@ include("../include/connection.php");
                 <label for="email">Email</label>
                 <input name="email" id="email" class="form-control" min="3" required type="text" data-error-msg="กรุณากรอก Email">
             </div>
-        
-      
-        
+         
             <div class="form-group col-md-12">
                 <label for="password">Password</label>
                 <input name="password" id="password" class="form-control" min="3" required type="text" data-error-msg="กรุณากรอก Password">
@@ -245,99 +241,14 @@ include("../include/connection.php");
 
             <center>
                 <button type="button" class="btn btn-primary">ยกเลิก</button>
-                <button type="submit" class="btn btn-primary" onclick="showConsent()">ถัดไป</button>
-                
+                <!-- <button type="submit" class="btn btn-primary" onclick="showConsent()">ถัดไป</button> -->
+                <button type="submit" class="btn btn-primary">ถัดไป</button>               
             </center> 
 
     </fieldset>          
     </form>
-
-    
-    <fieldset id="consent" style="display:none;">
-        <div class = "container">
-        <center>
-        <div class="container progressive" style="margin-left: 0px;">
-            <ul class="progressbar">
-                <li class="active">ลงทะเบียน</li>
-                <li class="active">ข้อตกลง</li>
-            </ul>
-        </div>
-        </center>
-    
-        <br>
-        <center><h5>ข้อตกลงการใช้งาน</h5></center>
-        <br>
-        <center>
-            <label>
-                1.ข้อมูลภายใน Web Application นี้ และ ประชาชนหรือผู้ป่วยที่ปรากฎชื่อภายใน<br>
-                 Web Application ซึ่งถือว่าเป็นเจ้าของข้อมูล ได้รับความคุ้มครองตาม<br>
-                 `พระราชบัญญัติคุ้มครองข้อมูลส่วนบุคคล พ.ศ. ๒๕๖๒`<br>
-                 <br>
-            </label>
-        </center>
-
-        <center>
-            <label>
-                2.ผู้ใช้งาน Web Application ทุกระดับ และ ผู้ดูแลระบบทุกระดับ ที่กระทำการเปิดเผยข้อมูลอันปรากฏภายใน <br>
-                Web Application หรือกระทำการอื่นใดอันเป็นการฝ่าฝืน <br>
-                `พระราชบัญญัติคุ้มครองข้อมูลส่วนบุคคล พ.ศ. ๒๕๖๒` ต้องระวางโทษหรือปรับตามมาตราที่กระทำผิด<br>
-                <br>
-            </label>
-        </center>
-       
-       <center>
-            <button type="button" class="btn btn-primary">ย้อนกลับ</button>
-            <button type="button" class="btn btn-primary">ยกเลิก</button>
-                       
-        <!-- Button trigger modal -->
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalLong">
-            ยืนยันข้อตกลง</button>
-            <!-- <button type="button" class="btn btn-primary" onclick="showDialog();">
-            ยืนยันข้อตกลง</button> -->
-        </center>
-    </fieldset>
-    
-
-
-<!-- Modal -->
-<div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">ยืนยันน้ำหนักและส่วนสูง</h5>
-        </button>
-        </div>
-        <div class="modal-body">
-
-      <form>
-          <div class="form-group col-md-12">
-              <label for="weight">น้ำหนัก</label>
-              <input type="weight" class="form-control" id="weight" placeholder="น้ำหนัก">
-              <label for="weight">กิโลกรัม</label>              
-          </div>
-
-          <div class="form-group col-md-12">
-              <label for="height">ส่วนสูง</label>
-              <input type="height" class="form-control " id="height" placeholder="ส่วนสูง">
-              <label for="height">เซนติเมตร</label>
-          </div> 
-      </form>
-      
-          
-          <!-- <div class="modal-footer"> -->
-          <center>
-              <button type="button" class="btn btn-primary">ตกลง</button>
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">ยกเลิก</button> 
-          </center>
-          </div>
-      
-      </div> 
-    </div>    
-  </div>
 </div>
 
-
-</div>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
@@ -346,39 +257,18 @@ include("../include/connection.php");
     <script src ="https://www.jquery-az.com/boots/js/validate-bootstrap/validate-bootstrap.jquery.min.js" ></script>
     
     <script>
-        function showConsent() 
-        {
-            if ($('form').validator('check') < 1) {
-                // alert('กรอกข้อมูลครบ');
-                document.getElementById("consent").style.display = "block";
-                document.getElementById("userRegister").style.display = "none";
-                //submit
-            }else{
-                // alert('กรอกข้อมูลไม่ครบ');
+        $(function() {
+        console.log($('form'));
+        $('form').validator({
+            validHandlers: {
+                '.customhandler':function(input) {
+                    //may do some formatting before validating
+                    input.val(input.val().toUpperCase());
+                    //return true if valid
+                    return input.val() === 'JQUERY' ? true : false;
+                }
             }
-        // document.getElementById("consent").style.display = "block";
-        // document.getElementById("userRegister").style.display = "none";
-        }
-
-        // $(function() {
-        // $('form').validator({
-        //     validHandlers: {
-        //         '.customhandler':function(input) {
-        //             //may do some formatting before validating
-        //             input.val(input.val().toUpperCase());
-        //             //return true if valid
-        //             return input.val() === 'JQUERY' ? true : false;
-        //             }
-        //         }
-        //     });
-
-        // })
-
-        function showDialog()
-        {
-            $("#exampleModalLong").modal("show");
-        }
-
+        });
     </script>
   </body>
 </html>
