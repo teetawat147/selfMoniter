@@ -1,5 +1,6 @@
 <?php
 include("../include/connection.php");
+print_r($_SESSION);
 ?>
 <!doctype html>
 <html lang="en">

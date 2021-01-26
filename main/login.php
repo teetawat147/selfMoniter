@@ -28,9 +28,10 @@ include("../include/connection.php");
           <h3>เข้าสู่ระบบ</h3>
         </center>
     <br>
-<form>
-    <div class="row justify-content-center">
-        <div class="col-4">
+<form method="POST" action="loginCheck.php">
+
+    <div class="row justify-content-center" >
+        <div class="col-8 col-md-4">
             <div class="form-row">
                 <div class="form-group col-md-12">
                     <label for="username">Username</label>
@@ -42,18 +43,21 @@ include("../include/connection.php");
                     <input name ="password" id="password" type="text" class="form-control"  required data-error-msg="กรุณากรอก Password!">
                 </div>
             </div>
-        </div>  
-    </div> 
 
-            <center>
-                <button type="submit" class="btn btn-primary">ตกลง</button>
-                <button type="cancel" class="btn btn-primary">ยกเลิก</button>
-            </center>
+            <div class="text-center col-12" style="display: inline-block;" >
+                <button type="submit" class="btn btn-primary" >ตกลง</button>
+                <button type="cancel" class="btn btn-primary" >ยกเลิก</button>
+            </div>
             <br>
             <center>
                 <label for="password">สมัครเข้าใช้งาน</label>
                 <label for="password">ลืมรหัสผ่าน</label>
             </center>
+        </div>  
+        
+    </div> 
+
+            
             
 </form>
 

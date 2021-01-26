@@ -1,4 +1,7 @@
 <?php
+if (!isset($_SESSION)){
+    session_start();
+}
 $db_host = '159.138.241.143';
 $db_name = 'selfmoniter';
 $db_user = 'selfmoniter';
