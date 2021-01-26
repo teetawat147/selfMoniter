@@ -8,7 +8,7 @@ $db_pass = '123456';
 try {
     // If you change db server system, change this too!
     $conn = new PDO("mysql:host=$db_host; dbname=$db_name", $db_user, $db_pass);
-    echo "Connected to database";
+    // echo "Connected to database";
     $sql = "SET NAMES utf8"; 
     $result = $conn->prepare($sql);
     $result->execute();  
