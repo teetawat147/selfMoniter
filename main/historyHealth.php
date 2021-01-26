@@ -1,3 +1,17 @@
+<?php
+    include('../include/connection.php');
+    
+    try {
+        $sql = "SELECT * FROM health_data_record";
+        $result = $conn -> prepare($sql);
+        $result -> execute();
+        $rows = $result -> fetchAll(PDO:: FETCH_ASSOC);
+    }
+    catch(PDOException $e) {
+        die("Could not connect to database $db_name : " .$e -> getMessage());
+    }
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -99,186 +113,53 @@
                 </tr>
             </thead>
             <tbody>
+                <?php
+                // print_r($rows);
+                    foreach($rows as $key => $row) {
+                ?>
                 <tr>
                     <th scope="row">โรคเบาหวาน</th>
-                    <td>ไม่ใช่</td>
-                    <td>ไม่ใช่</td>
-                    <td>ไม่ใช่</td>
-                    <td>ไม่ใช่</td>
-                    <td>ไม่ใช่</td>
-                    <td>ไม่ใช่</td>
-                    <td>ไม่ใช่</td>
-                    <td>ไม่ใช่</td>
-                    <td>ไม่ใช่</td>
-                    <td>ไม่ใช่</td>
-                    <td>ไม่ใช่</td>
-                    <td>ไม่ใช่</td>
+                    <td><?php echo $row['diabetesId'] ?></td>
                 </tr>
                 <tr>
                     <th scope="row">โรคความดัน</th>
-                    <td>ไม่ใช่</td>
-                    <td>ไม่ใช่</td>
-                    <td>ไม่ใช่</td>
-                    <td>ไม่ใช่</td>
-                    <td>ไม่ใช่</td>
-                    <td>ไม่ใช่</td>
-                    <td>ไม่ใช่</td>
-                    <td>ไม่ใช่</td>
-                    <td>ไม่ใช่</td>
-                    <td>ไม่ใช่</td>
-                    <td>ไม่ใช่</td>
-                    <td>ไม่ใช่</td>
+                    <td><?php echo $row['bloodId'] ?></td>
                 </tr>
                 <tr>
                     <th scope="row">ส่วนสูง</th>
-                    <td>184</td>
-                    <td>184</td>
-                    <td>184</td>
-                    <td>184</td>
-                    <td>184</td>
-                    <td>184</td>
-                    <td>184</td>
-                    <td>184</td>
-                    <td>184</td>
-                    <td>184</td>
-                    <td>184</td>
-                    <td>184</td>
+                    <td><?php echo $row['healthHeight'] ?></td>
                 </tr>
                 <tr>
-                    <th scope="row">ส่วนสูง</th>
-                    <td>184</td>
-                    <td>184</td>
-                    <td>184</td>
-                    <td>184</td>
-                    <td>184</td>
-                    <td>184</td>
-                    <td>184</td>
-                    <td>184</td>
-                    <td>184</td>
-                    <td>184</td>
-                    <td>184</td>
-                    <td>184</td>
+                    <th scope="row">น้ำหนัก</th>
+                    <td><?php echo $row['healthWeight'] ?></td>
                 </tr>
                 <tr>
-                    <th scope="row">ส่วนสูง</th>
-                    <td>184</td>
-                    <td>184</td>
-                    <td>184</td>
-                    <td>184</td>
-                    <td>184</td>
-                    <td>184</td>
-                    <td>184</td>
-                    <td>184</td>
-                    <td>184</td>
-                    <td>184</td>
-                    <td>184</td>
-                    <td>184</td>
+                    <th scope="row">รอบเอว</th>
+                    <td><?php echo $row['waist'] ?></td>
                 </tr>
                 <tr>
-                    <th scope="row">ส่วนสูง</th>
-                    <td>184</td>
-                    <td>184</td>
-                    <td>184</td>
-                    <td>184</td>
-                    <td>184</td>
-                    <td>184</td>
-                    <td>184</td>
-                    <td>184</td>
-                    <td>184</td>
-                    <td>184</td>
-                    <td>184</td>
-                    <td>184</td>
+                    <th scope="row">ความดันโลหิต (ค่าบน) </th>
+                    <td><?php echo $row['bpUpper'] ?></td>
                 </tr>
                 <tr>
-                    <th scope="row">ส่วนสูง</th>
-                    <td>184</td>
-                    <td>184</td>
-                    <td>184</td>
-                    <td>184</td>
-                    <td>184</td>
-                    <td>184</td>
-                    <td>184</td>
-                    <td>184</td>
-                    <td>184</td>
-                    <td>184</td>
-                    <td>184</td>
-                    <td>184</td>
+                    <th scope="row">ความดันโลหิต (ความดันค่าล่าง)</th>
+                    <td><?php echo $row['bpLower'] ?></td>
                 </tr>
                 <tr>
-                    <th scope="row">ส่วนสูง</th>
-                    <td>184</td>
-                    <td>184</td>
-                    <td>184</td>
-                    <td>184</td>
-                    <td>184</td>
-                    <td>184</td>
-                    <td>184</td>
-                    <td>184</td>
-                    <td>184</td>
-                    <td>184</td>
-                    <td>184</td>
-                    <td>184</td>
+                    <th scope="row">น้ำตาลในเลือด</th>
+                    <td><?php echo $row['bloodSugar'] ?></td>
                 </tr>
                 <tr>
-                    <th scope="row">ส่วนสูง</th>
-                    <td>184</td>
-                    <td>184</td>
-                    <td>184</td>
-                    <td>184</td>
-                    <td>184</td>
-                    <td>184</td>
-                    <td>184</td>
-                    <td>184</td>
-                    <td>184</td>
-                    <td>184</td>
-                    <td>184</td>
-                    <td>184</td>
+                    <th scope="row">สูบบุหรี่</th>
+                    <td><?php echo $row['smokeId'] ?></td>
                 </tr>
                 <tr>
-                    <th scope="row">ส่วนสูง</th>
-                    <td>184</td>
-                    <td>184</td>
-                    <td>184</td>
-                    <td>184</td>
-                    <td>184</td>
-                    <td>184</td>
-                    <td>184</td>
-                    <td>184</td>
-                    <td>184</td>
-                    <td>184</td>
-                    <td>184</td>
-                    <td>184</td>
+                    <th scope="row">ดื่มสุรา</th>
+                    <td><?php echo $row['alcoholId'] ?></td>
                 </tr>
-                <tr>
-                    <th scope="row">ส่วนสูง</th>
-                    <td>184</td>
-                    <td>184</td>
-                    <td>184</td>
-                    <td>184</td>
-                    <td>184</td>
-                    <td>184</td>
-                    <td>184</td>
-                    <td>184</td>
-                    <td>184</td>
-                    <td>184</td>
-                    <td>184</td>
-                    <td>184</td>
-                </tr>
-                <tr>
-                    <th scope="row">ส่วนสูง</th>
-                    <td>184</td>
-                    <td>184</td>
-                    <td>184</td>
-                    <td>184</td>
-                    <td>184</td>
-                    <td>184</td>
-                    <td>184</td>
-                    <td>184</td>
-                    <td>184</td>
-                    <td>184</td>
-                    <td>184</td>
-                    <td>184</td>
-                </tr>
+                <?php
+                    }
+                ?>
             </tbody>
         </table>
     </div>

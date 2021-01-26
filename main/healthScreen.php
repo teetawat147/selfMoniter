@@ -1,3 +1,17 @@
+<?php
+  include('../include/connection.php');
+
+  try{
+    $sql = "SELECT * FROM health_data_record";
+    $result = $conn -> prepare($sql);
+    $result -> execute();
+    $rows = $result -> fetchAll(PDO:: FETCH_ASSOC);
+  }
+  catch(PDOException $e) {
+    die("Could not connect to database $db_name : " .$e -> getMessage());
+  }
+?>
+
 <!doctype html>
 <html lang="en">
   <head>
@@ -39,7 +53,12 @@
       {
         margin-top: -20px;
         border: 2px solid #F6F6F6;
+      }
 
+      .content-body.pie-chart
+      {
+        display: flex;
+        justify-content: center;
       }
 
       .content-body p
@@ -254,11 +273,21 @@
           </div>
         </div>
 
-        <div class="button d-flex justify-content-center">
-          <button type="button" onclick="window.location.href='../main/historyHealth.php'">ดูประวัติการบันทึกสุขภาพ</button>
-          <button type="button">ปิด</button>
+        <div class="content">
+          <div class="content-title">
+            <p>Test pie chart</p>
+          </div>
+          <div class="content-body pie-chart">
+          <div class="chart" id="chart-pie-test">
+          </div>
         </div>
       </div>
+
+      <div class="button d-flex justify-content-center">
+        <button type="button" onclick="window.location.href='../main/historyHealth.php'">ดูประวัติการบันทึกสุขภาพ</button>
+        <button type="button">ปิด</button>
+      </div>
+    </div>
 
       <script>
 
@@ -271,8 +300,8 @@
             datasets: [
               {
                 label: title,
-                data:[10,8,20,14,10,15,5],
-                fill:false,
+                data: [10,8,20,14,10,15,5],
+                fill: false,
                 backgroundColor: [
                   "rgba(255, 99, 132, 0.2)",
                   "rgba(255, 159, 64, 0.2)",
@@ -407,7 +436,7 @@
       }
 
       function chartTestLine(typeChart, nameChart, categories, tickAmount, minValue, maxValue) {
-        var options = {
+        let options = {
           chart: {
             type: typeChart
           },
@@ -430,6 +459,31 @@
         chart.render();
       }
 
+      function chartTestPie() {
+        let options = {
+          series: [100, 55, 13, 43, 22], // data
+          chart: {
+            width: 500,
+            type: 'pie',
+        },
+        labels: ['BMI1', 'BMI2', 'BMI3', 'BMI4', 'BMI5'],
+        responsive: [{
+          breakpoint: 480,
+          options: {
+            chart: {
+              width: 200
+            },
+            legend: {
+              position: 'bottom'
+            }
+          }
+        }]
+        };
+
+        let chart = new ApexCharts(document.getElementById('chart-pie-test'), options);
+        chart.render();
+      }
+
       function run() {
         chartOneData('chart-bmi', "bar", "BMI", 25, 0, 5); // ต้องมีการรับ data เข้ามา แล้วคำนวณหาค่า BMI
         chartOneData('chart-weight', "bar", "น้ำหนัก", 25, 0, 5);
@@ -438,6 +492,7 @@
         chartOneData('chart-blood-suger', "bar", "น้ำตาลในเลือด", 100, 0, 10); //ต้องมีการรับ data เข้ามา แล้วคำนวณหาค่าน้ำตาลในเลือด
         chartTestBar();
         chartTestLine('bar', 'BMI', ['ม.ค.','มี.ค.','พ.ค.','ก.ค.','ก.ย.','พ.ค.'], 5, 0, 25);
+        chartTestPie();
       }
 
       run();
