@@ -29,7 +29,7 @@
             '".$_POST['smokeId']."', 
             '".$_POST['alcoholId']."', 
             '".$datetime."',
-            1
+            ".$_SESSION['personId']."
         )";
  echo $sql;
  $result = $conn->prepare($sql);

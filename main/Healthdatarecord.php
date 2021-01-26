@@ -1,5 +1,6 @@
 <?php
 include("../include/connection.php");
+print_r($_SESSION);
 ?>
 <!doctype html>
 <html lang="en">
@@ -165,7 +166,7 @@ include("../include/connection.php");
         $('form').submit(function(e) {
 
             if ($('form').validator('check') < 1) {
-                alert('Hurray, your information will be saved!');
+                // alert('Hurray, your information will be saved!');
             }else{
                 e.preventDefault();
                 return false;
