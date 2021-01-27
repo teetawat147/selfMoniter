@@ -1,15 +1,5 @@
 <?php
   include('../include/connection.php');
-
-  try{
-    $sql = "SELECT * FROM health_data_record";
-    $result = $conn -> prepare($sql);
-    $result -> execute();
-    $rows = $result -> fetchAll(PDO:: FETCH_ASSOC);
-  }
-  catch(PDOException $e) {
-    die("Could not connect to database $db_name : " .$e -> getMessage());
-  }
 ?>
 
 <!doctype html>
@@ -291,20 +281,27 @@
       </div>
     </div>
 
+    <?php
+      $sql = 'SELECT * FROM health_data_record';
+      $result = $conn -> prepare($sql);
+      $result -> execute();
+      $lastId = $conn -> lastInsertId();
+      console.log($lastId);
+    ?>
+
       <script>
 
-      function chartOneData(id, typeChart, title, maxValue, minValue, stepSizeValue) {
-        let element = document.getElementById(id).getContext('2d');
-        let chart = new Chart(element, {
-          type: typeChart,
-          data: {
-            labels: ['ม.ค.', 'มี.ค.', 'พ.ค.', 'ก.ค.', 'ก.ย.', 'พ.ย.'],
-            datasets: [
+        let chartBmiElem = document.getElementById('chart-bmi').getContext('2d');
+        let chartBmi = new Chart(chartBmiElem,{
+          type:"bar",
+          data:{
+            labels:['ม.ค.', 'มี.ค.', 'พ.ค.', 'ก.ค.', 'ก.ย.', 'พ.ย.'],
+            datasets:[
               {
-                label: title,
-                data: [10,8,20,14,10,15,5],
-                fill: false,
-                backgroundColor: [
+                label:"BMI",
+                data:[10,8,20,14,10,15,5],
+                fill:false,
+                backgroundColor:[
                   "rgba(255, 99, 132, 0.2)",
                   "rgba(255, 159, 64, 0.2)",
                   "rgba(255, 205, 86, 0.2)",
@@ -312,45 +309,127 @@
                   "rgba(54, 162, 235, 0.2)",
                   "rgba(153, 102, 255, 0.2)",
                   "rgba(201, 203, 207, 0.2)"],
-                borderColor: [
+                borderColor:[
                   "rgb(255, 99, 132)",
                   "rgb(255, 159, 64)",
                   "rgb(255, 205, 86)",
                   "rgb(75, 192, 192)",
                   "rgb(54, 162, 235)",
                   "rgb(153, 102, 255)",
-                  "rgb(201, 203, 207)"
-                ],
-                borderWidth: 1
+                  "rgb(201, 203, 207)"],
+                borderWidth:1
               }
             ]
           },
-          options: {
-            legend: {
-              display: false
-            },
-            scales: {
-              yAxes: [{
-                ticks: {
-                  beginAtZero: true,
-                  max: maxValue,
-                  min: minValue,
-                  stepSize: stepSizeValue
+          options:{
+            legend:{display:false},
+            scales:{
+              yAxes:[{
+                ticks:{
+                  beginAtZero:true,
+                  max: 25,
+                  min: 0,
+                  stepSize: 5
                 }
               }]
             }
           }
-        })
-      }
+        });
 
-      function chartTwoData(id, typeChart, title, maxValue, minValue, stepSizeValue) {
-        let element = document.getElementById(id).getContext('2d');
-        let chart = new Chart(element, {
-          type: typeChart,
-          data: {
-            labels: ['ม.ค.', 'มี.ค.', 'พ.ค.', 'ก.ค.', 'ก.ย.', 'พ.ย.'],
-            datasets: [
-              {
+        let chartWeightElem = document.getElementById('chart-weight').getContext('2d');
+        let chartWeight = new Chart(chartWeightElem, {
+            type: "bar",
+            data: {
+                labels: ['ม.ค.', 'ม��.ค.', 'พ.ค.', 'ก.ค.', 'ก.ย.', 'พ.ย.'],
+                datasets: [{
+                    label: 'น้ำหนัก',
+                    data: [12, 19, 3, 5, 2, 3],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+              legend:{
+                display:false
+              },
+              scales:{
+                yAxes:[{
+                  ticks:{
+                    beginAtZero:true,
+                    max: 25,
+                    min: 0,
+                    stepSize: 5
+                  }
+                }]
+              }
+            }
+        });
+
+        let chartWaistElem = document.getElementById('chart-waist').getContext('2d');
+        let chartWaist = new Chart(chartWaistElem, {
+            type: "bar",
+            data: {
+                labels: ['ม.ค.', 'มี.ค.', 'พ.ค.', 'ก.ค.', 'ก.ย.', 'พ.ย.'],
+                datasets: [{
+                    label: 'รอบเอว',
+                    data: [12, 19, 3, 5, 2, 3],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+              legend:{
+                display:false
+              },
+              scales:{
+                yAxes:[{
+                  ticks:{
+                    beginAtZero:true,
+                    max: 100,
+                    min: 0,
+                    stepSize: 10
+                  }
+                }]
+              }
+            }
+        });
+
+        let chartHighPressureElem = document.getElementById('high-pressure').getContext('2d');
+        let chartHighPressure = new Chart(chartHighPressureElem, {
+            type: "line",
+            data: {
+                labels: ['ม.ค.', 'มี.ค.', 'พ.ค.', 'ก.ค.', 'ก.ย.', 'พ.ย.'],
+                datasets: [{
                     label: 'ความดันโลหิต ความดันค่าล่าง',
                     data: [122, 19, 32, 52, 25, 38],
                     backgroundColor: [
@@ -365,8 +444,8 @@
                         'rgba(255, 159, 64, 1)'
                     ],
                     borderWidth: 7
-              },
-              {
+                },
+                {
                   label: 'ความดันโลหิต ความดันค่าบน',
                     data: [50, 60, 80, 100, 20, 30],
                     backgroundColor: [
@@ -381,28 +460,68 @@
                         'rgba(255, 159, 64, 1)'
                     ],
                     borderWidth: 7
-              }
-            ]
-          },
-          options: {
-            legend: {
-              display: false
+                }]
             },
-            scales: {
-              yAxes: [
-                {
-                ticks: {
-                  beginAtZero: true,
-                  max: maxValue,
-                  min: minValue,
-                  stepSize: stepSizeValue
-                }
-                }
-              ]
+            options: {
+              legend:{
+                display:false
+              },
+              scales:{
+                yAxes:[{
+                  ticks:{
+                    beginAtZero:true,
+                    max: 140,
+                    min: 0,
+                    stepSize: 20
+                  }
+                }]
+              }
             }
-          }
-        })
-      }
+        });
+
+        let chartBloodSugerElem = document.getElementById('chart-blood-suger').getContext('2d');
+        let chartBloodSuger = new Chart(chartBloodSugerElem, {
+            type: "bar",
+            data: {
+                labels: ['ม.ค.', 'มี.ค.', 'พ.ค.', 'ก.ค.', 'ก.ย.', 'พ.ย.'],
+                datasets: [{
+                    label: 'น้ำตาลในเลือด',
+                    data: [12, 19, 3, 5, 2, 3],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+              legend:{
+                display:false
+              },
+              scales:{
+                yAxes:[{
+                  ticks:{
+                    beginAtZero:true,
+                    max: 100,
+                    min: 0,
+                    stepSize: 10
+                  }
+                }]
+              }
+            }
+        });
 
       function chartTestBar() {
         let options = {
@@ -487,14 +606,14 @@
       }
 
       function run() {
-        chartOneData('chart-bmi', "bar", "BMI", 25, 0, 5); // ต้องมีการรับ data เข้ามา แล้วคำนวณหาค่า BMI
-        chartOneData('chart-weight', "bar", "น้ำหนัก", 25, 0, 5);
-        chartOneData('chart-waist', "bar", "รอบเอว", 100, 0, 10);
-        chartTwoData('high-pressure', "line", "ความดันโลหิต ความดันค่าล่าง", 140, 0, 20); // 2 data // ต้องมีการรับ data เข้ามา แล้วคำนวณหาค่าความดันโลหิต
-        chartOneData('chart-blood-suger', "bar", "น้ำตาลในเลือด", 100, 0, 10); //ต้องมีการรับ data เข้ามา แล้วคำนวณหาค่าน้ำตาลในเลือด
-        chartTestBar();
-        chartTestLine('bar', 'BMI', ['ม.ค.','มี.ค.','พ.ค.','ก.ค.','ก.ย.','พ.ค.'], 5, 0, 25);
-        chartTestPie();
+        // chartOneData('chart-bmi', "bar", "BMI", 25, 0, 5); // ต้องมีการรับ data เข้ามา แล้วคำนวณหาค่า BMI
+        // chartOneData('chart-weight', "bar", "น้ำหนัก", 25, 0, 5);
+        // chartOneData('chart-waist', "bar", "รอบเอว", 100, 0, 10);
+        // chartTwoData('high-pressure', "line", "ความดันโลหิต ความดันค่าล่าง", 140, 0, 20); // 2 data // ต้องมีการรับ data เข้ามา แล้วคำนวณหาค่าความดันโลหิต
+        // chartOneData('chart-blood-suger', "bar", "น้ำตาลในเลือด", 100, 0, 10); //ต้องมีการรับ data เข้ามา แล้วคำนวณหาค่าน้ำตาลในเลือด
+        // chartTestBar();
+        // chartTestLine('bar', 'BMI', ['ม.ค.','มี.ค.','พ.ค.','ก.ค.','ก.ย.','พ.ค.'], 5, 0, 25);
+        // chartTestPie();
       }
 
       run();
