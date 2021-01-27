@@ -9,10 +9,20 @@ $stmt = $conn->prepare($sql);
   $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
   print_r($result);
   if(count($result)>0){
-      $_SESSION['personId']=$result[0]['personId'];
+      
+    $_SESSION['personId']=$result[0]['personId'];
+    $_SESSION['fname']=$result[0]['fname'];
+    $_SESSION['lname']=$result[0]['lname'];
+    $_SESSION['personWeight']=$result[0]['personWeight'];
+    $_SESSION['personHeight']=$result[0]['personHeight'];
+     
       header("Location: ../main/Healthdatarecord.php");
   }else{
     $_SESSION['personId']='';
+    $_SESSION['fname']='';
+    $_SESSION['lname']='';
+    $_SESSION['personWeight']='';
+    $_SESSION['personHeight']='';
       header("Location: ../main/login.php");
   }
 ?>
