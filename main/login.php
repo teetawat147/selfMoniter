@@ -50,7 +50,7 @@ include("../include/connection.php");
             </div>
             <br>
             <center>
-                <label for="password">สมัครเข้าใช้งาน</label>
+                <a href="../main/userRegister.php">สมัครเข้าใช้งาน</a>
                 <label for="password">ลืมรหัสผ่าน</label>
             </center>
         </div>  

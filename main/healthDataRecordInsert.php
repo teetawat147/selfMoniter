@@ -20,8 +20,8 @@
         values (
             '".$_POST['diabetesId']."', 
             '".$_POST['bloodId']."', 
-            '".$_POST['healthHeight']."', 
-            '".$_POST['healthWeight']."',
+            '".$_SESSION['personHeight']."', 
+            '".$_SESSION['personWeight']."',
             '".$_POST['waist']."', 
             '".$_POST['bpUpper']."', 
             '".$_POST['bpLower']."', 

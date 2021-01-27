@@ -1,3 +1,10 @@
+<?php
+include("../include/connection.php");
+// print_r($_SESSION);
+if (!$_SESSION['fname']){
+    header("Location: ../main/login.php");
+}
+?>
 <!doctype html>
 <html lang="en">
   <head>
@@ -136,24 +143,24 @@
         </div>
         <div class="modal-body">
 
-      <form>
+  <form class="form" action="consentUpdate.php" method="POST">
           <div class="form-group col-md-6">
-              <label for="exampleInputEmail1">น้ำหนัก</label>
-              <input type="password" class="form-control" id="exampleInputPassword1" placeholder="น้ำหนัก">
-              <label for="exampleInputEmail1">กิโลกรัม</label>              
+              <label for="personWeight">น้ำหนัก</label>
+              <input type="text" class="form-control" name="personWeight" id="personWeight" placeholder="น้ำหนัก" value="<?php echo $_SESSION['personWeight']; ?>">
+              <label for="personWeight">กิโลกรัม</label>              
           </div>
 
           <div class="form-group col-md-6">
-              <label for="exampleInputPassword1">ส่วนสูง</label>
-              <input type="password" class="form-control " id="exampleInputPassword1" placeholder="ส่วนสูง">
-              <label for="exampleInputEmail1">เซนติเมตร</label>
+              <label for="personHeight">ส่วนสูง</label>
+              <input type="text" class="form-control " name="personHeight" id="personHeight" placeholder="ส่วนสูง" value="<?php echo $_SESSION['personHeight']; ?>">
+              <label for="personHeight">เซนติเมตร</label>
           </div>  
 
-      </form>
+      
           
           <!-- <div class="modal-footer"> -->
           <center>
-              <button type="button" class="btn btn-primary">ตกลง</button>
+              <button type="submit" class="btn btn-primary">ตกลง</button>
               <button type="button" class="btn btn-secondary" data-dismiss="modal">ยกเลิก</button> 
           </center>
           </div>
@@ -162,6 +169,7 @@
     </div>    
   </div>
 </div>
+</form>
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
