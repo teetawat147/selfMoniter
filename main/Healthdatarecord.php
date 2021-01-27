@@ -1,6 +1,6 @@
 <?php
 include("../include/connection.php");
-print_r($_SESSION);
+// print_r($_SESSION);
 if (!$_SESSION['fname']){
     header("Location: ../main/login.php");
 }
@@ -38,6 +38,7 @@ if (!$_SESSION['fname']){
                 <option>ใช่</option>
                 <option>ไม่ใช่</option>
                 </select>                -->
+                <br>
                 <div class="form-check form-check-inline">
                     <input class="form-check-input" type="radio" name="diabetesId" id="diabetesId" value="1" required data-error-msg="กรุณาเลือกข้อมูล">
                     <label class="form-check-label" for="inlineRadio1">ใช่</label>
@@ -57,6 +58,7 @@ if (!$_SESSION['fname']){
                 <option>ใช่</option>
                 <option>ไม่ใช่</option>
                 </select> -->
+            <br>
             <div class="form-check form-check-inline">
                 <input class="form-check-input" type="radio" name="bloodId" id="bloodId" value="1" required data-error-msg="กรุณาเลือกข้อมูล">
                 <label class="form-check-label" for="inlineRadio3">ใช่</label>
