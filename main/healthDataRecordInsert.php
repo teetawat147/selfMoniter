@@ -31,7 +31,8 @@
             '".$datetime."',
             ".$_SESSION['personId']."
         )";
- echo $sql;
+
+//  echo $sql;
  $result = $conn->prepare($sql);
  $result->execute();
  $lastId = $conn->lastInsertId();
