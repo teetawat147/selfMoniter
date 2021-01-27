@@ -7,7 +7,8 @@ $datetime = date("Y-m-d H:i:s");
 // $personWeight=$_POST['personWeight'];
 
 $sql ="UPDATE person
-        SET personWeight = '".$_POST['personWeight']."', personHeight = '".$_POST['personHeight']."'
+        SET personWeight = '".$_POST['personWeight']."', 
+            personHeight = '".$_POST['personHeight']."'
         WHERE personId='".$_SESSION['personId']."' ";
 
 echo $sql ; 

@@ -24,10 +24,9 @@ if (!$_SESSION['fname']){
     include("../main/header.php");   
     ?>
         <div class = "container">
+          
           <h3>บันทึกข้อมูลสุขภาพ</h3>
-    <!-- <?php
-    echo $_SESSION['healthHeight']
-    ?> -->
+          
 
     <form action="HealthdatarecordInsert.php" method="POST">
         <div class="form-row">   
