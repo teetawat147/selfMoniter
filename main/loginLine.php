@@ -14,15 +14,30 @@
   <p id="statusMessage"></p>
   <p id="getDecodedIDToken"></p>
   <script src="https://static.line-scdn.net/liff/edge/versions/2.6.0/sdk.js"></script>
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
   <script>
     liff.init({ liffId: "1655527645-9Onm8yKg" }, () => {
       if (liff.isLoggedIn()) {
-        // runApp()
-        liff.logout();
-        window.location="../main/Healthdatarecord.php";
+        liff.getProfile().then(profile=>{
+            let lineId=profile.userId;
+
+            $.ajax({
+                method: "POST",
+                url: "../main/lineCheck.php",
+                data: {lineId:lineId}
+            })
+            .done(function( msg ) {
+                $(target).html(msg);
+                if (msg=='Ok'){
+                    window.location="../main/Healthdatarecord.php";
+                }else{
+                    window.location="../main/userRegister.php?lineId?"+lineId;
+                }
+            });
+        })
       } else {
         liff.login();
-        window.location="../main/userRegister.php";
+        window.location="../main/loginLine.php";
       }
     }, err => console.error(err.code, error.message));
   </script>

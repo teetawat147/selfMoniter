@@ -18,6 +18,7 @@ $sql ="INSERT into person (
         personWeight, 
         personHeight, 
         email, 
+        lineId,
         password
     )
     
@@ -36,6 +37,7 @@ $sql ="INSERT into person (
         '".$_POST['personWeight']."', 
         '".$_POST['personHeight']."', 
         '".$_POST['email']."', 
+        '".$_POST['lineId']."',
         md5('".$_POST['password']."') 
     )";
 echo $sql ; 
@@ -43,6 +45,7 @@ $result = $conn->prepare($sql);
 $result->execute();
 $personId = $conn->lastInsertId();
 $_SESSION['personId']=$personId;
+$_SESSION['lineId']=$_POST['lineId'];
 $_SESSION['fname']=$_POST['fname'];
 $_SESSION['lname']=$_POST['lname'];
 $_SESSION['personWeight']=$_POST['personWeight'];

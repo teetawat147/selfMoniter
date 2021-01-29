@@ -2,6 +2,7 @@
 include("../include/connection.php");
 
 $_SESSION['personId']='';
+$_SESSION['lineId']='';
 $_SESSION['fname']='';
 $_SESSION['lname']='';
 $_SESSION['personWeight']='';
