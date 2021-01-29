@@ -114,11 +114,7 @@ include("../include/connection.php");
         </center>
           <h3>ลงทะเบียน</h3>
     <form class="form" action="userRegisterInsert.php" method="POST">
-        <input type="hidden" name="lineId" id="lineId" value="
-        <?php 
-        if (isset($_GET['lineId'])){
-            echo $_GET['lineId'];
-        }?>" >
+        <input type="hidden" name="lineId" id="lineId" value="<?php echo (isset($_GET['lineId']))?$_GET['lineId']:"";?>" >
         <div class="form-row">
             <div class="form-group col-md-12">
                 <label for="cid">เลขบัตรประจำตัวประชาชน</label>
