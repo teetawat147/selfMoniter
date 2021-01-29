@@ -136,8 +136,27 @@ include("../include/connection.php");
             </div>
         </div>
 
+        
+
         <div class="form-row">
-            <div class="form-group col-md-12">
+            <div class="form-group col-md-6">
+                <label for="sexId">เพศ</label>
+                <select name='sexId' id='sexId' class='form-control' required data-error-msg="กรุณากรอกชื่อหน่วยงาน">
+                    <option selected disabled>Choose...</option>
+                    <?php 
+                    $sql ="select * from sex";
+                    $result = $conn->prepare($sql);
+                    $result->execute();
+                    while($row = $result->fetch()) {
+                        ?>
+                         <option value="<?php echo $row['sexId'];?>"><?php echo $row['sexName'];?></option>
+                        <?php   
+                    }
+                    ?>
+                </select>
+            </div>
+                 
+            <div class="form-group col-md-6">
                 <label for="phone">เบอร์โทรศัพท์</label>
                 <input name="phone" id="phone" class="form-control" min="3" required type="text" data-error-msg="กรุณากรอกเบอร์โทรศัพท์">
                 
@@ -240,9 +259,8 @@ include("../include/connection.php");
         </div>
 
             <center>
-                <button type="button" class="btn btn-primary">ยกเลิก</button>
-                <!-- <button type="submit" class="btn btn-primary" onclick="showConsent()">ถัดไป</button> -->
-                <button type="submit" class="btn btn-primary">ถัดไป</button>               
+                <button type="submit" class="btn btn-primary">ถัดไป</button> 
+                <button type="button" class="btn btn-primary">ยกเลิก</button>              
             </center> 
 
     </fieldset>          

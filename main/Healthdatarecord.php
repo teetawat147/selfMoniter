@@ -1,6 +1,6 @@
 <?php
 include("../include/connection.php");
-// print_r($_SESSION);
+print_r($_SESSION);
 if (!$_SESSION['fname']){
     header("Location: ../main/login.php");
 }

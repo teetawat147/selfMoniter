@@ -2,7 +2,7 @@
 include("../include/connection.php");
 print_r($_SESSION);
 if (!$_SESSION['personId']){
-    header("Location: ../main/login.php.php");
+    header("Location: ../main/login.php");
 }
 ?>
 <!doctype html>
@@ -32,7 +32,7 @@ if (!$_SESSION['personId']){
         <h3>แก้ไขข้อมูลส่วนตัว</h3>
         </center>
 
-<form action="editprofileUpdate.php" method="POST">
+<form action="editprofileCheck.php" method="POST">
         <div class="form-row">
             <div class="form-group col-md-12">
                 <label for="inputnumId">เลขบัตรประจำตัวประชาชน</label>
