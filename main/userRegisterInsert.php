@@ -2,11 +2,12 @@
 print_r($_POST);
 include("../include/connection.php");
 $datetime = date("Y-m-d H:i:s");
-//  $sql ="INSERT into office (officeName, personId, inputDatetime) value ('รพ.สว่างแดนดิน', 1, '$datetime')";
+
 $sql ="INSERT into person (
         cid, 
         fname, 
         lname, 
+        sexId, 
         phone, 
         address, 
         provinceCode, 
@@ -24,7 +25,8 @@ $sql ="INSERT into person (
         '".$_POST['cid']."', 
         '".$_POST['fname']."', 
         '".$_POST['lname']."', 
-        '".$_POST['phone']."', 
+        '".$_POST['sexId']."',
+        '".$_POST['phone']."',
         '".$_POST['address']."',
         '".$_POST['provinceCode']."', 
         '".$_POST['districtCode']."', 

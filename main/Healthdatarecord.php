@@ -1,6 +1,6 @@
 <?php
 include("../include/connection.php");
-// print_r($_SESSION);
+print_r($_SESSION);
 if (!$_SESSION['fname']){
     header("Location: ../main/login.php");
 }
@@ -24,10 +24,9 @@ if (!$_SESSION['fname']){
     include("../main/header.php");   
     ?>
         <div class = "container">
+          
           <h3>บันทึกข้อมูลสุขภาพ</h3>
-    <!-- <?php
-    echo $_SESSION['healthHeight']
-    ?> -->
+          
 
     <form action="HealthdatarecordInsert.php" method="POST">
         <div class="form-row">   
