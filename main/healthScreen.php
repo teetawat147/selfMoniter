@@ -1,5 +1,24 @@
 <?php
   include('../include/connection.php');
+if (!$_SESSION['fname']){
+  header("Location: ../main/login.php");
+}
+
+  $sql = "SELECT * FROM health_data_record WHERE personId = '".$_SESSION['personId']."' ";
+  $result = $conn -> prepare($sql);
+  $result -> execute();
+  $rows = $result -> fetchAll(PDO:: FETCH_ASSOC);
+
+  $sqlBmi = "SELECT p.personId,p.sexId,h.healthWeight,h.healthHeight,h.healthWeight/((h.healthHeight/100)*(h.healthHeight/100)) AS bmi,b.nameBmi
+            FROM health_data_record h
+            LEFT JOIN person p ON h.personId = p.personId
+            LEFT JOIN bmi b ON h.healthWeight/((h.healthHeight/100)*(h.healthHeight/100)) >= IF(p.sexId = 1,b.sex1min,b.sex2min)
+            AND h.healthWeight/((h.healthHeight/100)*(h.healthHeight/100)) < IF(p.sexId = 1,b.sex1max,b.sex2max)
+            GROUP BY p.personId DESC LIMIT 1";
+
+  $resultBmi = $conn -> prepare($sqlBmi);
+  $resultBmi -> execute();
+  $rowsBmi = $resultBmi -> fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <!doctype html>
@@ -117,7 +136,14 @@
 
         <div class="content">
           <div class="content-title">
-            <p>น้ำหนักปกติ</p>
+            <!-- <p>น้ำหนักปกติ</p> -->
+            <?php
+              foreach ($rowsBmi as $key => $value) {
+            ?>
+            <p> <?php echo $value['nameBmi']; ?> </p>
+            <?php
+              }
+            ?>
           </div>
           <div class="content-body">
             <p id="p1"><b>เยี่ยมมาก!!</b> คุณมีรูปร่างสมส่วน น้ำหนักปกติ อาหารที่รับประทานอยู่เหมาะสมดี</p>
@@ -281,15 +307,7 @@
       </div>
     </div>
 
-    <?php
-      $sql = 'SELECT * FROM health_data_record';
-      $result = $conn -> prepare($sql);
-      $result -> execute();
-      $lastId = $conn -> lastInsertId();
-      console.log($lastId);
-    ?>
-
-      <script>
+      <!-- <script>
 
         let chartBmiElem = document.getElementById('chart-bmi').getContext('2d');
         let chartBmi = new Chart(chartBmiElem,{
@@ -340,7 +358,7 @@
         let chartWeight = new Chart(chartWeightElem, {
             type: "bar",
             data: {
-                labels: ['ม.ค.', 'ม��.ค.', 'พ.ค.', 'ก.ค.', 'ก.ย.', 'พ.ย.'],
+                labels: ['ม.ค.', 'มี.ค.', 'พ.ค.', 'ก.ค.', 'ก.ย.', 'พ.ย.'],
                 datasets: [{
                     label: 'น้ำหนัก',
                     data: [12, 19, 3, 5, 2, 3],
@@ -611,13 +629,13 @@
         // chartOneData('chart-waist', "bar", "รอบเอว", 100, 0, 10);
         // chartTwoData('high-pressure', "line", "ความดันโลหิต ความดันค่าล่าง", 140, 0, 20); // 2 data // ต้องมีการรับ data เข้ามา แล้วคำนวณหาค่าความดันโลหิต
         // chartOneData('chart-blood-suger', "bar", "น้ำตาลในเลือด", 100, 0, 10); //ต้องมีการรับ data เข้ามา แล้วคำนวณหาค่าน้ำตาลในเลือด
-        // chartTestBar();
-        // chartTestLine('bar', 'BMI', ['ม.ค.','มี.ค.','พ.ค.','ก.ค.','ก.ย.','พ.ค.'], 5, 0, 25);
-        // chartTestPie();
+        chartTestBar();
+        chartTestLine('bar', 'BMI', ['ม.ค.','มี.ค.','พ.ค.','ก.ค.','ก.ย.','พ.ค.'], 5, 0, 25);
+        chartTestPie();
       }
 
       run();
 
-      </script>
+      </script> -->
   </body>
 </html>
