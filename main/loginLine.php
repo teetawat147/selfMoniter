@@ -38,8 +38,8 @@
         })
       } else { 
         console.log("111");
-        liff.login();
-        //window.location="../main/loginLine.php";
+        //liff.login();
+        window.location="../main/login.php";
       }
     }, err => console.error(err.code, error.message));
   </script>
