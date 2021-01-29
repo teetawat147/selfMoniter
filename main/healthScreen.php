@@ -7,18 +7,24 @@ if (!$_SESSION['fname']){
   $sql = "SELECT * FROM health_data_record WHERE personId = '".$_SESSION['personId']."' ";
   $result = $conn -> prepare($sql);
   $result -> execute();
-  $rows = $result -> fetchAll(PDO:: FETCH_ASSOC);
+  $rows = $result -> fetchAll(PDO::FETCH_ASSOC);
 
-  $sqlBmi = "SELECT p.personId,p.sexId,h.healthWeight,h.healthHeight,h.healthWeight/((h.healthHeight/100)*(h.healthHeight/100)) AS bmi,b.nameBmi
+  $sqlBmi = "SELECT p.personId,p.sexId,h.healthWeight,h.healthHeight,h.healthWeight/((h.healthHeight/100)*(h.healthHeight/100)) AS bmi,b.nameBmi, b.conclude, b.advice
             FROM health_data_record h
             LEFT JOIN person p ON h.personId = p.personId
             LEFT JOIN bmi b ON h.healthWeight/((h.healthHeight/100)*(h.healthHeight/100)) >= IF(p.sexId = 1,b.sex1min,b.sex2min)
             AND h.healthWeight/((h.healthHeight/100)*(h.healthHeight/100)) < IF(p.sexId = 1,b.sex1max,b.sex2max)
-            GROUP BY p.personId DESC LIMIT 1";
+            GROUP BY personId DESC LIMIT 1";
 
   $resultBmi = $conn -> prepare($sqlBmi);
   $resultBmi -> execute();
   $rowsBmi = $resultBmi -> fetchAll(PDO::FETCH_ASSOC);
+
+  $sqlNormalBmi = "SELECT * FROM `bmi` where id = 2";
+  $rsNormalBmi = $conn -> prepare($sqlNormalBmi);
+  $rsNormalBmi -> execute();
+  $rowsNormalBmi = $rsNormalBmi -> fetchAll(PDO::FETCH_ASSOC);
+  $rowNormalBmi = $rowsNormalBmi[0];
 ?>
 
 <!doctype html>
@@ -141,14 +147,19 @@ if (!$_SESSION['fname']){
               foreach ($rowsBmi as $key => $value) {
             ?>
             <p> <?php echo $value['nameBmi']; ?> </p>
-            <?php
-              }
-            ?>
           </div>
           <div class="content-body">
-            <p id="p1"><b>เยี่ยมมาก!!</b> คุณมีรูปร่างสมส่วน น้ำหนักปกติ อาหารที่รับประทานอยู่เหมาะสมดี</p>
-            <p id="p2"><b>คำแนะนำเบื้องต้น</b> <br> พยายามดูแลสุขภาพและควบคุมน้ำหนักของคุณไว้ในระดับนี้ต่อไปเรื่อยๆ ด้วยการรับประทานอาหารที่มีประโยชน์ ออกกำลังกายอย่างสม่ำเสมอ และพักผ่อนให้เพียงพอ ถ้าอายุมากกว่า 35 ปี คุณควรตรวจ วัดความดันโลหิตทุก 1 ปี ถ้าอายุมากกว่า 35 ปี ควรเพิ่มการตรวจหาระดับน้ำตาลในเลือกเพื่อค้นหาโรคเบาหวานอย่างน้อยปีละ 1 ครั้ง หากสูบบุหรี่หรือดื่มสุราเป็นประจำ ควรเลิกให้ได้เพื่อสุขภาพของตัวคุณเอง แต่ถ้าคุณเป็นผู้หญิง คุณควรเพิ่มการตรงจมะเร็งเต้านม มะเร็งปากมดลูกด้วยนะ โดยเริ่มตั้งแต่อายุ 30 ปี ขึ้นไป</p>
-            <p id="p3">คุณมีน้ำหนักอยู่ในช่วงที่ดีแล้ว ขอให้รักษาน้ำหนักอยู่ระหว่าง 63 ถึง 84 กก. ต่อไปนะคะ</p>
+            <p id="p1"> <?php echo $value['conclude']; ?></p>
+            
+            <p id="p2"><b>คำแนะนำเบื้องต้น</b> <br> <?php echo $value['advice'] ?></p>
+            <?php
+              $minWeight = $rowNormalBmi['sex'.$value['sexId'].'min']*(($value['healthHeight']/100)*($value['healthHeight']/100));
+              $maxWeight = $rowNormalBmi['sex'.$value['sexId'].'max']*(($value['healthHeight']/100)*($value['healthHeight']/100));
+            ?>
+            <p id="p3">
+              คุณมีน้ำหนักอยู่ในช่วงที่ดีแล้ว ขอให้รักษาน้ำหนักอยู่ระหว่าง <?php echo $minWeight; ?> ถึง <?php echo $maxWeight; ?> กก. ต่อไปนะคะ
+
+            </p>
           </div>
         </div>
 
@@ -306,6 +317,10 @@ if (!$_SESSION['fname']){
         <button type="button">ปิด</button>
       </div>
     </div>
+    
+    <?php
+      }
+    ?>
 
       <!-- <script>
 

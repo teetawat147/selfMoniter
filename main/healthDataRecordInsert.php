@@ -36,6 +36,6 @@ $sql = "INSERT into health_data_record (
 $result = $conn->prepare($sql);
 $result->execute();
 $lastId = $conn->lastInsertId();
-header("Location: ../main/healthScreen.php?helpRecordId=" . $lastId);
-// header("location: ../main/healthScreen.php");
+// header("Location: ../main/healthScreen.php?helpRecordId=" . $lastId);
+header("location: ../main/healthScreen.php");
 ?>

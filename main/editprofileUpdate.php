@@ -16,7 +16,7 @@ $sql ="UPDATE person
             districtCode = '".$_POST['districtCode']."',
             subdistrictCode = '".$_POST['subdistrictCode']."',
             email = '".$_POST['email']."'
-        WHERE cid='".$_SESSION['cid']."' ";
+        WHERE personId='".$_SESSION['personId']."' ";
 
 echo $sql ; 
 $result = $conn->prepare($sql);
@@ -31,5 +31,5 @@ $_SESSION['provinceCode']=$_POST['provinceCode'];
 $_SESSION['districtCode']=$_POST['districtCode'];
 $_SESSION['subdistrictCode']=$_POST['subdistrictCode'];
 $_SESSION['email']=$_POST['email'];
-header("Location: ../main/Healthdatarecord.php");
+header("Location: ../main/dashboard.php");
 ?>
