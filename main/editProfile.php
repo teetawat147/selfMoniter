@@ -1,6 +1,6 @@
 <?php
 include("../include/connection.php");
-print_r($_SESSION);
+// print_r($_SESSION);
 if (!$_SESSION['personId']){
     header("Location: ../main/login.php");
 }
@@ -25,70 +25,75 @@ if (!$_SESSION['personId']){
     
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     
-
+<?php
+ $sql ="select * from person WHERE personId = '".$_SESSION['personId']."' ";
+ $result = $conn->prepare($sql);
+ $result->execute();
+ $row = $result->fetch() 
+?>
 <body>
 <div class = "container">
         <center>
         <h3>แก้ไขข้อมูลส่วนตัว</h3>
         </center>
 
-<form action="editprofileCheck.php" method="POST">
+<form action="editprofileUpdate.php" method="POST">
         <div class="form-row">
             <div class="form-group col-md-12">
-                <label for="inputnumId">เลขบัตรประจำตัวประชาชน</label>
+                <label for="cid">เลขบัตรประจำตัวประชาชน</label>
                 <!-- <input type="numId" class="form-control" id="inputnumId" placeholder="เลขบัตรประจำตัวประชาชน"> -->
-                <input id="inputnumId" class="form-control" min="3" required type="text" data-error-msg="กรุณากรอกเลขบัตรประจำตัวประชาชน" placeholder="เลขบัตรประจำตัวประชาชน" value="<?php echo $_SESSION['cid']; ?>">
+                <input name="cid" id="cid" class="form-control" min="3" required type="text" data-error-msg="กรุณากรอกเลขบัตรประจำตัวประชาชน" placeholder="เลขบัตรประจำตัวประชาชน" value="<?php echo $row['cid']; ?>">
             </div>
         </div>
 
         <div class="form-row">
             <div class="form-group col-md-6">
                 <label for="fname">ชื่อ</label>
-                <input name="fname" id="fname" class="form-control" min="3" required type="text" data-error-msg="กรุณากรอกชื่อ" placeholder="ชื่อ" value="<?php echo $_SESSION['fname']; ?>">
+                <input name="fname" id="fname" class="form-control" min="3" required type="text" data-error-msg="กรุณากรอกชื่อ" placeholder="ชื่อ" value="<?php echo $row['fname']; ?>">
             </div>
 
             <div class="form-group col-md-6">
                 <label for="lname">นามสกุล</label>
-                <input name="lname" id="lname" class="form-control" min="3"  type="text" data-error-msg="กรุณากรอกนามสกุล" placeholder="นามสกุล" value="<?php echo $_SESSION['lname']; ?>">
+                <input name="lname" id="lname" class="form-control" min="3"  type="text" data-error-msg="กรุณากรอกนามสกุล" placeholder="นามสกุล" value="<?php echo $row['lname']; ?>">
             </div>
         </div>
 
         <div class="form-row">
             <div class="form-group col-md-12">
-                <label for="inputphon">เบอร์โทรศัพท์</label>
-                <input type="phon" class="form-control" id="inputphon" placeholder="เบอร์โทรศัพท์" value="<?php echo $_SESSION['phone']; ?>">
+                <label for="phone">เบอร์โทรศัพท์</label>
+                <input type="phone" class="form-control" name="phone" id="phone" placeholder="เบอร์โทรศัพท์" value="<?php echo $row['phone']; ?>">
             </div>
         </div>
 
         <div class="form-row">
             <div class="form-group col-md-6">
-                <label for="inputaddress">ที่อยู่</label>
-                <input type="address" class="form-control" id="inputaddress" placeholder="ที่อยู่" value="<?php echo $_SESSION['address']; ?>">
+                <label for="address">ที่อยู่</label>
+                <input type="address" class="form-control" name="address" id="address" placeholder="ที่อยู่" value="<?php echo $row['address']; ?>">
             </div>
         
        
             <div class="form-group col-md-6">
-                <label for="inputprovince">จังหวัด</label>
-                <input type="province" class="form-control" id="inputprovince" placeholder="จังหวัด" value="<?php echo $_SESSION['provinceCode']; ?>">
+                <label for="province">จังหวัด</label>
+                <input type="province" class="form-control" name="province" id="province" placeholder="จังหวัด" value="<?php echo $row['provinceCode']; ?>">
             </div>
         </div>
 
         <div class="form-row">
             <div class="form-group col-md-6">
-                <label for="inputdistrict">อำเภอ</label>
-                <input type="district" class="form-control" id="inputdistrict" placeholder="อำเภอ" value="<?php echo $_SESSION['districtCode']; ?>">
+                <label for="district">อำเภอ</label>
+                <input type="district" class="form-control" name="district" id="district" placeholder="อำเภอ" value="<?php echo $row['districtCode']; ?>">
             </div>
         
             <div class="form-group col-md-6">
-                <label for="inputsubdistrict">ตำบล</label>
-                <input type="subdistrict" class="form-control" id="inputsubdistrict" placeholder="ตำบล" value="<?php echo $_SESSION['subdistrictCode']; ?>">
+                <label for="subdistrict">ตำบล</label>
+                <input type="subdistrict" class="form-control" name="subdistrict" id="subdistrict" placeholder="ตำบล" value="<?php echo $row['subdistrictCode']; ?>">
             </div>
         </div>
         
         <div class="form-row">
             <div class="form-group col-md-12">
-                <label for="inputemail">Email</label>
-                <input type="email" class="form-control" id="inputemail" placeholder="Email" value="<?php echo $_SESSION['email']; ?>">
+                <label for="email">Email</label>
+                <input type="email" class="form-control" name="email" id="email" placeholder="Email" value="<?php echo $row['email']; ?>">
             </div>
 
             <div class="text-center col-12" style="display: inline-block;" >

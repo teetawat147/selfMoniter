@@ -31,5 +31,5 @@ $_SESSION['provinceCode']=$_POST['provinceCode'];
 $_SESSION['districtCode']=$_POST['districtCode'];
 $_SESSION['subdistrictCode']=$_POST['subdistrictCode'];
 $_SESSION['email']=$_POST['email'];
-// header("Location: ../main/Healthdatarecord.php");
+header("Location: ../main/dashboard.php");
 ?>
