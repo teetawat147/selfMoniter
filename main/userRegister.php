@@ -199,14 +199,14 @@ include("../include/connection.php");
             <div class="form-group col-md-12">
                 <label for="officeId">ชื่อหน่วยงาน</label>
                 <select name='officeId' id='officeId' class='form-control' required data-error-msg="กรุณากรอกชื่อหน่วยงาน">
-                    <option selected disabled>Choose...</option>
+                    <option selected disabled>เลือกหน่วยงาน</option>
                     <?php 
                     $sql ="select * from office";
                     $result = $conn->prepare($sql);
                     $result->execute();
                     while($row = $result->fetch()) {
                         ?>
-                         <option value="<?php echo $row['officeId'];?>"><?php echo $row['officeName'];?></option>
+                         <option value="<?php echo $row['office_id'];?>"><?php echo $row['office_name'];?></option>
                         <?php   
                     }
                     ?>
@@ -218,7 +218,7 @@ include("../include/connection.php");
             <div class="form-group col-md-12">
                 <label for="departmentId">ชื่อแผนก</label>
                 <select name='departmentId' id='departmentId' class='form-control' required data-error-msg="กรุณากรอกชื่อหน่วยงาน">
-                    <option selected disabled>Choose...</option>
+                    <option selected disabled>เลือกแผนก</option>
                     <?php 
                     $sql ="select * from department";
                     $result = $conn->prepare($sql);
