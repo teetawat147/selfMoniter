@@ -37,7 +37,7 @@ if (!$_SESSION['personId']){
             <div class="form-group col-md-12">
                 <label for="cid">เลขบัตรประจำตัวประชาชน</label>
                 <!-- <input type="numId" class="form-control" id="inputnumId" placeholder="เลขบัตรประจำตัวประชาชน"> -->
-                <input name="cid" id="cid" class="form-control" min="3" required type="text" data-error-msg="กรุณากรอกเลขบัตรประจำตัวประชาชน" placeholder="เลขบัตรประจำตัวประชาชน" value="<?php echo $_POST['cid']; ?>">
+                <input name="cid" id="cid" class="form-control" min="3" required type="text" data-error-msg="กรุณากรอกเลขบัตรประจำตัวประชาชน" placeholder="เลขบัตรประจำตัวประชาชน" value="<?php echo $_SESSION['cid']; ?>">
             </div>
         </div>
 
@@ -56,7 +56,7 @@ if (!$_SESSION['personId']){
         <div class="form-row">
             <div class="form-group col-md-12">
                 <label for="phone">เบอร์โทรศัพท์</label>
-                <input type="phone" class="form-control" name="phone" id="phone" placeholder="เบอร์โทรศัพท์" value="<?php echo $_SESSION['phone']; ?>">
+                <input type="phone" class="form-control" name="phone" id="phone" placeholder="เบอร์โทรศัพท์" value="<?php echo $_SESSION['personWeight']; ?>">
             </div>
         </div>
 

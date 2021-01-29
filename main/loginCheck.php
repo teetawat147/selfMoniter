@@ -15,7 +15,7 @@ $stmt = $conn->prepare($sql);
     $_SESSION['lname']=$result[0]['lname'];
     $_SESSION['personWeight']=$result[0]['personWeight'];
     $_SESSION['personHeight']=$result[0]['personHeight'];
-     
+ 
       header("Location: ../main/Healthdatarecord.php");
   }else{
     $_SESSION['personId']='';

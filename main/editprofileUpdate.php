@@ -16,7 +16,7 @@ $sql ="UPDATE person
             districtCode = '".$_POST['districtCode']."',
             subdistrictCode = '".$_POST['subdistrictCode']."',
             email = '".$_POST['email']."'
-        WHERE personId='".$_SESSION['personId']."' ";
+        WHERE cid='".$_SESSION['cid']."' ";
 
 echo $sql ; 
 $result = $conn->prepare($sql);
