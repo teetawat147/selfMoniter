@@ -103,7 +103,7 @@ include("../include/connection.php");
 </style>
 </head>
 <body>
-    <fieldset   id="userRegister" style="display:block;">
+    <fieldset id="userRegister" style="display:block;">
         <div class = "container">
         <center>
         <div class="container progressive">

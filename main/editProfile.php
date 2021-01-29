@@ -32,12 +32,12 @@ if (!$_SESSION['personId']){
         <h3>แก้ไขข้อมูลส่วนตัว</h3>
         </center>
 
-<form action="editprofileCheck.php" method="POST">
+<form action="editprofileUpdate.php" method="POST">
         <div class="form-row">
             <div class="form-group col-md-12">
-                <label for="inputnumId">เลขบัตรประจำตัวประชาชน</label>
+                <label for="cid">เลขบัตรประจำตัวประชาชน</label>
                 <!-- <input type="numId" class="form-control" id="inputnumId" placeholder="เลขบัตรประจำตัวประชาชน"> -->
-                <input id="inputnumId" class="form-control" min="3" required type="text" data-error-msg="กรุณากรอกเลขบัตรประจำตัวประชาชน" placeholder="เลขบัตรประจำตัวประชาชน" value="<?php echo $_SESSION['cid']; ?>">
+                <input name="cid" id="cid" class="form-control" min="3" required type="text" data-error-msg="กรุณากรอกเลขบัตรประจำตัวประชาชน" placeholder="เลขบัตรประจำตัวประชาชน" value="<?php echo $_POST['cid']; ?>">
             </div>
         </div>
 
@@ -55,40 +55,40 @@ if (!$_SESSION['personId']){
 
         <div class="form-row">
             <div class="form-group col-md-12">
-                <label for="inputphon">เบอร์โทรศัพท์</label>
-                <input type="phon" class="form-control" id="inputphon" placeholder="เบอร์โทรศัพท์" value="<?php echo $_SESSION['phone']; ?>">
+                <label for="phone">เบอร์โทรศัพท์</label>
+                <input type="phone" class="form-control" name="phone" id="phone" placeholder="เบอร์โทรศัพท์" value="<?php echo $_SESSION['phone']; ?>">
             </div>
         </div>
 
         <div class="form-row">
             <div class="form-group col-md-6">
-                <label for="inputaddress">ที่อยู่</label>
-                <input type="address" class="form-control" id="inputaddress" placeholder="ที่อยู่" value="<?php echo $_SESSION['address']; ?>">
+                <label for="address">ที่อยู่</label>
+                <input type="address" class="form-control" name="address" id="address" placeholder="ที่อยู่" value="<?php echo $_SESSION['address']; ?>">
             </div>
         
        
             <div class="form-group col-md-6">
-                <label for="inputprovince">จังหวัด</label>
-                <input type="province" class="form-control" id="inputprovince" placeholder="จังหวัด" value="<?php echo $_SESSION['provinceCode']; ?>">
+                <label for="province">จังหวัด</label>
+                <input type="province" class="form-control" name="province" id="province" placeholder="จังหวัด" value="<?php echo $_SESSION['provinceCode']; ?>">
             </div>
         </div>
 
         <div class="form-row">
             <div class="form-group col-md-6">
-                <label for="inputdistrict">อำเภอ</label>
-                <input type="district" class="form-control" id="inputdistrict" placeholder="อำเภอ" value="<?php echo $_SESSION['districtCode']; ?>">
+                <label for="district">อำเภอ</label>
+                <input type="district" class="form-control" name="district" id="district" placeholder="อำเภอ" value="<?php echo $_SESSION['districtCode']; ?>">
             </div>
         
             <div class="form-group col-md-6">
-                <label for="inputsubdistrict">ตำบล</label>
-                <input type="subdistrict" class="form-control" id="inputsubdistrict" placeholder="ตำบล" value="<?php echo $_SESSION['subdistrictCode']; ?>">
+                <label for="subdistrict">ตำบล</label>
+                <input type="subdistrict" class="form-control" name="subdistrict" id="subdistrict" placeholder="ตำบล" value="<?php echo $_SESSION['subdistrictCode']; ?>">
             </div>
         </div>
         
         <div class="form-row">
             <div class="form-group col-md-12">
-                <label for="inputemail">Email</label>
-                <input type="email" class="form-control" id="inputemail" placeholder="Email" value="<?php echo $_SESSION['email']; ?>">
+                <label for="email">Email</label>
+                <input type="email" class="form-control" name="email" id="email" placeholder="Email" value="<?php echo $_SESSION['email']; ?>">
             </div>
 
             <div class="text-center col-12" style="display: inline-block;" >
