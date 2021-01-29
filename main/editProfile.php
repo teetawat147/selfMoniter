@@ -56,7 +56,7 @@ if (!$_SESSION['personId']){
         <div class="form-row">
             <div class="form-group col-md-12">
                 <label for="phone">เบอร์โทรศัพท์</label>
-                <input type="phone" class="form-control" name="phone" id="phone" placeholder="เบอร์โทรศัพท์" value="<?php echo $_SESSION['personWeight']; ?>">
+                <input type="phone" class="form-control" name="phone" id="phone" placeholder="เบอร์โทรศัพท์" value="<?php echo $_SESSION['phone']; ?>">
             </div>
         </div>
 
