@@ -142,7 +142,6 @@ if (!$_SESSION['fname']){
 
         <div class="content">
           <div class="content-title">
-            <!-- <p>น้ำหนักปกติ</p> -->
             <?php
               foreach ($rowsBmi as $key => $value) {
             ?>
@@ -157,8 +156,7 @@ if (!$_SESSION['fname']){
               $maxWeight = $rowNormalBmi['sex'.$value['sexId'].'max']*(($value['healthHeight']/100)*($value['healthHeight']/100));
             ?>
             <p id="p3">
-              คุณมีน้ำหนักอยู่ในช่วงที่ดีแล้ว ขอให้รักษาน้ำหนักอยู่ระหว่าง <?php echo $minWeight; ?> ถึง <?php echo $maxWeight; ?> กก. ต่อไปนะคะ
-
+              คุณมีน้ำหนักอยู่ในช่วงที่ดีแล้ว ขอให้รักษาน้ำหนักอยู่ระหว่าง <?php echo $minWeight; ?> กก. ถึง <?php echo $maxWeight; ?> กก. ต่อไปนะคะ
             </p>
           </div>
         </div>
@@ -322,7 +320,11 @@ if (!$_SESSION['fname']){
       }
     ?>
 
-      <!-- <script>
+    <?php
+      foreach ($rowsBmi as $key => $valueBmi) {
+    ?>
+
+      <script>
 
         let chartBmiElem = document.getElementById('chart-bmi').getContext('2d');
         let chartBmi = new Chart(chartBmiElem,{
@@ -332,7 +334,14 @@ if (!$_SESSION['fname']){
             datasets:[
               {
                 label:"BMI",
-                data:[10,8,20,14,10,15,5],
+                data:[
+                  <?php echo $valueBmi['bmi']; ?>,
+                  <?php echo $valueBmi['bmi']; ?>,
+                  <?php echo $valueBmi['bmi']; ?>,
+                  <?php echo $valueBmi['bmi']; ?>,
+                  <?php echo $valueBmi = 12 ; ?>,
+                  1
+                    ],
                 fill:false,
                 backgroundColor:[
                   "rgba(255, 99, 132, 0.2)",
@@ -360,7 +369,7 @@ if (!$_SESSION['fname']){
               yAxes:[{
                 ticks:{
                   beginAtZero:true,
-                  max: 25,
+                  max: 40,
                   min: 0,
                   stepSize: 5
                 }
@@ -376,7 +385,10 @@ if (!$_SESSION['fname']){
                 labels: ['ม.ค.', 'มี.ค.', 'พ.ค.', 'ก.ค.', 'ก.ย.', 'พ.ย.'],
                 datasets: [{
                     label: 'น้ำหนัก',
-                    data: [12, 19, 3, 5, 2, 3],
+                    data: [
+                      <?php echo $value['healthWeight']; ?>,
+                      <?php echo $value['healthWeight']; ?>
+                    ],
                     backgroundColor: [
                         'rgba(255, 99, 132, 0.2)',
                         'rgba(54, 162, 235, 0.2)',
@@ -404,7 +416,7 @@ if (!$_SESSION['fname']){
                 yAxes:[{
                   ticks:{
                     beginAtZero:true,
-                    max: 25,
+                    max: 200,
                     min: 0,
                     stepSize: 5
                   }
@@ -651,6 +663,9 @@ if (!$_SESSION['fname']){
 
       run();
 
-      </script> -->
+      </script>
+      <?php 
+        }
+      ?>
   </body>
 </html>
