@@ -1,5 +1,6 @@
 <?php
   include('../include/connection.php');
+  include('../include/function.php');
 if (!$_SESSION['fname']){
   header("Location: ../main/login.php");
 }
@@ -9,7 +10,7 @@ if (!$_SESSION['fname']){
   $result -> execute();
   $rows = $result -> fetchAll(PDO::FETCH_ASSOC);
 
-  $sqlBmi = "SELECT p.personId,p.sexId,h.healthWeight,h.healthHeight,h.healthWeight/((h.healthHeight/100)*(h.healthHeight/100)) AS bmi,b.nameBmi, b.conclude, b.advice
+  $sqlBmi = "SELECT p.personId,p.sexId,h.healthWeight,h.healthHeight,h.healthWeight/((h.healthHeight/100)*(h.healthHeight/100)) AS bmi,b.nameBmi, b.conclude, b.advice,h.inputDatetime, h.lastUpdate
             FROM health_data_record h
             LEFT JOIN person p ON h.personId = p.personId
             LEFT JOIN bmi b ON h.healthWeight/((h.healthHeight/100)*(h.healthHeight/100)) >= IF(p.sexId = 1,b.sex1min,b.sex2min)
@@ -20,6 +21,7 @@ if (!$_SESSION['fname']){
   $resultBmi -> execute();
   $rowsBmi = $resultBmi -> fetchAll(PDO::FETCH_ASSOC);
 
+  // เอาค่า BMI ที่ปกติ
   $sqlNormalBmi = "SELECT * FROM `bmi` where id = 2";
   $rsNormalBmi = $conn -> prepare($sqlNormalBmi);
   $rsNormalBmi -> execute();
@@ -152,8 +154,8 @@ if (!$_SESSION['fname']){
             
             <p id="p2"><b>คำแนะนำเบื้องต้น</b> <br> <?php echo $value['advice'] ?></p>
             <?php
-              $minWeight = $rowNormalBmi['sex'.$value['sexId'].'min']*(($value['healthHeight']/100)*($value['healthHeight']/100));
-              $maxWeight = $rowNormalBmi['sex'.$value['sexId'].'max']*(($value['healthHeight']/100)*($value['healthHeight']/100));
+              $minWeight = round($rowNormalBmi['sex'.$value['sexId'].'min']*(($value['healthHeight']/100)*($value['healthHeight']/100)),2);
+              $maxWeight = round($rowNormalBmi['sex'.$value['sexId'].'max']*(($value['healthHeight']/100)*($value['healthHeight']/100)),2);
             ?>
             <p id="p3">
               คุณมีน้ำหนักอยู่ในช่วงที่ดีแล้ว ขอให้รักษาน้ำหนักอยู่ระหว่าง <?php echo $minWeight; ?> กก. ถึง <?php echo $maxWeight; ?> กก. ต่อไปนะคะ
@@ -312,7 +314,7 @@ if (!$_SESSION['fname']){
 
       <div class="button d-flex justify-content-center">
         <button type="button" onclick="window.location.href='../main/historyHealth.php'">ดูประวัติการบันทึกสุขภาพ</button>
-        <button type="button">ปิด</button>
+        <button type="button" onclick="window.location.href='../main/index.php'">ปิด</button>
       </div>
     </div>
     
@@ -330,17 +332,21 @@ if (!$_SESSION['fname']){
         let chartBmi = new Chart(chartBmiElem,{
           type:"bar",
           data:{
-            labels:['ม.ค.', 'มี.ค.', 'พ.ค.', 'ก.ค.', 'ก.ย.', 'พ.ย.'],
+            labels:[
+            "<?php echo thaiShortDate($valueBmi['inputDatetime']); ?>",
+            "<?php echo thaiShortDate($valueBmi['lastUpdate']); ?>"
+              // 'มี.ค.', 
+              // 'พ.ค.', 
+              // 'ก.ค.', 
+              // 'ก.ย.', 
+              // 'พ.ย.'
+            ],
             datasets:[
               {
                 label:"BMI",
                 data:[
                   <?php echo $valueBmi['bmi']; ?>,
-                  <?php echo $valueBmi['bmi']; ?>,
-                  <?php echo $valueBmi['bmi']; ?>,
-                  <?php echo $valueBmi['bmi']; ?>,
-                  <?php echo $valueBmi = 12 ; ?>,
-                  1
+                  <?php echo $valueBmi['bmi']; ?>
                     ],
                 fill:false,
                 backgroundColor:[
@@ -382,12 +388,18 @@ if (!$_SESSION['fname']){
         let chartWeight = new Chart(chartWeightElem, {
             type: "bar",
             data: {
-                labels: ['ม.ค.', 'มี.ค.', 'พ.ค.', 'ก.ค.', 'ก.ย.', 'พ.ย.'],
+                labels: [
+                  "<?php echo thaiShortDate(date('m', strtotime('+1 month', $strDate))); ?>",
+                  'มี.ค.', 
+                  'พ.ค.', 
+                  'ก.ค.', 
+                  'ก.ย.', 
+                  'พ.ย.'
+                ],
                 datasets: [{
                     label: 'น้ำหนัก',
                     data: [
                       <?php echo $value['healthWeight']; ?>,
-                      <?php echo $value['healthWeight']; ?>
                     ],
                     backgroundColor: [
                         'rgba(255, 99, 132, 0.2)',
