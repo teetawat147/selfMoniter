@@ -34,7 +34,7 @@ if (!$_SESSION['fname']){
           <h3>บันทึกข้อมูลสุขภาพ</h3>
           
 
-    <form action="HealthdatarecordInsert.php" method="POST">
+    <form action="healthDataRecordInsert.php" method="POST">
         <div class="form-row">   
             <div class="form-group col-md-12">
                 <label for="smokeId">คุณเป็นโรคเบาหวานใช่หรือไม่</label>
