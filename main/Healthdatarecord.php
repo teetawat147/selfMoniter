@@ -83,7 +83,7 @@ if (!$_SESSION['fname']){
         
             <div class="form-group col-md-6">
                 <label for="healthWeight">น้ำหนัก(กิโลกรัม)</label>
-                <input name ="healthWeight" id="healthWeight" type="text" class="form-control" value="<?php echo $_SESSION['personWeight']; ?>" Readonly>
+                <input name ="healthWeight" id="healthWeight" type="text" class="form-control" value="<?php echo $_SESSION['personWeight']; ?>">
             </div>
         </div>
         

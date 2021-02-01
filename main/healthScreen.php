@@ -5,28 +5,45 @@ if (!$_SESSION['fname']){
   header("Location: ../main/login.php");
 }
 
-  $sql = "SELECT * FROM health_data_record WHERE personId = '".$_SESSION['personId']."' ";
+  $sql = "SELECT h.*,
+  b.*,
+  h.healthWeight/((h.healthHeight/100)*(h.healthHeight/100)) as bmi,
+  p.sexId
+    FROM health_data_record h 
+    left join person p on h.personId=p.personId
+    LEFT JOIN bmi b ON h.healthWeight/((h.healthHeight/100)*(h.healthHeight/100)) >= IF(p.sexId = 1,b.sex1min,b.sex2min)
+    AND h.healthWeight/((h.healthHeight/100)*(h.healthHeight/100)) < IF(p.sexId = 1,b.sex1max,b.sex2max)
+    WHERE h.helpRecordId = '".$_GET['helpRecordId']."' ";
+
+// echo "<br>sql=".$sql;
   $result = $conn -> prepare($sql);
   $result -> execute();
   $rows = $result -> fetchAll(PDO::FETCH_ASSOC);
+  $now_row=$rows[0];
+echo "<br>now_row=";
+print_r($now_row);
 
   $sqlBmi = "SELECT p.personId,p.sexId,h.healthWeight,h.healthHeight,h.healthWeight/((h.healthHeight/100)*(h.healthHeight/100)) AS bmi,b.nameBmi, b.conclude, b.advice,h.inputDatetime, h.lastUpdate
             FROM health_data_record h
             LEFT JOIN person p ON h.personId = p.personId
             LEFT JOIN bmi b ON h.healthWeight/((h.healthHeight/100)*(h.healthHeight/100)) >= IF(p.sexId = 1,b.sex1min,b.sex2min)
             AND h.healthWeight/((h.healthHeight/100)*(h.healthHeight/100)) < IF(p.sexId = 1,b.sex1max,b.sex2max)
-            GROUP BY personId DESC LIMIT 1";
-
+            where h.personId=".$_SESSION['personId'];
+// echo "<br>sqlBmi=".$sqlBmi;
   $resultBmi = $conn -> prepare($sqlBmi);
   $resultBmi -> execute();
-  $rowsBmi = $resultBmi -> fetchAll(PDO::FETCH_ASSOC);
+  $history_rows = $resultBmi -> fetchAll(PDO::FETCH_ASSOC);
+echo "<br>history_rows=";
+print_r($history_rows);
 
-  // เอาค่า BMI ที่ปกติ
-  $sqlNormalBmi = "SELECT * FROM `bmi` where id = 2";
-  $rsNormalBmi = $conn -> prepare($sqlNormalBmi);
-  $rsNormalBmi -> execute();
-  $rowsNormalBmi = $rsNormalBmi -> fetchAll(PDO::FETCH_ASSOC);
-  $rowNormalBmi = $rowsNormalBmi[0];
+$sql="select * from bmi where id=2";
+$result = $conn -> prepare($sql);
+$result -> execute();
+$rowNormalBmi = $result -> fetch(PDO::FETCH_ASSOC);
+
+echo "<br>rowNormalBmi=";
+print_r($rowNormalBmi);
+
 ?>
 
 <!doctype html>
@@ -138,30 +155,29 @@ if (!$_SESSION['fname']){
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 
       <div class="container">
-        <div class="title-main">
-          <p>ผลการคัดกรองด้วยตนเอง <br> (3 ธ.ค. 63)</p>
-        </div>
 
+
+
+        <div class="title-main">
+          <p>ผลการคัดกรองด้วยตนเอง <br> (<?php echo $now_row['inputDatetime']; ?>)</p>
+        </div>
         <div class="content">
           <div class="content-title">
-            <?php
-              foreach ($rowsBmi as $key => $value) {
-            ?>
-            <p> <?php echo $value['nameBmi']; ?> </p>
+            <p> <?php echo $now_row['nameBmi']; ?> </p>
           </div>
           <div class="content-body">
-            <p id="p1"> <?php echo $value['conclude']; ?></p>
-            
-            <p id="p2"><b>คำแนะนำเบื้องต้น</b> <br> <?php echo $value['advice'] ?></p>
+            <p id="p1"> <?php echo $now_row['conclude']; ?></p>
+            <p id="p2"><b>คำแนะนำเบื้องต้น</b> <br> <?php echo $now_row['advice'] ?></p>
             <?php
-              $minWeight = round($rowNormalBmi['sex'.$value['sexId'].'min']*(($value['healthHeight']/100)*($value['healthHeight']/100)),2);
-              $maxWeight = round($rowNormalBmi['sex'.$value['sexId'].'max']*(($value['healthHeight']/100)*($value['healthHeight']/100)),2);
+              $minWeight = round($rowNormalBmi['sex'.$now_row['sexId'].'min']*(($now_row['healthHeight']/100)*($now_row['healthHeight']/100)),2);
+              $maxWeight = round($rowNormalBmi['sex'.$now_row['sexId'].'max']*(($now_row['healthHeight']/100)*($now_row['healthHeight']/100)),2);
             ?>
             <p id="p3">
               คุณมีน้ำหนักอยู่ในช่วงที่ดีแล้ว ขอให้รักษาน้ำหนักอยู่ระหว่าง <?php echo $minWeight; ?> กก. ถึง <?php echo $maxWeight; ?> กก. ต่อไปนะคะ
             </p>
           </div>
         </div>
+
 
         <div class="content">
           <div class="content-title">
@@ -171,6 +187,9 @@ if (!$_SESSION['fname']){
             <canvas id="chart-bmi"></canvas>
           </div>
         </div>
+
+
+
 
         <div class="content">
           <div class="content-title">
@@ -315,38 +334,43 @@ if (!$_SESSION['fname']){
       <div class="button d-flex justify-content-center">
         <button type="button" onclick="window.location.href='../main/historyHealth.php'">ดูประวัติการบันทึกสุขภาพ</button>
         <button type="button" onclick="window.location.href='../main/index.php'">ปิด</button>
+        <?php
+        echo "<br>ddddd";
+        $history_bmi_label=array();
+        $history_bmi_data=array();
+        foreach ($history_rows as $hkey => $hvalue) {
+          array_push($history_bmi_label,"'".$hvalue['inputDatetime']."'");
+          array_push($history_bmi_data,$hvalue['bmi']);
+        }
+        $str_history_bmi_label=implode(",",$history_bmi_label);
+        $str_history_bmi_data=implode(",",$history_bmi_data);
+        echo "<br>str_history_bmi_label";
+        print_r($str_history_bmi_ld);
+        echo "<br>str_history_bmi_data";
+        print_r($str_history_bmi_data);
+        ?>
+      
       </div>
     </div>
-    
-    <?php
-      }
-    ?>
 
-    <?php
-      foreach ($rowsBmi as $key => $valueBmi) {
-    ?>
+
+
 
       <script>
+
 
         let chartBmiElem = document.getElementById('chart-bmi').getContext('2d');
         let chartBmi = new Chart(chartBmiElem,{
           type:"bar",
           data:{
             labels:[
-            "<?php echo thaiShortDate($valueBmi['inputDatetime']); ?>",
-            "<?php echo thaiShortDate($valueBmi['lastUpdate']); ?>"
-              // 'มี.ค.', 
-              // 'พ.ค.', 
-              // 'ก.ค.', 
-              // 'ก.ย.', 
-              // 'พ.ย.'
+              <?php echo $str_history_bmi_label; ?>
             ],
             datasets:[
               {
                 label:"BMI",
                 data:[
-                  <?php echo $valueBmi['bmi']; ?>,
-                  <?php echo $valueBmi['bmi']; ?>
+                  <?php echo $str_history_bmi_data; ?>
                     ],
                 fill:false,
                 backgroundColor:[
@@ -384,201 +408,7 @@ if (!$_SESSION['fname']){
           }
         });
 
-        let chartWeightElem = document.getElementById('chart-weight').getContext('2d');
-        let chartWeight = new Chart(chartWeightElem, {
-            type: "bar",
-            data: {
-                labels: [
-                  "<?php echo thaiShortDate(date('m', strtotime('+1 month', $strDate))); ?>",
-                  'มี.ค.', 
-                  'พ.ค.', 
-                  'ก.ค.', 
-                  'ก.ย.', 
-                  'พ.ย.'
-                ],
-                datasets: [{
-                    label: 'น้ำหนัก',
-                    data: [
-                      <?php echo $value['healthWeight']; ?>,
-                    ],
-                    backgroundColor: [
-                        'rgba(255, 99, 132, 0.2)',
-                        'rgba(54, 162, 235, 0.2)',
-                        'rgba(255, 206, 86, 0.2)',
-                        'rgba(75, 192, 192, 0.2)',
-                        'rgba(153, 102, 255, 0.2)',
-                        'rgba(255, 159, 64, 0.2)'
-                    ],
-                    borderColor: [
-                        'rgba(255, 99, 132, 1)',
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(255, 206, 86, 1)',
-                        'rgba(75, 192, 192, 1)',
-                        'rgba(153, 102, 255, 1)',
-                        'rgba(255, 159, 64, 1)'
-                    ],
-                    borderWidth: 1
-                }]
-            },
-            options: {
-              legend:{
-                display:false
-              },
-              scales:{
-                yAxes:[{
-                  ticks:{
-                    beginAtZero:true,
-                    max: 200,
-                    min: 0,
-                    stepSize: 5
-                  }
-                }]
-              }
-            }
-        });
 
-        let chartWaistElem = document.getElementById('chart-waist').getContext('2d');
-        let chartWaist = new Chart(chartWaistElem, {
-            type: "bar",
-            data: {
-                labels: ['ม.ค.', 'มี.ค.', 'พ.ค.', 'ก.ค.', 'ก.ย.', 'พ.ย.'],
-                datasets: [{
-                    label: 'รอบเอว',
-                    data: [12, 19, 3, 5, 2, 3],
-                    backgroundColor: [
-                        'rgba(255, 99, 132, 0.2)',
-                        'rgba(54, 162, 235, 0.2)',
-                        'rgba(255, 206, 86, 0.2)',
-                        'rgba(75, 192, 192, 0.2)',
-                        'rgba(153, 102, 255, 0.2)',
-                        'rgba(255, 159, 64, 0.2)'
-                    ],
-                    borderColor: [
-                        'rgba(255, 99, 132, 1)',
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(255, 206, 86, 1)',
-                        'rgba(75, 192, 192, 1)',
-                        'rgba(153, 102, 255, 1)',
-                        'rgba(255, 159, 64, 1)'
-                    ],
-                    borderWidth: 1
-                }]
-            },
-            options: {
-              legend:{
-                display:false
-              },
-              scales:{
-                yAxes:[{
-                  ticks:{
-                    beginAtZero:true,
-                    max: 100,
-                    min: 0,
-                    stepSize: 10
-                  }
-                }]
-              }
-            }
-        });
-
-        let chartHighPressureElem = document.getElementById('high-pressure').getContext('2d');
-        let chartHighPressure = new Chart(chartHighPressureElem, {
-            type: "line",
-            data: {
-                labels: ['ม.ค.', 'มี.ค.', 'พ.ค.', 'ก.ค.', 'ก.ย.', 'พ.ย.'],
-                datasets: [{
-                    label: 'ความดันโลหิต ความดันค่าล่าง',
-                    data: [122, 19, 32, 52, 25, 38],
-                    backgroundColor: [
-                        'rgba(255, 255, 255, 0.5)'
-                    ],
-                    borderColor: [
-                        'rgba(9, 97, 30, 1)',
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(255, 206, 86, 1)',
-                        'rgba(75, 192, 192, 1)',
-                        'rgba(153, 102, 255, 1)',
-                        'rgba(255, 159, 64, 1)'
-                    ],
-                    borderWidth: 7
-                },
-                {
-                  label: 'ความดันโลหิต ความดันค่าบน',
-                    data: [50, 60, 80, 100, 20, 30],
-                    backgroundColor: [
-                        'rgba(255, 255, 255, 0.5)'
-                    ],
-                    borderColor: [
-                        'rgba(255, 99, 132, 1)',
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(255, 206, 86, 1)',
-                        'rgba(75, 192, 192, 1)',
-                        'rgba(153, 102, 255, 1)',
-                        'rgba(255, 159, 64, 1)'
-                    ],
-                    borderWidth: 7
-                }]
-            },
-            options: {
-              legend:{
-                display:false
-              },
-              scales:{
-                yAxes:[{
-                  ticks:{
-                    beginAtZero:true,
-                    max: 140,
-                    min: 0,
-                    stepSize: 20
-                  }
-                }]
-              }
-            }
-        });
-
-        let chartBloodSugerElem = document.getElementById('chart-blood-suger').getContext('2d');
-        let chartBloodSuger = new Chart(chartBloodSugerElem, {
-            type: "bar",
-            data: {
-                labels: ['ม.ค.', 'มี.ค.', 'พ.ค.', 'ก.ค.', 'ก.ย.', 'พ.ย.'],
-                datasets: [{
-                    label: 'น้ำตาลในเลือด',
-                    data: [12, 19, 3, 5, 2, 3],
-                    backgroundColor: [
-                        'rgba(255, 99, 132, 0.2)',
-                        'rgba(54, 162, 235, 0.2)',
-                        'rgba(255, 206, 86, 0.2)',
-                        'rgba(75, 192, 192, 0.2)',
-                        'rgba(153, 102, 255, 0.2)',
-                        'rgba(255, 159, 64, 0.2)'
-                    ],
-                    borderColor: [
-                        'rgba(255, 99, 132, 1)',
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(255, 206, 86, 1)',
-                        'rgba(75, 192, 192, 1)',
-                        'rgba(153, 102, 255, 1)',
-                        'rgba(255, 159, 64, 1)'
-                    ],
-                    borderWidth: 1
-                }]
-            },
-            options: {
-              legend:{
-                display:false
-              },
-              scales:{
-                yAxes:[{
-                  ticks:{
-                    beginAtZero:true,
-                    max: 100,
-                    min: 0,
-                    stepSize: 10
-                  }
-                }]
-              }
-            }
-        });
 
       function chartTestBar() {
         let options = {
@@ -676,8 +506,5 @@ if (!$_SESSION['fname']){
       run();
 
       </script>
-      <?php 
-        }
-      ?>
   </body>
 </html>
