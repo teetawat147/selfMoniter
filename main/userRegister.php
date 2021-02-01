@@ -228,7 +228,7 @@ include("../include/connection.php");
         <div class="form-row">   
             <div  class="form-group col-md-12">
                 <label for="departmentId">ชื่อแผนก</label>
-                <select name='departmentId' id='departmentId' class='form-control' required data-error-msg="กรุณากรอกชื่อหน่วยงาน">
+                <select name='departmentId' id='departmentId' class='form-control' required data-error-msg="กรุณากรอกชื่อแผนก">
                     <option selected disabled>เลือกแผนก</option>
                 </select>
             </div>
