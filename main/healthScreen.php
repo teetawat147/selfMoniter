@@ -208,7 +208,7 @@ print_r($rowNormalBmi);
 
 
         <div class="title-main">
-          <p>ผลการคัดกรองด้วยตนเอง <br> (<?php echo $now_row['inputDatetime']; ?>)</p>
+          <p>ผลการคัดกรองด้วยตนเอง <br> (<?php echo thaiShortDate($now_row['inputDatetime']); ?>)</p>
         </div>
         <div class="content">
           <div class="content-title">
@@ -413,15 +413,15 @@ print_r($rowNormalBmi);
           array_push($history_weight_data,$hvalue['healthWeight']);
           array_push($history_cvd_score_data,$hvalue['cvd_score']);
         }
-        $str_history_label=implode(",",$history_label);
-        $str_history_bmi_data=implode(",",$history_bmi_data);
-        $str_history_weight_data=implode(",",$history_weight_data);
-        $str_history_cvd_score_data=implode(",",$history_cvd_score_data);
+        $str_history_label=implode(", ",$history_label);
+        $str_history_bmi_data=implode(", ",$history_bmi_data);
+        $str_history_weight_data=implode(", ",$history_weight_data);
+        $str_history_cvd_score_data=implode(", ",$history_cvd_score_data);
         echo "<br>str_history_label";
-        print_r($str_history_bmi_ld);
+        print_r($str_history_label);
         echo "<br>str_history_bmi_data";
         print_r($str_history_bmi_data);
-        ?>
+    ?>
 
 
 
@@ -458,7 +458,7 @@ print_r($rowNormalBmi);
                   "rgb(54, 162, 235)",
                   "rgb(153, 102, 255)",
                   "rgb(201, 203, 207)"],
-                borderWidth:1
+                borderWidth:5
               }
             ]
           },
@@ -580,11 +580,9 @@ print_r($rowNormalBmi);
       function chartTestBar() {
         let options = {
           series: [{
-          name: 'ความดันโลหิต ความดันค่าบน',
+          name: 'BMI',
           data: [31, 40, 28, 51, 42, 109, 100]
-        }, {
-          name: 'ความดันโลหิต ความดันค่าล่าง',
-          data: [11, 32, 45, 32, 34, 52, 41]
+          // data: [<?php echo $str_history_bmi_data; ?>]
         }],
           chart: {
           height: 400,
