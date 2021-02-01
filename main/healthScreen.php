@@ -6,15 +6,16 @@ if (!$_SESSION['fname']){
 }
 
   $sql = "SELECT h.*,p.birthdate,
-  b.*,
-  h.healthWeight/((h.healthHeight/100)*(h.healthHeight/100)) as bmi,
-  p.sexId
-    FROM health_data_record h 
-    left join person p on h.personId=p.personId
-    LEFT JOIN bmi b ON h.healthWeight/((h.healthHeight/100)*(h.healthHeight/100)) >= IF(p.sexId = 1,b.sex1min,b.sex2min)
+    b.*,
+    h.healthWeight/((h.healthHeight/100)*(h.healthHeight/100)) as bmi,
+    p.sexId,
+    (1-power(0.978296,exp(((0.079*(YEAR(curdate())-YEAR(p.birthdate)-(DATE_FORMAT(curdate(), '%m%d') < DATE_FORMAT(p.birthdate, '%m%d'))))+(0.128*p.sexId)+(0.019350987*h.bpUpper)+(0.58454*h.diabetesId)+(3.512566*((h.waist)/h.healthHeight))+(0.459*h.smokeId))-7.720484)))*100 as cvd_score
+  FROM health_data_record h 
+  left join person p on h.personId=p.personId
+  LEFT JOIN bmi b ON h.healthWeight/((h.healthHeight/100)*(h.healthHeight/100)) >= IF(p.sexId = 1,b.sex1min,b.sex2min)
     AND h.healthWeight/((h.healthHeight/100)*(h.healthHeight/100)) < IF(p.sexId = 1,b.sex1max,b.sex2max)
-    WHERE h.helpRecordId = '".$_GET['helpRecordId']."' 
-    order by h.inputDatetime";
+  WHERE h.helpRecordId = '".$_GET['helpRecordId']."' 
+  order by h.inputDatetime";
 
 // $sql="
 // select 
@@ -61,13 +62,22 @@ if (!$_SESSION['fname']){
 echo "<br>now_row=";
 print_r($now_row);
 
-  $sqlBmi = "SELECT p.personId,p.sexId,h.healthWeight,h.healthHeight,h.healthWeight/((h.healthHeight/100)*(h.healthHeight/100)) AS bmi,b.nameBmi, b.conclude, b.advice,h.inputDatetime, h.lastUpdate
-            FROM health_data_record h
-            LEFT JOIN person p ON h.personId = p.personId
-            LEFT JOIN bmi b ON h.healthWeight/((h.healthHeight/100)*(h.healthHeight/100)) >= IF(p.sexId = 1,b.sex1min,b.sex2min)
-            AND h.healthWeight/((h.healthHeight/100)*(h.healthHeight/100)) < IF(p.sexId = 1,b.sex1max,b.sex2max)
-            where h.personId=".$_SESSION['personId']."
-            order by h.inputDatetime";
+  $sqlBmi = "SELECT p.personId,
+    p.sexId,
+    h.healthWeight,
+    h.healthHeight,
+    h.healthWeight/((h.healthHeight/100)*(h.healthHeight/100)) AS bmi,b.nameBmi, 
+    b.conclude, 
+    b.advice,
+    h.inputDatetime, 
+    h.lastUpdate,
+    (1-power(0.978296,exp(((0.079*(YEAR(curdate())-YEAR(p.birthdate)-(DATE_FORMAT(curdate(), '%m%d') < DATE_FORMAT(p.birthdate, '%m%d'))))+(0.128*p.sexId)+(0.019350987*h.bpUpper)+(0.58454*h.diabetesId)+(3.512566*((h.waist)/h.healthHeight))+(0.459*h.smokeId))-7.720484)))*100 as cvd_score
+  FROM health_data_record h
+    LEFT JOIN person p ON h.personId = p.personId
+    LEFT JOIN bmi b ON h.healthWeight/((h.healthHeight/100)*(h.healthHeight/100)) >= IF(p.sexId = 1,b.sex1min,b.sex2min)
+    AND h.healthWeight/((h.healthHeight/100)*(h.healthHeight/100)) < IF(p.sexId = 1,b.sex1max,b.sex2max)
+  where h.personId=".$_SESSION['personId']."
+  ORDER BY h.inputDatetime";
 echo "<br>sqlBmi=".$sqlBmi;
   $resultBmi = $conn -> prepare($sqlBmi);
   $resultBmi -> execute();
@@ -258,6 +268,16 @@ print_r($rowNormalBmi);
 
         <div class="content">
           <div class="content-title">
+            <p class="text-cvd">CVD risk</p>
+          </div>
+          <div class="content-body">
+            <canvas id="chart-cvd"></canvas>
+          </div>
+        </div>
+
+
+        <div class="content">
+          <div class="content-title">
             <p><b>รอบเอวของคุณอยู่ในเกณฑ์
             <?php 
               echo ($now_row['waist']<=80)?" ปกติ":" เกินค่าปกติ";
@@ -377,28 +397,31 @@ print_r($rowNormalBmi);
       <div class="button d-flex justify-content-center">
         <button type="button" onclick="window.location.href='../main/historyHealth.php'">ดูประวัติการบันทึกสุขภาพ</button>
         <button type="button" onclick="window.location.href='../main/index.php'">ปิด</button>
-        <?php
+      
+      </div>
+    </div>
+
+    <?php
         echo "<br>ddddd";
         $history_label=array();
         $history_bmi_data=array();
         $history_weight_data=array();
+        $history_cvd_score_data=array();
         foreach ($history_rows as $hkey => $hvalue) {
           array_push($history_label,"'".$hvalue['inputDatetime']."'");
           array_push($history_bmi_data,$hvalue['bmi']);
           array_push($history_weight_data,$hvalue['healthWeight']);
+          array_push($history_cvd_score_data,$hvalue['cvd_score']);
         }
         $str_history_label=implode(",",$history_label);
         $str_history_bmi_data=implode(",",$history_bmi_data);
         $str_history_weight_data=implode(",",$history_weight_data);
+        $str_history_cvd_score_data=implode(",",$history_cvd_score_data);
         echo "<br>str_history_label";
         print_r($str_history_bmi_ld);
         echo "<br>str_history_bmi_data";
         print_r($str_history_bmi_data);
         ?>
-      
-      </div>
-    </div>
-
 
 
 
@@ -407,7 +430,7 @@ print_r($rowNormalBmi);
 
         let chartBmiElem = document.getElementById('chart-bmi').getContext('2d');
         let chartBmi = new Chart(chartBmiElem,{
-          type:"bar",
+          type:"line",
           data:{
             labels:[
               <?php echo $str_history_label; ?>
@@ -457,7 +480,7 @@ print_r($rowNormalBmi);
 
         let chartWeightElem = document.getElementById('chart-weight').getContext('2d');
         let chartWeight = new Chart(chartWeightElem, {
-            type: "bar",
+            type: "line",
             data: {
                 labels: [
                   <?php echo $str_history_label; ?>
@@ -503,7 +526,54 @@ print_r($rowNormalBmi);
             }
         });
 
-
+        let chartCvdElem = document.getElementById('chart-cvd').getContext('2d');
+        let chartCvd = new Chart(chartCvdElem,{
+          type:"line",
+          data:{
+            labels:[
+              <?php echo $str_history_label; ?>
+            ],
+            datasets:[
+              {
+                label:"BMI",
+                data:[
+                  <?php echo $str_history_cvd_score_data; ?>
+                    ],
+                fill:false,
+                backgroundColor:[
+                  "rgba(255, 99, 132, 0.2)",
+                  "rgba(255, 159, 64, 0.2)",
+                  "rgba(255, 205, 86, 0.2)",
+                  "rgba(75, 192, 192, 0.2)",
+                  "rgba(54, 162, 235, 0.2)",
+                  "rgba(153, 102, 255, 0.2)",
+                  "rgba(201, 203, 207, 0.2)"],
+                borderColor:[
+                  "rgb(255, 99, 132)",
+                  "rgb(255, 159, 64)",
+                  "rgb(255, 205, 86)",
+                  "rgb(75, 192, 192)",
+                  "rgb(54, 162, 235)",
+                  "rgb(153, 102, 255)",
+                  "rgb(201, 203, 207)"],
+                borderWidth:1
+              }
+            ]
+          },
+          options:{
+            legend:{display:false},
+            scales:{
+              yAxes:[{
+                ticks:{
+                  beginAtZero:true,
+                  max: 100,
+                  min: 0,
+                  stepSize: 5
+                }
+              }]
+            }
+          }
+        });
 
 
 
