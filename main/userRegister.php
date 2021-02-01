@@ -210,7 +210,7 @@ include("../include/connection.php");
             <div  class="form-group col-md-12">
                 <label for="officeId">ชื่อหน่วยงาน</label>
                 <select name='officeId' id='officeId' class='form-control' required data-error-msg="กรุณากรอกชื่อหน่วยงาน">
-                    <option selected disabled>เลือกหน่วยงาน</option>
+                    <option selected disabled>Choose...</option>
                     <?php 
                     $sql ="select * from office";
                     $result = $conn->prepare($sql);
@@ -229,7 +229,7 @@ include("../include/connection.php");
             <div  class="form-group col-md-12">
                 <label for="departmentId">ชื่อแผนก</label>
                 <select name='departmentId' id='departmentId' class='form-control' required data-error-msg="กรุณากรอกชื่อแผนก">
-                    <option selected disabled>เลือกแผนก</option>
+                    <option selected disabled>Choose...</option>
                 </select>
             </div>
         </div>

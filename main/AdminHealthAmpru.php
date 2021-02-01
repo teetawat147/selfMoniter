@@ -31,7 +31,7 @@ include("../include/connection.php");
             <?php
             foreach ($rows as $key => $row) {
                 ?>  
-                <div class="row"   >
+                <div class="row" margin-top  >
                     <div class="col">
                         <img class="mr-3" src="../images/<?php echo $row['office_type'];?>.png" style="width: 150px;" >
                     </div>
