@@ -112,55 +112,55 @@
                     <th scope="col">ธ.ค.</th>
                 </tr>
             </thead>
-            <tbody>
-                <?php
-                // print_r($rows);
-                    foreach($rows as $key => $row) {
-                ?>
-                <tr>
-                    <th scope="row">โรคเบาหวาน</th>
-                    <td><?php echo $row['diabetesId'] ?></td>
-                </tr>
-                <tr>
-                    <th scope="row">โรคความดัน</th>
-                    <td><?php echo $row['bloodId'] ?></td>
-                </tr>
-                <tr>
-                    <th scope="row">ส่วนสูง</th>
-                    <td><?php echo $row['healthHeight'] ?></td>
-                </tr>
-                <tr>
-                    <th scope="row">น้ำหนัก</th>
-                    <td><?php echo $row['healthWeight'] ?></td>
-                </tr>
-                <tr>
-                    <th scope="row">รอบเอว</th>
-                    <td><?php echo $row['waist'] ?></td>
-                </tr>
-                <tr>
-                    <th scope="row">ความดันโลหิต (ค่าบน) </th>
-                    <td><?php echo $row['bpUpper'] ?></td>
-                </tr>
-                <tr>
-                    <th scope="row">ความดันโลหิต (ความดันค่าล่าง)</th>
-                    <td><?php echo $row['bpLower'] ?></td>
-                </tr>
-                <tr>
-                    <th scope="row">น้ำตาลในเลือด</th>
-                    <td><?php echo $row['bloodSugar'] ?></td>
-                </tr>
-                <tr>
-                    <th scope="row">สูบบุหรี่</th>
-                    <td><?php echo $row['smokeId'] ?></td>
-                </tr>
-                <tr>
-                    <th scope="row">ดื่มสุรา</th>
-                    <td><?php echo $row['alcoholId'] ?></td>
-                </tr>
-                <?php
-                    }
-                ?>
-            </tbody>
+                <tbody>
+                    <tr>
+                        <th scope="row">โรคเบาหวาน</th>
+                    </tr>
+                    <tr>
+                        <th scope="row">โรคความดัน</th>
+                    </tr>
+                    <tr>
+                        <th scope="row">ส่วนสูง</th>
+                    </tr>
+                    <tr>
+                        <th scope="row">น้ำหนัก</th>
+                    </tr>
+                    <tr>
+                        <th scope="row">รอบเอว</th>
+                    </tr>
+                    <tr>
+                        <th scope="row">ความดันโลหิต (ค่าบน) </th>
+                    </tr>
+                    <tr>
+                        <th scope="row">ความดันโลหิต (ความดันค่าล่าง)</th>
+                    </tr>
+                    <tr>
+                        <th scope="row">น้ำตาลในเลือด</th>
+                    </tr>
+                    <tr>
+                        <th scope="row">สูบบุหรี่</th>
+                    </tr>
+                    <tr>
+                        <th scope="row">ดื่มสุรา</th>
+                    </tr>
+                    <?php
+                    // print_r($rows);
+                        foreach($rows as $key => $row) {
+                    ?>
+                            <!-- <td><?php echo $row['diabetesId'] ?></td>
+                            <td><?php echo $row['bloodId'] ?></td>
+                            <td><?php echo $row['healthHeight'] ?></td>
+                            <td><?php echo $row['healthWeight'] ?></td>
+                            <td><?php echo $row['waist'] ?></td>
+                            <td><?php echo $row['bpUpper'] ?></td>
+                            <td><?php echo $row['bpLower'] ?></td>
+                            <td><?php echo $row['bloodSugar'] ?></td>
+                            <td><?php echo $row['smokeId'] ?></td>
+                            <td><?php echo $row['alcoholId'] ?></td> -->
+                    <?php
+                        }
+                    ?>
+                </tbody>
         </table>
     </div>
     

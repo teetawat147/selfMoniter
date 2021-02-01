@@ -2,7 +2,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My LIFF v2</title>
+  <title>My LIFF </title>
   <style>
     #pictureUrl { display: block; margin: 0 auto }
   </style>
@@ -23,21 +23,23 @@
 
             $.ajax({
                 method: "POST",
-                url: "../main/lineCheck.php",
+                url: "../main/lineIdCheck.php",
                 data: {lineId:lineId}
             })
-            .done(function( msg ) {
-                $(target).html(msg);
+            .done(function(msg) {
+                // $(target).html(msg);
+                console.log(msg);
                 if (msg=='Ok'){
                     window.location="../main/Healthdatarecord.php";
                 }else{
-                    window.location="../main/userRegister.php?lineId?"+lineId;
+                    window.location="../main/userRegister.php?lineId="+lineId;
                 }
             });
         })
-      } else {
-        liff.login();
-        window.location="../main/loginLine.php";
+      } else { 
+        console.log("111");
+        //liff.login();
+        window.location="../main/login.php";
       }
     }, err => console.error(err.code, error.message));
   </script>

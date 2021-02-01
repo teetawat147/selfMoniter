@@ -1,5 +1,6 @@
 <?php
   include('../include/connection.php');
+  include('../include/function.php');
 if (!$_SESSION['fname']){
   header("Location: ../main/login.php");
 }
@@ -7,18 +8,25 @@ if (!$_SESSION['fname']){
   $sql = "SELECT * FROM health_data_record WHERE personId = '".$_SESSION['personId']."' ";
   $result = $conn -> prepare($sql);
   $result -> execute();
-  $rows = $result -> fetchAll(PDO:: FETCH_ASSOC);
+  $rows = $result -> fetchAll(PDO::FETCH_ASSOC);
 
-  $sqlBmi = "SELECT p.personId,p.sexId,h.healthWeight,h.healthHeight,h.healthWeight/((h.healthHeight/100)*(h.healthHeight/100)) AS bmi,b.nameBmi
+  $sqlBmi = "SELECT p.personId,p.sexId,h.healthWeight,h.healthHeight,h.healthWeight/((h.healthHeight/100)*(h.healthHeight/100)) AS bmi,b.nameBmi, b.conclude, b.advice,h.inputDatetime, h.lastUpdate
             FROM health_data_record h
             LEFT JOIN person p ON h.personId = p.personId
             LEFT JOIN bmi b ON h.healthWeight/((h.healthHeight/100)*(h.healthHeight/100)) >= IF(p.sexId = 1,b.sex1min,b.sex2min)
             AND h.healthWeight/((h.healthHeight/100)*(h.healthHeight/100)) < IF(p.sexId = 1,b.sex1max,b.sex2max)
-            GROUP BY p.personId DESC LIMIT 1";
+            GROUP BY personId DESC LIMIT 1";
 
   $resultBmi = $conn -> prepare($sqlBmi);
   $resultBmi -> execute();
   $rowsBmi = $resultBmi -> fetchAll(PDO::FETCH_ASSOC);
+
+  // เอาค่า BMI ที่ปกติ
+  $sqlNormalBmi = "SELECT * FROM `bmi` where id = 2";
+  $rsNormalBmi = $conn -> prepare($sqlNormalBmi);
+  $rsNormalBmi -> execute();
+  $rowsNormalBmi = $rsNormalBmi -> fetchAll(PDO::FETCH_ASSOC);
+  $rowNormalBmi = $rowsNormalBmi[0];
 ?>
 
 <!doctype html>
@@ -136,19 +144,22 @@ if (!$_SESSION['fname']){
 
         <div class="content">
           <div class="content-title">
-            <!-- <p>น้ำหนักปกติ</p> -->
             <?php
               foreach ($rowsBmi as $key => $value) {
             ?>
             <p> <?php echo $value['nameBmi']; ?> </p>
-            <?php
-              }
-            ?>
           </div>
           <div class="content-body">
-            <p id="p1"><b>เยี่ยมมาก!!</b> คุณมีรูปร่างสมส่วน น้ำหนักปกติ อาหารที่รับประทานอยู่เหมาะสมดี</p>
-            <p id="p2"><b>คำแนะนำเบื้องต้น</b> <br> พยายามดูแลสุขภาพและควบคุมน้ำหนักของคุณไว้ในระดับนี้ต่อไปเรื่อยๆ ด้วยการรับประทานอาหารที่มีประโยชน์ ออกกำลังกายอย่างสม่ำเสมอ และพักผ่อนให้เพียงพอ ถ้าอายุมากกว่า 35 ปี คุณควรตรวจ วัดความดันโลหิตทุก 1 ปี ถ้าอายุมากกว่า 35 ปี ควรเพิ่มการตรวจหาระดับน้ำตาลในเลือกเพื่อค้นหาโรคเบาหวานอย่างน้อยปีละ 1 ครั้ง หากสูบบุหรี่หรือดื่มสุราเป็นประจำ ควรเลิกให้ได้เพื่อสุขภาพของตัวคุณเอง แต่ถ้าคุณเป็นผู้หญิง คุณควรเพิ่มการตรงจมะเร็งเต้านม มะเร็งปากมดลูกด้วยนะ โดยเริ่มตั้งแต่อายุ 30 ปี ขึ้นไป</p>
-            <p id="p3">คุณมีน้ำหนักอยู่ในช่วงที่ดีแล้ว ขอให้รักษาน้ำหนักอยู่ระหว่าง 63 ถึง 84 กก. ต่อไปนะคะ</p>
+            <p id="p1"> <?php echo $value['conclude']; ?></p>
+            
+            <p id="p2"><b>คำแนะนำเบื้องต้น</b> <br> <?php echo $value['advice'] ?></p>
+            <?php
+              $minWeight = round($rowNormalBmi['sex'.$value['sexId'].'min']*(($value['healthHeight']/100)*($value['healthHeight']/100)),2);
+              $maxWeight = round($rowNormalBmi['sex'.$value['sexId'].'max']*(($value['healthHeight']/100)*($value['healthHeight']/100)),2);
+            ?>
+            <p id="p3">
+              คุณมีน้ำหนักอยู่ในช่วงที่ดีแล้ว ขอให้รักษาน้ำหนักอยู่ระหว่าง <?php echo $minWeight; ?> กก. ถึง <?php echo $maxWeight; ?> กก. ต่อไปนะคะ
+            </p>
           </div>
         </div>
 
@@ -303,21 +314,40 @@ if (!$_SESSION['fname']){
 
       <div class="button d-flex justify-content-center">
         <button type="button" onclick="window.location.href='../main/historyHealth.php'">ดูประวัติการบันทึกสุขภาพ</button>
-        <button type="button">ปิด</button>
+        <button type="button" onclick="window.location.href='../main/index.php'">ปิด</button>
       </div>
     </div>
+    
+    <?php
+      }
+    ?>
 
-      <!-- <script>
+    <?php
+      foreach ($rowsBmi as $key => $valueBmi) {
+    ?>
+
+      <script>
 
         let chartBmiElem = document.getElementById('chart-bmi').getContext('2d');
         let chartBmi = new Chart(chartBmiElem,{
           type:"bar",
           data:{
-            labels:['ม.ค.', 'มี.ค.', 'พ.ค.', 'ก.ค.', 'ก.ย.', 'พ.ย.'],
+            labels:[
+            "<?php echo thaiShortDate($valueBmi['inputDatetime']); ?>",
+            "<?php echo thaiShortDate($valueBmi['lastUpdate']); ?>"
+              // 'มี.ค.', 
+              // 'พ.ค.', 
+              // 'ก.ค.', 
+              // 'ก.ย.', 
+              // 'พ.ย.'
+            ],
             datasets:[
               {
                 label:"BMI",
-                data:[10,8,20,14,10,15,5],
+                data:[
+                  <?php echo $valueBmi['bmi']; ?>,
+                  <?php echo $valueBmi['bmi']; ?>
+                    ],
                 fill:false,
                 backgroundColor:[
                   "rgba(255, 99, 132, 0.2)",
@@ -345,7 +375,7 @@ if (!$_SESSION['fname']){
               yAxes:[{
                 ticks:{
                   beginAtZero:true,
-                  max: 25,
+                  max: 40,
                   min: 0,
                   stepSize: 5
                 }
@@ -358,10 +388,19 @@ if (!$_SESSION['fname']){
         let chartWeight = new Chart(chartWeightElem, {
             type: "bar",
             data: {
-                labels: ['ม.ค.', 'มี.ค.', 'พ.ค.', 'ก.ค.', 'ก.ย.', 'พ.ย.'],
+                labels: [
+                  "<?php echo thaiShortDate(date('m', strtotime('+1 month', $strDate))); ?>",
+                  'มี.ค.', 
+                  'พ.ค.', 
+                  'ก.ค.', 
+                  'ก.ย.', 
+                  'พ.ย.'
+                ],
                 datasets: [{
                     label: 'น้ำหนัก',
-                    data: [12, 19, 3, 5, 2, 3],
+                    data: [
+                      <?php echo $value['healthWeight']; ?>,
+                    ],
                     backgroundColor: [
                         'rgba(255, 99, 132, 0.2)',
                         'rgba(54, 162, 235, 0.2)',
@@ -389,7 +428,7 @@ if (!$_SESSION['fname']){
                 yAxes:[{
                   ticks:{
                     beginAtZero:true,
-                    max: 25,
+                    max: 200,
                     min: 0,
                     stepSize: 5
                   }
@@ -636,6 +675,9 @@ if (!$_SESSION['fname']){
 
       run();
 
-      </script> -->
+      </script>
+      <?php 
+        }
+      ?>
   </body>
 </html>

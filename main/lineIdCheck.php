@@ -1,11 +1,12 @@
 <?php
 include("../include/connection.php");
-print_r($_POST);
+//print_r($_POST);
 $sql = "SELECT * FROM `person` WHERE lineId = :lineId";
+//echo $sql;
 $stmt = $conn->prepare($sql);
 $stmt->execute(array(':lineId'=> $_POST['lineId']));
 $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-print_r($result);
+//print_r($result);
 if(count($result)>0){
     $_SESSION['personId']=$result[0]['personId'];
     $_SESSION['lineId']=$result[0]['lineId'];
@@ -13,7 +14,6 @@ if(count($result)>0){
     $_SESSION['lname']=$result[0]['lname'];
     $_SESSION['personWeight']=$result[0]['personWeight'];
     $_SESSION['personHeight']=$result[0]['personHeight'];    
-    header("Location: ../main/Healthdatarecord.php");
     echo "Ok";
 }else{
     $_SESSION['personId']='';

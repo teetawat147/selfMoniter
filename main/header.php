@@ -42,7 +42,7 @@
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
           <a class="dropdown-item" href="../main/editProfile.php">Edit Profile</a>
           <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="../main/logout.php">Logout</a>
+          <a class="dropdown-item" onclick="remove()" href="../main/logout.php">Logout</a>
         </div>
       </li>
     </ul>
@@ -52,3 +52,10 @@
     ?>
   </div>
 </nav>
+<script>
+  function remove() {
+  //sessionStorage.clear();
+  // localStorage.removeItem(key);
+  window.localStorage.clear(); 
+}
+</script>
