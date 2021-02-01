@@ -5,7 +5,7 @@ if (!$_SESSION['fname']){
   header("Location: ../main/login.php");
 }
 
-  $sql = "SELECT h.*,
+  $sql = "SELECT h.*,p.birthdate,
   b.*,
   h.healthWeight/((h.healthHeight/100)*(h.healthHeight/100)) as bmi,
   p.sexId
@@ -13,7 +13,45 @@ if (!$_SESSION['fname']){
     left join person p on h.personId=p.personId
     LEFT JOIN bmi b ON h.healthWeight/((h.healthHeight/100)*(h.healthHeight/100)) >= IF(p.sexId = 1,b.sex1min,b.sex2min)
     AND h.healthWeight/((h.healthHeight/100)*(h.healthHeight/100)) < IF(p.sexId = 1,b.sex1max,b.sex2max)
-    WHERE h.helpRecordId = '".$_GET['helpRecordId']."' ";
+    WHERE h.helpRecordId = '".$_GET['helpRecordId']."' 
+    order by h.inputDatetime";
+
+// $sql="
+// select 
+// YEAR(curdate())-YEAR(birthdate)-(DATE_FORMAT(curdate(), '%m%d') < DATE_FORMAT(birthdate, '%m%d')) as age,
+// (0.079*(YEAR(curdate())-YEAR(birthdate)-(DATE_FORMAT(curdate(), '%m%d') < DATE_FORMAT(birthdate, '%m%d')))) as a1,
+// (0.128*sexId) as a2,
+// (0.019350987*bpUpper) as a3,
+// (0.58454*diabetesId) as a4,
+// (3.512566*((waist*2.5)/healthHeight)) as a5,
+// (0.459*smokeId) as a6,
+
+// (0.079*(YEAR(curdate())-YEAR(birthdate)-(DATE_FORMAT(curdate(), '%m%d') < DATE_FORMAT(birthdate, '%m%d'))))
+// +
+// (0.128*sexId)
+// +
+// (0.019350987*bpUpper)
+// +
+// (0.58454*diabetesId)
+// +
+// (3.512566*((waist*2.5)/healthHeight))
+// +
+// (0.459*smokeId) as cvd_prescore,
+
+// (1-power(0.978296,exp(
+// ((0.079*(YEAR(curdate())-YEAR(p.birthdate)-(DATE_FORMAT(curdate(), '%m%d') < DATE_FORMAT(p.birthdate, '%m%d'))))
+// +
+// (0.128*p.sexId)
+// +
+// (0.019350987*h.bpUpper)
+// +
+// (0.58454*h.diabetesId)
+// +
+// (3.512566*((h.waist*2.5)/h.healthHeight))
+// +
+// (0.459*h.smokeId))-7.720484)))*100 as cvd_score, p.birthdate,p.sexId,h.bpUpper,h.diabetesId,h.waist,h.healthHeight,h.smokeId from health_data_record h left join person p on h.personId=p.personId";
+
+
 
 // echo "<br>sql=".$sql;
   $result = $conn -> prepare($sql);
@@ -28,8 +66,9 @@ print_r($now_row);
             LEFT JOIN person p ON h.personId = p.personId
             LEFT JOIN bmi b ON h.healthWeight/((h.healthHeight/100)*(h.healthHeight/100)) >= IF(p.sexId = 1,b.sex1min,b.sex2min)
             AND h.healthWeight/((h.healthHeight/100)*(h.healthHeight/100)) < IF(p.sexId = 1,b.sex1max,b.sex2max)
-            where h.personId=".$_SESSION['personId'];
-// echo "<br>sqlBmi=".$sqlBmi;
+            where h.personId=".$_SESSION['personId']."
+            order by h.inputDatetime";
+echo "<br>sqlBmi=".$sqlBmi;
   $resultBmi = $conn -> prepare($sqlBmi);
   $resultBmi -> execute();
   $history_rows = $resultBmi -> fetchAll(PDO::FETCH_ASSOC);
@@ -219,7 +258,11 @@ print_r($rowNormalBmi);
 
         <div class="content">
           <div class="content-title">
-            <p><b>รอบเอวของคุณอยู่ในเกณฑ์ปกติ</b> <br>(ชายน้อยกว่า 90 ซม., หญิงน้อยกว่า 80 ซม.)</p>
+            <p><b>รอบเอวของคุณอยู่ในเกณฑ์
+            <?php 
+              echo ($now_row['waist']<=80)?" ปกติ":" เกินค่าปกติ";
+            ?>
+            </b> <br>(ชายไม่เกิน 90 ซม., หญิงไม่เกิน 80 ซม.)</p>
           </div>
           <div class="content-body waist">
             <p class="advice"><b>เยี่ยมมาก!!</b> รอบเอวของคุณอยู่ในเกณฑ์ปกติ <br><b>คำแนะนำ</b></p>
@@ -336,15 +379,18 @@ print_r($rowNormalBmi);
         <button type="button" onclick="window.location.href='../main/index.php'">ปิด</button>
         <?php
         echo "<br>ddddd";
-        $history_bmi_label=array();
+        $history_label=array();
         $history_bmi_data=array();
+        $history_weight_data=array();
         foreach ($history_rows as $hkey => $hvalue) {
-          array_push($history_bmi_label,"'".$hvalue['inputDatetime']."'");
+          array_push($history_label,"'".$hvalue['inputDatetime']."'");
           array_push($history_bmi_data,$hvalue['bmi']);
+          array_push($history_weight_data,$hvalue['healthWeight']);
         }
-        $str_history_bmi_label=implode(",",$history_bmi_label);
+        $str_history_label=implode(",",$history_label);
         $str_history_bmi_data=implode(",",$history_bmi_data);
-        echo "<br>str_history_bmi_label";
+        $str_history_weight_data=implode(",",$history_weight_data);
+        echo "<br>str_history_label";
         print_r($str_history_bmi_ld);
         echo "<br>str_history_bmi_data";
         print_r($str_history_bmi_data);
@@ -364,7 +410,7 @@ print_r($rowNormalBmi);
           type:"bar",
           data:{
             labels:[
-              <?php echo $str_history_bmi_label; ?>
+              <?php echo $str_history_label; ?>
             ],
             datasets:[
               {
@@ -407,6 +453,57 @@ print_r($rowNormalBmi);
             }
           }
         });
+
+
+        let chartWeightElem = document.getElementById('chart-weight').getContext('2d');
+        let chartWeight = new Chart(chartWeightElem, {
+            type: "bar",
+            data: {
+                labels: [
+                  <?php echo $str_history_label; ?>
+                ],
+                datasets: [{
+                    label: 'น้ำหนัก',
+                    data: [
+                      <?php echo $str_history_weight_data; ?>
+                    ],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+              legend:{
+                display:false
+              },
+              scales:{
+                yAxes:[{
+                  ticks:{
+                    beginAtZero:true,
+                    max: 200,
+                    min: 0,
+                    stepSize: 5
+                  }
+                }]
+              }
+            }
+        });
+
+
 
 
 

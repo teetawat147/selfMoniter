@@ -7,6 +7,7 @@ $sql ="INSERT into person (
         cid, 
         fname, 
         lname, 
+        birthdate,
         sexId, 
         phone, 
         address, 
@@ -26,6 +27,7 @@ $sql ="INSERT into person (
         '".$_POST['cid']."', 
         '".$_POST['fname']."', 
         '".$_POST['lname']."', 
+        '".adjustDate($_POST['birthdate'])."',
         '".$_POST['sexId']."',
         '".$_POST['phone']."',
         '".$_POST['address']."',
@@ -51,4 +53,14 @@ $_SESSION['lname']=$_POST['lname'];
 $_SESSION['personWeight']=$_POST['personWeight'];
 $_SESSION['personHeight']=$_POST['personHeight'];
 header("Location: ../main/consent.php");
+
+
+function adjustDate($date){
+    $_yyyy=substr($date,0,4);
+    if (substr($date,0,4)>'2400'){
+        $_yyyy=substr($date,0,4)-543;
+    }
+    return $_yyyy.substr($date,4,6);
+}
+
 ?>

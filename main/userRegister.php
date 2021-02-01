@@ -136,6 +136,12 @@ include("../include/connection.php");
             </div>
         </div>
 
+        <div class="form-row">
+            <div class="form-group col-md-12">
+                <label for="birthdate">วันเกิด</label>
+                <input name="birthdate" id="birthdate" class="form-control" min="3" required type="text" data-error-msg="กรุณากรอกวันเกิด">
+            </div>
+        </div>
         
 
         <div class="form-row">

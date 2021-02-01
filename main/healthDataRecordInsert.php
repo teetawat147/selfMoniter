@@ -21,7 +21,7 @@ $sql = "INSERT into health_data_record (
             '" . $_POST['diabetesId'] . "',
             '" . $_POST['bloodId'] . "',
             '" . $_SESSION['personHeight'] . "',
-            '" . $_SESSION['personWeight'] . "',
+            '" . $_POST['healthWeight'] . "',
             '" . $_POST['waist'] . "',
             '" . $_POST['bpUpper'] . "',
             '" . $_POST['bpLower'] . "',
@@ -38,4 +38,5 @@ $result->execute();
 $lastId = $conn->lastInsertId();
 header("Location: ../main/healthScreen.php?helpRecordId=" . $lastId);
 // header("location: ../main/healthScreen.php");
+
 ?>

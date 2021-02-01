@@ -45,11 +45,11 @@ if (!$_SESSION['fname']){
                 </select>                -->
                 <br>
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="diabetesId" id="diabetesId" value="1" required data-error-msg="กรุณาเลือกข้อมูล">
+                    <input class="form-check-input" type="radio" name="diabetesId" id="diabetesId" value="0" required data-error-msg="กรุณาเลือกข้อมูล">
                     <label class="form-check-label" for="inlineRadio1">ใช่</label>
 
                 <!-- <div class="form-check form-check-inline"> -->
-                    <input style ="margin-left: 30px;" class="form-check-input" type="radio" name="diabetesId" id="inlineRadio2" value="2" required data-error-msg="กรุณาเลือกข้อมูล">
+                    <input style ="margin-left: 30px;" class="form-check-input" type="radio" name="diabetesId" id="inlineRadio2" value="1" required data-error-msg="กรุณาเลือกข้อมูล">
                     <label class="form-check-label" for="inlineRadio2">ไม่ใช่</label>
                 </div>
             </div>             
