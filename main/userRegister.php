@@ -263,7 +263,7 @@ include("../include/connection.php");
         </div>
 
             <center>
-                <button type="submit" class="btn btn-primary">ถัดไป</button> 
+                <button type="submit" class="btn btn-primary">สมัครใช้งาน</button> 
                 <button type="button" class="btn btn-primary">ยกเลิก</button>              
             </center> 
 
