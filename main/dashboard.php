@@ -175,7 +175,7 @@ $str_history_cvd_score_data=implode(", ",$history_cvd_score_data);
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
 
-    <title>ผลการคัดกรองด้วยตนเอง</title>
+    <title>Dasboard</title>
     <style>
       .title-main
       {
