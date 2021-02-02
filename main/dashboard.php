@@ -18,51 +18,13 @@ if (!$_SESSION['fname']){
   order by h.inputDatetime";
 
 
-
-// $sql="
-// select 
-// YEAR(curdate())-YEAR(birthdate)-(DATE_FORMAT(curdate(), '%m%d') < DATE_FORMAT(birthdate, '%m%d')) as age,
-// (0.079*(YEAR(curdate())-YEAR(birthdate)-(DATE_FORMAT(curdate(), '%m%d') < DATE_FORMAT(birthdate, '%m%d')))) as a1,
-// (0.128*sexId) as a2,
-// (0.019350987*bpUpper) as a3,
-// (0.58454*diabetesId) as a4,
-// (3.512566*((waist*2.5)/healthHeight)) as a5,
-// (0.459*smokeId) as a6,
-
-// (0.079*(YEAR(curdate())-YEAR(birthdate)-(DATE_FORMAT(curdate(), '%m%d') < DATE_FORMAT(birthdate, '%m%d'))))
-// +
-// (0.128*sexId)
-// +
-// (0.019350987*bpUpper)
-// +
-// (0.58454*diabetesId)
-// +
-// (3.512566*((waist*2.5)/healthHeight))
-// +
-// (0.459*smokeId) as cvd_prescore,
-
-// (1-power(0.978296,exp(
-// ((0.079*(YEAR(curdate())-YEAR(p.birthdate)-(DATE_FORMAT(curdate(), '%m%d') < DATE_FORMAT(p.birthdate, '%m%d'))))
-// +
-// (0.128*p.sexId)
-// +
-// (0.019350987*h.bpUpper)
-// +
-// (0.58454*h.diabetesId)
-// +
-// (3.512566*((h.waist*2.5)/h.healthHeight))
-// +
-// (0.459*h.smokeId))-7.720484)))*100 as cvd_score, p.birthdate,p.sexId,h.bpUpper,h.diabetesId,h.waist,h.healthHeight,h.smokeId from health_data_record h left join person p on h.personId=p.personId";
-
-
-
-echo "<br>sql=".$sql;
+// echo "<br>sql=".$sql;
   $result = $conn -> prepare($sql);
   $result -> execute();
   $rows = $result -> fetchAll(PDO::FETCH_ASSOC);
   $now_row=$rows[0];
-echo "<br>now_row=";
-print_r($now_row);
+// echo "<br>now_row=";
+// print_r($now_row);
 
   $sqlBmi = "SELECT p.personId,
     p.sexId,
@@ -84,20 +46,20 @@ print_r($now_row);
     AND h.healthWeight/((h.healthHeight/100)*(h.healthHeight/100)) < IF(p.sexId = 1,b.sex1max,b.sex2max)
   where h.personId=".$_SESSION['personId']."
   ORDER BY h.inputDatetime";
-echo "<br>sqlBmi=".$sqlBmi;
+// echo "<br>sqlBmi=".$sqlBmi;
   $resultBmi = $conn -> prepare($sqlBmi);
   $resultBmi -> execute();
   $history_rows = $resultBmi -> fetchAll(PDO::FETCH_ASSOC);
-echo "<br>history_rows=";
-print_r($history_rows);
+// echo "<br>history_rows=";
+// print_r($history_rows);
 
 $sql="select * from bmi where id=2";
 $result = $conn -> prepare($sql);
 $result -> execute();
 $rowNormalBmi = $result -> fetch(PDO::FETCH_ASSOC);
 
-echo "<br>rowNormalBmi=";
-print_r($rowNormalBmi);
+// echo "<br>rowNormalBmi=";
+// print_r($rowNormalBmi);
 
 $sql="
 SELECT
@@ -149,22 +111,29 @@ cvd_level";
 $result = $conn -> prepare($sql);
 $result -> execute();
 $rows_cvd_level = $result -> fetchAll(PDO::FETCH_ASSOC);
-print_r($rows_cvd_level);
+// print_r($rows_cvd_level);
 
+
+$maxCountAll=0;
 $cvd_level_label=array();
 $cvd_level_data=array();
-$maxCountAll=0;
-foreach ($rows_cvd_level as $key => $value) {
-  array_push($cvd_level_label,"'".$value['cvd_level']."'");
-  array_push($cvd_level_data,$value['countAll']);
-  $maxCountAll=($maxCountAll<$value['countAll'])?$value['countAll']:$maxCountAll;
+for ($i=1; $i <=10 ; $i++) { 
+  $key = arraySearch2D($rows_cvd_level,'cvd_level',$i);
+  if($key>0){
+    array_push($cvd_level_label,"'".$rows_cvd_level[$key-1]['cvd_level']."'");
+    array_push($cvd_level_data,$rows_cvd_level[$key-1]['countAll']);
+    $maxCountAll=($maxCountAll<$rows_cvd_level[$key-1]['countAll'])?$rows_cvd_level[$key]['countAll']:$maxCountAll;
+  }else{
+    array_push($cvd_level_label,"'".$i."'");
+    array_push($cvd_level_data,0);
+  }
 }
 $str_cvd_level_label=implode(", ",$cvd_level_label);
 $str_cvd_level_data=implode(", ",$cvd_level_data);
 
 
 
-echo "<br>ddddd";
+
 $history_label=array();
 $history_bmi_data=array();
 $history_waist_data=array();
@@ -191,10 +160,10 @@ $str_history_bpLower_data=implode(", ",$history_bpLower_data);
 $str_history_bloodsugar_data=implode(", ",$history_bloodsugar_data);
 $str_history_weight_data=implode(", ",$history_weight_data);
 $str_history_cvd_score_data=implode(", ",$history_cvd_score_data);
-echo "<br>str_history_label";
-print_r($str_history_label);
-echo "<br>str_history_bmi_data";
-print_r($str_history_bmi_data);
+// echo "<br>str_history_label";
+// print_r($str_history_label);
+// echo "<br>str_history_bmi_data";
+// print_r($str_history_bmi_data);
 
 
 ?>
@@ -311,7 +280,7 @@ print_r($str_history_bmi_data);
 
 
 
-        <div class="title-main">
+        <!-- <div class="title-main">
           <p>ผลการคัดกรองด้วยตนเอง <br> (<?php echo thaiShortDate($now_row['inputDatetime']); ?>)</p>
         </div>
         <div class="content">
@@ -329,7 +298,7 @@ print_r($str_history_bmi_data);
               คุณมีน้ำหนักอยู่ในช่วงที่ดีแล้ว ขอให้รักษาน้ำหนักอยู่ระหว่าง <?php echo $minWeight; ?> กก. ถึง <?php echo $maxWeight; ?> กก. ต่อไปนะคะ
             </p>
           </div>
-        </div>
+        </div> -->
 
 
         <div class="content">
@@ -342,18 +311,7 @@ print_r($str_history_bmi_data);
         </div>
 
 
-
-
-        <div class="content">
-          <div class="content-title">
-            <p>น้ำหนัก</p>
-          </div>
-          <div class="content-body">
-            <canvas id="chart-weight"></canvas>
-          </div>
-        </div>
-
-        <div class="content">
+        <!-- <div class="content">
           <div class="content-title">
             <p>ความเสี่ยงต่อโรคหัวใจใน 10 ปี = เสี่ยงต่ำ</p>
           </div>
@@ -368,7 +326,7 @@ print_r($str_history_bmi_data);
             <p>7. ติดตามทุก 6 เดือน</p>
             <p>8. ติดตามประเมินซ้ำภายใน 1 ปี</p>
           </div>
-        </div>
+        </div> -->
 
         <div class="content">
           <div class="content-title">
@@ -376,95 +334,6 @@ print_r($str_history_bmi_data);
           </div>
           <div class="content-body">
             <canvas id="chart-cvd"></canvas>
-          </div>
-        </div>
-
-
-        <div class="content">
-          <div class="content-title">
-            <p><b>รอบเอวของคุณอยู่ในเกณฑ์
-            <?php 
-              echo ($now_row['waist']<=80)?" ปกติ":" เกินค่าปกติ";
-            ?>
-            </b> <br>(ชายไม่เกิน 90 ซม., หญิงไม่เกิน 80 ซม.)</p>
-          </div>
-          <div class="content-body waist">
-            <p class="advice"><b>เยี่ยมมาก!!</b> รอบเอวของคุณอยู่ในเกณฑ์ปกติ <br><b>คำแนะนำ</b></p>
-            <p>1. การรับประทานอาหารที่ดีต่อสุขภาพและออกกำลังกายอย่างสม่ำเสมอ</p>
-            <p>2. วัดรอบเอวด้วยตนเองทุก 2 - 3 เดือน</p>
-            <p>3. ปรับเปลี่ยนพฤติกรรม 3อ.2ส</p>
-          </div>
-        </div>
-
-        <div class="content">
-          <div class="content-title">
-            <p>รอบเอว</p>
-          </div>
-          <div class="content-body">
-            <canvas id="chart-waist"></canvas>
-          </div>
-        </div>
-
-        <div class="content">
-          <div class="content-title">
-            <p>ความดันโลหิตปกติ</p>
-          </div>
-          <div class="content-body high-pressure-normal">
-            <p class="advice"><b>เยี่ยมมาก!!</b> ความดันโลหิตของคุณอยู่ในเกณฑ์ปกติ <br><b>คำแนะนำ</b></p>
-            <p>1. ควบคุมอาหาร</p>
-            <p>2. ออกกำลังกาย</p>
-            <p>3. วัดความดันโลหิตอย่างสม่ำเสมอ</p>
-          </div>
-        </div>
-
-        <div class="content">
-          <div class="content-title">
-            <p>ความดันโลหิต</p>
-          </div>
-          <div class="content-body">
-            <canvas id="chart-bp"></canvas>
-          </div>
-        </div>
-
-        <div class="content">
-          <div class="content-title">
-            <p><b>น้ำตาลในเลือดปกติ</b> <br>(มีน้ำตาลในเลือดน้อยกว่า 100 มก.ดล.)</p>
-          </div>
-          <div class="content-body waist">
-            <p class="advice"><b>เยี่ยมมาก!!</b> น้ำตาลในเลือดของคุณอยู่ในเกณฑ์ปกติ <br><b>คำแนะนำ</b></p>
-            <p>1. ควบคุมอาหาร ออกกำลังกายอย่างสม่ำเสมอ</p>
-            <p>2. ควบคุมน้ำหนักตัวให้อยู่ในเกณฑ์ที่เหมาะสม</p>
-            <p>3. ควรประเมินความเสี่ยงซ้ำทุก 1-2 ปี</p>
-          </div>
-        </div>
-
-        <div class="content">
-          <div class="content-title">
-            <p>น้ำตาลในเลือด</p>
-          </div>
-          <div class="content-body">
-            <canvas id="chart-blood-sugar"></canvas>
-          </div>
-        </div>
-
-        <div class="content">
-          <div class="content-title">
-            <p>ไม่สูบบุหรี่</p>
-          </div>
-          <div class="content-body waist">
-            <p class="advice"><b>เยี่ยมมาก!! ดูแลตนเองให้ห่างจากพิษภัยของบุหรี่ต่อไปนะ..</b></p>
-          </div>
-        </div>
-
-        <div class="content">
-          <div class="content-title">
-            <p>ดื่มสุราบางโอกาส (1-2ครั้ง/สัปดาห์)</p>
-          </div>
-          <div class="content-body waist">
-            <p class="advice"><b>คำแนะนำ</b></p>
-            <p>1. ควรเข้ารับการประเมินพฤติกรรมการดื่มเครื่องดื่มแอลกอฮอล์ โดน อสม.หรือเจ้าหน้าที่สาธารณสุขในสถานบริการใกล้บ้าน</p>
-            <p>2. สร้างแรงจูงใจและเสริมกำลังใจจากครอบครัวเพื่อช่วยเลิก</p>
-            <p>3. พบเจ้าหน้าที่ เพื่อช่วยเลิกแอลกอฮอล์</p>
           </div>
         </div>
 
@@ -477,34 +346,7 @@ print_r($str_history_bmi_data);
           </div>
         </div>
         
-        <div class="content">
-          <div class="content-title">
-            <p>Test line chart</p>
-          </div>
-          <div class="content-body">
-          <div class="chart" id="chart-line-test">
-          </div>
-          </div>
-        </div>
 
-        <div class="content">
-          <div class="content-title">
-            <p>Test bar chart</p>
-          </div>
-          <div class="content-body">
-          <div class="chart" id="chart-bar-test">
-          </div>
-          </div>
-        </div>
-
-        <div class="content">
-          <div class="content-title">
-            <p>Test pie chart</p>
-          </div>
-          <div class="content-body pie-chart">
-          <div class="chart" id="chart-pie-test">
-          </div>
-        </div>
       </div>
 
       <div class="button d-flex justify-content-center">
@@ -513,8 +355,6 @@ print_r($str_history_bmi_data);
       
       </div>
     </div>
-
-   
 
 
       <script>
@@ -570,54 +410,6 @@ print_r($str_history_bmi_data);
         });
 
 
-        let chartWeightElem = document.getElementById('chart-weight').getContext('2d');
-        let chartWeight = new Chart(chartWeightElem, {
-            type: "line",
-            data: {
-                labels: [
-                  <?php echo $str_history_label; ?>
-                ],
-                datasets: [{
-                    label: 'น้ำหนัก',
-                    data: [
-                      <?php echo $str_history_weight_data; ?>
-                    ],
-                    backgroundColor: [
-                        'rgba(255, 99, 132, 0.2)',
-                        'rgba(54, 162, 235, 0.2)',
-                        'rgba(255, 206, 86, 0.2)',
-                        'rgba(75, 192, 192, 0.2)',
-                        'rgba(153, 102, 255, 0.2)',
-                        'rgba(255, 159, 64, 0.2)'
-                    ],
-                    borderColor: [
-                        'rgba(255, 99, 132, 1)',
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(255, 206, 86, 1)',
-                        'rgba(75, 192, 192, 1)',
-                        'rgba(153, 102, 255, 1)',
-                        'rgba(255, 159, 64, 1)'
-                    ],
-                    borderWidth: 1
-                }]
-            },
-            options: {
-              legend:{
-                display:false
-              },
-              scales:{
-                yAxes:[{
-                  ticks:{
-                    beginAtZero:true,
-                    max: 200,
-                    min: 0,
-                    stepSize: 5
-                  }
-                }]
-              }
-            }
-        });
-
         let chartCvdElem = document.getElementById('chart-cvd').getContext('2d');
         let chartCvd = new Chart(chartCvdElem,{
           type:"line",
@@ -661,176 +453,6 @@ print_r($str_history_bmi_data);
                   max: 100,
                   min: 0,
                   stepSize: 5
-                }
-              }]
-            }
-          }
-        });
-
-
-        let chartWaistElem = document.getElementById('chart-waist').getContext('2d');
-        let chartWaist = new Chart(chartWaistElem,{
-          type:"line",
-          data:{
-            labels:[
-              <?php echo $str_history_label; ?>
-            ],
-            datasets:[
-              {
-                label:"Waist",
-                data:[
-                  <?php echo $str_history_waist_data; ?>
-                    ],
-                fill:false,
-                backgroundColor:[
-                  "rgba(255, 99, 132, 0.2)",
-                  "rgba(255, 159, 64, 0.2)",
-                  "rgba(255, 205, 86, 0.2)",
-                  "rgba(75, 192, 192, 0.2)",
-                  "rgba(54, 162, 235, 0.2)",
-                  "rgba(153, 102, 255, 0.2)",
-                  "rgba(201, 203, 207, 0.2)"],
-                borderColor:[
-                  "rgb(255, 99, 132)",
-                  "rgb(255, 159, 64)",
-                  "rgb(255, 205, 86)",
-                  "rgb(75, 192, 192)",
-                  "rgb(54, 162, 235)",
-                  "rgb(153, 102, 255)",
-                  "rgb(201, 203, 207)"],
-                borderWidth:5
-              }
-            ]
-          },
-          options:{
-            legend:{display:false},
-            scales:{
-              yAxes:[{
-                ticks:{
-                  beginAtZero:true,
-                  max: 150,
-                  min: 0,
-                  stepSize: 10
-                }
-              }]
-            }
-          }
-        });
-
-
-        let chartBpElem = document.getElementById('chart-bp').getContext('2d');
-        let chartBp = new Chart(chartBpElem,{
-          type:"line",
-          data:{
-            labels:[
-              <?php echo $str_history_label; ?>
-            ],
-            datasets: [{
-                label: "bpUpper",
-                fill: false,
-                lineTension: 0.1,
-                backgroundColor: "rgba(225,0,0,0.4)",
-                borderColor: "red", // The main line color
-                borderCapStyle: 'square',
-                borderDash: [], // try [5, 15] for instance
-                borderDashOffset: 0.0,
-                borderJoinStyle: 'miter',
-                pointBorderColor: "black",
-                pointBackgroundColor: "white",
-                pointBorderWidth: 1,
-                pointHoverRadius: 8,
-                pointHoverBackgroundColor: "yellow",
-                pointHoverBorderColor: "brown",
-                pointHoverBorderWidth: 2,
-                pointRadius: 4,
-                pointHitRadius: 10,
-                // notice the gap in the data and the spanGaps: true
-                data: [<?php echo $str_history_bpUpper_data; ?>],
-                spanGaps: true,
-              }, {
-                label: "bpLower",
-                fill: false,
-                lineTension: 0.1,
-                backgroundColor: "rgba(167,105,0,0.4)",
-                borderColor: "blue",
-                borderCapStyle: 'butt',
-                borderDash: [],
-                borderDashOffset: 0.0,
-                borderJoinStyle: 'miter',
-                pointBorderColor: "white",
-                pointBackgroundColor: "black",
-                pointBorderWidth: 1,
-                pointHoverRadius: 8,
-                pointHoverBackgroundColor: "brown",
-                pointHoverBorderColor: "yellow",
-                pointHoverBorderWidth: 2,
-                pointRadius: 4,
-                pointHitRadius: 10,
-                // notice the gap in the data and the spanGaps: false
-                data: [<?php echo $str_history_bpLower_data; ?>],
-                spanGaps: false,
-              }
-            ]
-          },
-          options:{
-            legend:{display:false},
-            scales:{
-              yAxes:[{
-                ticks:{
-                  beginAtZero:true,
-                  max: 220,
-                  min: 0,
-                  stepSize: 10
-                }
-              }]
-            }
-          }
-        });
-
-
-        let chartBloodsugarElem = document.getElementById('chart-blood-sugar').getContext('2d');
-        let chartBloodsugar = new Chart(chartBloodsugarElem,{
-          type:"line",
-          data:{
-            labels:[
-              <?php echo $str_history_label; ?>
-            ],
-            datasets:[
-              {
-                label:"Bloodsugar",
-                data:[
-                  <?php echo $str_history_bloodsugar_data; ?>
-                    ],
-                fill:false,
-                backgroundColor:[
-                  "rgba(255, 99, 132, 0.2)",
-                  "rgba(255, 159, 64, 0.2)",
-                  "rgba(255, 205, 86, 0.2)",
-                  "rgba(75, 192, 192, 0.2)",
-                  "rgba(54, 162, 235, 0.2)",
-                  "rgba(153, 102, 255, 0.2)",
-                  "rgba(201, 203, 207, 0.2)"],
-                borderColor:[
-                  "rgb(255, 99, 132)",
-                  "rgb(255, 159, 64)",
-                  "rgb(255, 205, 86)",
-                  "rgb(75, 192, 192)",
-                  "rgb(54, 162, 235)",
-                  "rgb(153, 102, 255)",
-                  "rgb(201, 203, 207)"],
-                borderWidth:5
-              }
-            ]
-          },
-          options:{
-            legend:{display:false},
-            scales:{
-              yAxes:[{
-                ticks:{
-                  beginAtZero:true,
-                  max: 150,
-                  min: 0,
-                  stepSize: 10
                 }
               }]
             }
@@ -902,12 +524,6 @@ print_r($str_history_bmi_data);
           }
         });
 
-
-
-
-        
-        
-       
 
 
       function chartTestBar() {
@@ -990,19 +606,23 @@ print_r($str_history_bmi_data);
         chart.render();
       }
 
-      function run() {
-        // chartOneData('chart-bmi', "bar", "BMI", 25, 0, 5); // ต้องมีการรับ data เข้ามา แล้วคำนวณหาค่า BMI
-        // chartOneData('chart-weight', "bar", "น้ำหนัก", 25, 0, 5);
-        // chartOneData('chart-waist', "bar", "รอบเอว", 100, 0, 10);
-        // chartTwoData('high-pressure', "line", "ความดันโลหิต ความดันค่าล่าง", 140, 0, 20); // 2 data // ต้องมีการรับ data เข้ามา แล้วคำนวณหาค่าความดันโลหิต
-        // chartOneData('chart-blood-suger', "bar", "น้ำตาลในเลือด", 100, 0, 10); //ต้องมีการรับ data เข้ามา แล้วคำนวณหาค่าน้ำตาลในเลือด
-        chartTestBar();
-        chartTestLine('bar', 'BMI', ['ม.ค.','มี.ค.','พ.ค.','ก.ค.','ก.ย.','พ.ค.'], 5, 0, 25);
-        chartTestPie();
-      }
-
-      run();
 
       </script>
   </body>
 </html>
+
+
+<?php 
+function arraySearch2D($array,$findKey,$findValue){
+  $_return=0;
+  foreach ($array as $key => $value) {
+    if ($value[$findKey]==$findValue){
+      $_return=$key+1;
+      break;
+    }
+  }
+  return $_return;
+}
+
+
+?>

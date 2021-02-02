@@ -18,51 +18,13 @@ if (!$_SESSION['fname']){
   order by h.inputDatetime";
 
 
-
-// $sql="
-// select 
-// YEAR(curdate())-YEAR(birthdate)-(DATE_FORMAT(curdate(), '%m%d') < DATE_FORMAT(birthdate, '%m%d')) as age,
-// (0.079*(YEAR(curdate())-YEAR(birthdate)-(DATE_FORMAT(curdate(), '%m%d') < DATE_FORMAT(birthdate, '%m%d')))) as a1,
-// (0.128*sexId) as a2,
-// (0.019350987*bpUpper) as a3,
-// (0.58454*diabetesId) as a4,
-// (3.512566*((waist*2.5)/healthHeight)) as a5,
-// (0.459*smokeId) as a6,
-
-// (0.079*(YEAR(curdate())-YEAR(birthdate)-(DATE_FORMAT(curdate(), '%m%d') < DATE_FORMAT(birthdate, '%m%d'))))
-// +
-// (0.128*sexId)
-// +
-// (0.019350987*bpUpper)
-// +
-// (0.58454*diabetesId)
-// +
-// (3.512566*((waist*2.5)/healthHeight))
-// +
-// (0.459*smokeId) as cvd_prescore,
-
-// (1-power(0.978296,exp(
-// ((0.079*(YEAR(curdate())-YEAR(p.birthdate)-(DATE_FORMAT(curdate(), '%m%d') < DATE_FORMAT(p.birthdate, '%m%d'))))
-// +
-// (0.128*p.sexId)
-// +
-// (0.019350987*h.bpUpper)
-// +
-// (0.58454*h.diabetesId)
-// +
-// (3.512566*((h.waist*2.5)/h.healthHeight))
-// +
-// (0.459*h.smokeId))-7.720484)))*100 as cvd_score, p.birthdate,p.sexId,h.bpUpper,h.diabetesId,h.waist,h.healthHeight,h.smokeId from health_data_record h left join person p on h.personId=p.personId";
-
-
-
-echo "<br>sql=".$sql;
+// echo "<br>sql=".$sql;
   $result = $conn -> prepare($sql);
   $result -> execute();
   $rows = $result -> fetchAll(PDO::FETCH_ASSOC);
   $now_row=$rows[0];
-echo "<br>now_row=";
-print_r($now_row);
+// echo "<br>now_row=";
+// print_r($now_row);
 
   $sqlBmi = "SELECT p.personId,
     p.sexId,
@@ -84,20 +46,20 @@ print_r($now_row);
     AND h.healthWeight/((h.healthHeight/100)*(h.healthHeight/100)) < IF(p.sexId = 1,b.sex1max,b.sex2max)
   where h.personId=".$_SESSION['personId']."
   ORDER BY h.inputDatetime";
-echo "<br>sqlBmi=".$sqlBmi;
+// echo "<br>sqlBmi=".$sqlBmi;
   $resultBmi = $conn -> prepare($sqlBmi);
   $resultBmi -> execute();
   $history_rows = $resultBmi -> fetchAll(PDO::FETCH_ASSOC);
-echo "<br>history_rows=";
-print_r($history_rows);
+// echo "<br>history_rows=";
+// print_r($history_rows);
 
 $sql="select * from bmi where id=2";
 $result = $conn -> prepare($sql);
 $result -> execute();
 $rowNormalBmi = $result -> fetch(PDO::FETCH_ASSOC);
 
-echo "<br>rowNormalBmi=";
-print_r($rowNormalBmi);
+// echo "<br>rowNormalBmi=";
+// print_r($rowNormalBmi);
 
 $sql="
 SELECT
@@ -149,22 +111,27 @@ cvd_level";
 $result = $conn -> prepare($sql);
 $result -> execute();
 $rows_cvd_level = $result -> fetchAll(PDO::FETCH_ASSOC);
-print_r($rows_cvd_level);
+// print_r($rows_cvd_level);
 
+
+$maxCountAll=0;
 $cvd_level_label=array();
 $cvd_level_data=array();
-$maxCountAll=0;
-foreach ($rows_cvd_level as $key => $value) {
-  array_push($cvd_level_label,"'".$value['cvd_level']."'");
-  array_push($cvd_level_data,$value['countAll']);
-  $maxCountAll=($maxCountAll<$value['countAll'])?$value['countAll']:$maxCountAll;
+for ($i=1; $i <=10 ; $i++) { 
+  $key = arraySearch2D($rows_cvd_level,'cvd_level',$i);
+  if($key>0){
+    array_push($cvd_level_label,"'".$rows_cvd_level[$key-1]['cvd_level']."'");
+    array_push($cvd_level_data,$rows_cvd_level[$key-1]['countAll']);
+    $maxCountAll=($maxCountAll<$rows_cvd_level[$key-1]['countAll'])?$rows_cvd_level[$key]['countAll']:$maxCountAll;
+  }else{
+    array_push($cvd_level_label,"'".$i."'");
+    array_push($cvd_level_data,0);
+  }
 }
 $str_cvd_level_label=implode(", ",$cvd_level_label);
 $str_cvd_level_data=implode(", ",$cvd_level_data);
 
 
-
-echo "<br>ddddd";
 $history_label=array();
 $history_bmi_data=array();
 $history_waist_data=array();
@@ -191,10 +158,10 @@ $str_history_bpLower_data=implode(", ",$history_bpLower_data);
 $str_history_bloodsugar_data=implode(", ",$history_bloodsugar_data);
 $str_history_weight_data=implode(", ",$history_weight_data);
 $str_history_cvd_score_data=implode(", ",$history_cvd_score_data);
-echo "<br>str_history_label";
-print_r($str_history_label);
-echo "<br>str_history_bmi_data";
-print_r($str_history_bmi_data);
+// echo "<br>str_history_label";
+// print_r($str_history_label);
+// echo "<br>str_history_bmi_data";
+// print_r($str_history_bmi_data);
 
 
 ?>
@@ -477,34 +444,7 @@ print_r($str_history_bmi_data);
           </div>
         </div>
         
-        <div class="content">
-          <div class="content-title">
-            <p>Test line chart</p>
-          </div>
-          <div class="content-body">
-          <div class="chart" id="chart-line-test">
-          </div>
-          </div>
-        </div>
 
-        <div class="content">
-          <div class="content-title">
-            <p>Test bar chart</p>
-          </div>
-          <div class="content-body">
-          <div class="chart" id="chart-bar-test">
-          </div>
-          </div>
-        </div>
-
-        <div class="content">
-          <div class="content-title">
-            <p>Test pie chart</p>
-          </div>
-          <div class="content-body pie-chart">
-          <div class="chart" id="chart-pie-test">
-          </div>
-        </div>
       </div>
 
       <div class="button d-flex justify-content-center">
@@ -990,19 +930,23 @@ print_r($str_history_bmi_data);
         chart.render();
       }
 
-      function run() {
-        // chartOneData('chart-bmi', "bar", "BMI", 25, 0, 5); // ต้องมีการรับ data เข้ามา แล้วคำนวณหาค่า BMI
-        // chartOneData('chart-weight', "bar", "น้ำหนัก", 25, 0, 5);
-        // chartOneData('chart-waist', "bar", "รอบเอว", 100, 0, 10);
-        // chartTwoData('high-pressure', "line", "ความดันโลหิต ความดันค่าล่าง", 140, 0, 20); // 2 data // ต้องมีการรับ data เข้ามา แล้วคำนวณหาค่าความดันโลหิต
-        // chartOneData('chart-blood-suger', "bar", "น้ำตาลในเลือด", 100, 0, 10); //ต้องมีการรับ data เข้ามา แล้วคำนวณหาค่าน้ำตาลในเลือด
-        chartTestBar();
-        chartTestLine('bar', 'BMI', ['ม.ค.','มี.ค.','พ.ค.','ก.ค.','ก.ย.','พ.ค.'], 5, 0, 25);
-        chartTestPie();
-      }
-
-      run();
 
       </script>
   </body>
 </html>
+
+
+<?php 
+function arraySearch2D($array,$findKey,$findValue){
+  $_return=0;
+  foreach ($array as $key => $value) {
+    if ($value[$findKey]==$findValue){
+      $_return=$key+1;
+      break;
+    }
+  }
+  return $_return;
+}
+
+
+?>
