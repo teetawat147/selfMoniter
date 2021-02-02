@@ -874,21 +874,19 @@ print_r($str_history_bmi_data);
             ]
           },
           options:{
-            legend:{display:true},
+            legend:{display:false},
             annotation: {
-              annotations: [
-                {
-                  type: "line",
-                  mode: "vertical",
-                  scaleID: "x-axis-0",
-                  value: "50%",
-                  borderColor: "black",
-                  label: {
-                    content: "Your Score",
-                    enabled: true,
-                    position: "center"
-                  }
-                }]},
+        annotations: [{
+            type: 'line',
+            mode: 'horizontal',
+            scaleID: 'y-axis-0',
+            value: '26',
+            borderColor: 'tomato',
+            borderWidth: 1
+        }],
+        drawTime: "afterDraw" // (default)
+    },
+
             scales:{
               yAxes:[{
                 ticks:{
@@ -897,7 +895,9 @@ print_r($str_history_bmi_data);
                   min: 0,
                   stepSize: <?php echo $maxCountAll/10; ?>
                 }
-              }]
+              }],
+
+              
             }
           }
         });
