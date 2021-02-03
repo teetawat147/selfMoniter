@@ -18,13 +18,13 @@ if (!$_SESSION['fname']){
   order by h.inputDatetime";
 
 
-echo "<br>sql=".$sql;
+// echo "<br>sql=".$sql;
   $result = $conn -> prepare($sql);
   $result -> execute();
   $rows = $result -> fetchAll(PDO::FETCH_ASSOC);
   $now_row=$rows[0];
-echo "<br>now_row=";
-print_r($now_row);
+// echo "<br>now_row=";
+// // print_r($now_row);
 
   $sqlBmi = "SELECT p.personId,
     p.sexId,
@@ -223,7 +223,7 @@ $str_history_cvd_score_data=implode(", ",$history_cvd_score_data);
       .content-body.waist p,
       .content-body.high-pressure-normal p
       {
-        line-height: 16px;
+        line-height: 20px;
       }
 
       #p3,
@@ -285,7 +285,7 @@ $str_history_cvd_score_data=implode(", ",$history_cvd_score_data);
           </div>
           <div class="content-body">
             <p id="p1"> <?php echo $now_row['conclude']; ?></p>
-            <p id="p2"><b>คำแนะนำเบื้องต้น</b> <br> <?php echo $now_row['advice'] ?></p>
+            <p id="p2"><b>คำแนะนำเบื้องต้น</b> <br> <?php echo html_entity_decode($now_row['advice']); ?></p>
             <?php
               $minWeight = round($rowNormalBmi['sex'.$now_row['sexId'].'min']*(($now_row['healthHeight']/100)*($now_row['healthHeight']/100)),2);
               $maxWeight = round($rowNormalBmi['sex'.$now_row['sexId'].'max']*(($now_row['healthHeight']/100)*($now_row['healthHeight']/100)),2);
@@ -333,7 +333,6 @@ $str_history_cvd_score_data=implode(", ",$history_cvd_score_data);
             <p class="advice"><?php echo $cvdScore['conclude']; ?> <br>
             <b>คำแนะนำ</b></br></p>
             <p><?php echo html_entity_decode($cvdScore['advice']); ?></p>
-            <!-- echo html_entity_decode($str); -->
           </div>
         </div>
 
@@ -366,7 +365,7 @@ $str_history_cvd_score_data=implode(", ",$history_cvd_score_data);
               }
               echo $rowsWaist[$thisWaistKey]['waistName'];
               ?>
-            </b> <br>(ชายไม่เกิน 90 ซม., หญิงไม่เกิน 80 ซม.)</p>
+            </b> <br>(<?php echo $rowsWaist[$thisWaistKey]['waistDetail']; ?>)</p>
           </div>
           <div class="content-body waist">
             <p class="advice"><?php echo html_entity_decode($rowsWaist[$thisWaistKey]['waistAdvice']); ?></p>
@@ -391,11 +390,11 @@ $str_history_cvd_score_data=implode(", ",$history_cvd_score_data);
 
         <div class="content">
           <div class="content-title">
-            <p>HHHH <?php echo $rowBloodPressure['bloodPressureName']; ?></p>
+            <p><?php echo $rowBloodPressure['bloodPressureName']; ?></p>
           </div>
           <div class="content-body high-pressure-normal">
-            <p class="advice">hhhh <?php echo $rowBloodPressure['conclude']; ?></p>
-            <p><?php echo $rowBloodPressure['advice']; ?></p>
+            <p class="advice"><?php echo $rowBloodPressure['conclude']; ?></p>
+            <p><?php echo html_entity_decode($rowBloodPressure['advice']); ?></p>
           </div>
         </div>
 
@@ -408,15 +407,21 @@ $str_history_cvd_score_data=implode(", ",$history_cvd_score_data);
           </div>
         </div>
 
+        <?php
+          $sql = "SELECT * FROM `bloodSugar` WHERE ".$now_row['bloodSugar']." >= fbs ORDER BY fbs DESC LIMIT 1";
+          $result = $conn -> prepare($sql);
+          $result -> execute();
+          $rowBloodSugar = $result -> fetch(PDO::FETCH_ASSOC);
+        ?>
+
         <div class="content">
           <div class="content-title">
-            <p><b>น้ำตาลในเลือดปกติ</b> <br>(มีน้ำตาลในเลือดน้อยกว่า 100 มก.ดล.)</p>
+            <p><b><?php echo $rowBloodSugar['bloodSugarName']; ?></b>
+            <br>(<?php echo $rowBloodSugar['bloodSugarDetail']; ?>)</p>
           </div>
           <div class="content-body waist">
-            <p class="advice"><b>เยี่ยมมาก!!</b> น้ำตาลในเลือดของคุณอยู่ในเกณฑ์ปกติ <br><b>คำแนะนำ</b></p>
-            <p>1. ควบคุมอาหาร ออกกำลังกายอย่างสม่ำเสมอ</p>
-            <p>2. ควบคุมน้ำหนักตัวให้อยู่ในเกณฑ์ที่เหมาะสม</p>
-            <p>3. ควรประเมินความเสี่ยงซ้ำทุก 1-2 ปี</p>
+            <p class="advice"><?php echo $rowBloodSugar['conclude']; ?><br><b>คำแนะนำ</b></p>
+            <p><?php echo html_entity_decode($rowBloodSugar['advice']); ?></p>
           </div>
         </div>
 
@@ -429,24 +434,37 @@ $str_history_cvd_score_data=implode(", ",$history_cvd_score_data);
           </div>
         </div>
 
-        <div class="content">
-          <div class="content-title">
-            <p>ไม่สูบบุหรี่</p>
-          </div>
-          <div class="content-body waist">
-            <p class="advice"><b>เยี่ยมมาก!! ดูแลตนเองให้ห่างจากพิษภัยของบุหรี่ต่อไปนะ..</b></p>
-          </div>
-        </div>
+        <?php
+          $sqlSmoke = "SELECT * FROM smoke WHERE ".$now_row['smokeId']." = smokeId";
+          $result = $conn -> prepare($sqlSmoke);
+          $result -> execute();
+          $rowSmoke = $result -> fetch(PDO::FETCH_ASSOC);
+        ?>
 
         <div class="content">
           <div class="content-title">
-            <p>ดื่มสุราบางโอกาส (1-2ครั้ง/สัปดาห์)</p>
+            <p><?php echo $rowSmoke['smokeName']; ?></p>
           </div>
           <div class="content-body waist">
-            <p class="advice"><b>คำแนะนำ</b></p>
-            <p>1. ควรเข้ารับการประเมินพฤติกรรมการดื่มเครื่องดื่มแอลกอฮอล์ โดน อสม.หรือเจ้าหน้าที่สาธารณสุขในสถานบริการใกล้บ้าน</p>
-            <p>2. สร้างแรงจูงใจและเสริมกำลังใจจากครอบครัวเพื่อช่วยเลิก</p>
-            <p>3. พบเจ้าหน้าที่ เพื่อช่วยเลิกแอลกอฮอล์</p>
+            <p class="advice"><?php echo $rowSmoke['conclude']; ?></p>
+            <p><?php echo html_entity_decode($rowSmoke['advice']); ?></p>
+          </div>
+        </div>
+
+        <?php
+          $sqlAlcohol = "SELECT * FROM alcohol WHERE ".$now_row['alcoholId']." = alcoholId";
+          $result = $conn -> prepare($sqlAlcohol);
+          $result -> execute();
+          $rowAlcohol = $result -> fetch(PDO::FETCH_ASSOC);
+        ?>
+
+        <div class="content">
+          <div class="content-title">
+            <p><?php echo $rowAlcohol['alcoholName']; ?></p>
+          </div>
+          <div class="content-body waist">
+          <p class="advice"><?php echo $rowAlcohol['conclude']; ?></p>
+            <p><?php echo html_entity_decode($rowAlcohol['advice']); ?></p>
           </div>
         </div>
 
@@ -865,85 +883,85 @@ $str_history_cvd_score_data=implode(", ",$history_cvd_score_data);
        
 
 
-      function chartTestBar() {
-        let options = {
-          series: [{
-          name: 'BMI',
-          data: [31, 40, 28, 51, 42, 109, 100]
-          // data: [<?php echo $str_history_bmi_data; ?>]
-        }],
-          chart: {
-          height: 400,
-          type: 'area'
-        },
-        dataLabels: {
-          enabled: false
-        },
-        stroke: {
-          curve: 'smooth'
-        },
-        xaxis: {
-          categories: ['ม.ค.','มี.ค.','พ.ค.','ก.ค.','ก.ย.','พ.ค.']
-        },
-        yaxis: {
-          tickAmount: 7,
-          min: 0,
-          max: 140
-        }
-      };
+      // function chartTestBar() {
+      //   let options = {
+      //     series: [{
+      //     name: 'BMI',
+      //     data: [31, 40, 28, 51, 42, 109, 100]
+      //     // data: [<?php echo $str_history_bmi_data; ?>]
+      //   }],
+      //     chart: {
+      //     height: 400,
+      //     type: 'area'
+      //   },
+      //   dataLabels: {
+      //     enabled: false
+      //   },
+      //   stroke: {
+      //     curve: 'smooth'
+      //   },
+      //   xaxis: {
+      //     categories: ['ม.ค.','มี.ค.','พ.ค.','ก.ค.','ก.ย.','พ.ค.']
+      //   },
+      //   yaxis: {
+      //     tickAmount: 7,
+      //     min: 0,
+      //     max: 140
+      //   }
+      // };
 
-        let chart = new ApexCharts(document.getElementById('chart-line-test'), options);
-        chart.render();
-      }
+      //   let chart = new ApexCharts(document.getElementById('chart-line-test'), options);
+      //   chart.render();
+      // }
 
-      function chartTestLine(typeChart, nameChart, categories, tickAmount, minValue, maxValue) {
-        let options = {
-          chart: {
-            type: typeChart
-          },
-          series: [{
-            name: nameChart,
-            data: [5, 10, 2, 15, 12, 10]
-          }],
-          xaxis: {
-            categories: categories
-          }, 
-          yaxis: {
-            tickAmount: tickAmount,
-            min: minValue,
-            max: maxValue
-          },
-          // colors: ['#008FFB']
-        }
+      // function chartTestLine(typeChart, nameChart, categories, tickAmount, minValue, maxValue) {
+      //   let options = {
+      //     chart: {
+      //       type: typeChart
+      //     },
+      //     series: [{
+      //       name: nameChart,
+      //       data: [5, 10, 2, 15, 12, 10]
+      //     }],
+      //     xaxis: {
+      //       categories: categories
+      //     }, 
+      //     yaxis: {
+      //       tickAmount: tickAmount,
+      //       min: minValue,
+      //       max: maxValue
+      //     },
+      //     // colors: ['#008FFB']
+      //   }
 
-        let chart = new ApexCharts(document.getElementById('chart-bar-test'), options);
-        chart.render();
-      }
+      //   let chart = new ApexCharts(document.getElementById('chart-bar-test'), options);
+      //   chart.render();
+      // }
 
-      function chartTestPie() {
-        let options = {
-          series: [100, 55, 13, 43, 22], // data
-          chart: {
-            width: 500,
-            type: 'pie',
-        },
-        labels: ['BMI1', 'BMI2', 'BMI3', 'BMI4', 'BMI5'],
-        responsive: [{
-          breakpoint: 480,
-          options: {
-            chart: {
-              width: 200
-            },
-            legend: {
-              position: 'bottom'
-            }
-          }
-        }]
-        };
+      // function chartTestPie() {
+      //   let options = {
+      //     series: [100, 55, 13, 43, 22], // data
+      //     chart: {
+      //       width: 500,
+      //       type: 'pie',
+      //   },
+      //   labels: ['BMI1', 'BMI2', 'BMI3', 'BMI4', 'BMI5'],
+      //   responsive: [{
+      //     breakpoint: 480,
+      //     options: {
+      //       chart: {
+      //         width: 200
+      //       },
+      //       legend: {
+      //         position: 'bottom'
+      //       }
+      //     }
+      //   }]
+      //   };
 
-        let chart = new ApexCharts(document.getElementById('chart-pie-test'), options);
-        chart.render();
-      }
+      //   let chart = new ApexCharts(document.getElementById('chart-pie-test'), options);
+      //   chart.render();
+      // }
 
 
       </script>
