@@ -14,17 +14,17 @@ if (!$_SESSION['fname']){
   left join person p on h.personId=p.personId
   LEFT JOIN bmi b ON h.healthWeight/((h.healthHeight/100)*(h.healthHeight/100)) >= IF(p.sexId = 1,b.sex1min,b.sex2min)
     AND h.healthWeight/((h.healthHeight/100)*(h.healthHeight/100)) < IF(p.sexId = 1,b.sex1max,b.sex2max)
-  WHERE h.helpRecordId = '".$_GET['helpRecordId']."' 
+  WHERE h.helpRecordId = '".$_GET['helpRecordId']."'
   order by h.inputDatetime";
 
 
-// echo "<br>sql=".$sql;
+echo "<br>sql=".$sql;
   $result = $conn -> prepare($sql);
   $result -> execute();
   $rows = $result -> fetchAll(PDO::FETCH_ASSOC);
   $now_row=$rows[0];
-// echo "<br>now_row=";
-// print_r($now_row);
+echo "<br>now_row=";
+print_r($now_row);
 
   $sqlBmi = "SELECT p.personId,
     p.sexId,
@@ -61,10 +61,8 @@ $rowNormalBmi = $result -> fetch(PDO::FETCH_ASSOC);
 // echo "<br>rowNormalBmi=";
 // print_r($rowNormalBmi);
 
-$sql="
+$sql = "
 SELECT
-	
-	
 	CEILING(((
 		1 - power(
 			0.978296,
@@ -104,7 +102,7 @@ IF (
 	b.sex2max
 )
 WHERE
-h.helpRecordId in (select max(helpRecordId)as max_helpRecordId from health_data_record group by personId) and
+h.helpRecordId in (select max(helpRecordId) AS max_helpRecordId from health_data_record group by personId) and
 p.personId
 GROUP BY 
 cvd_level";
@@ -122,7 +120,7 @@ for ($i=1; $i <=10 ; $i++) {
   if($key>0){
     array_push($cvd_level_label,"'".$rows_cvd_level[$key-1]['cvd_level']."'");
     array_push($cvd_level_data,$rows_cvd_level[$key-1]['countAll']);
-    $maxCountAll=($maxCountAll<$rows_cvd_level[$key-1]['countAll'])?$rows_cvd_level[$key]['countAll']:$maxCountAll;
+    $maxCountAll=($maxCountAll<$rows_cvd_level[$key-1]['countAll'])?$rows_cvd_level[$key-1]['countAll']:$maxCountAll;
   }else{
     array_push($cvd_level_label,"'".$i."'");
     array_push($cvd_level_data,0);
@@ -320,20 +318,22 @@ $str_history_cvd_score_data=implode(", ",$history_cvd_score_data);
           </div>
         </div>
 
+<?php 
+  $sql = "select * FROM cvdScore where ".$now_row['cvd_score']." >= cvdMin and ".$now_row['cvd_score']." <= cvdMax";
+  $result = $conn -> prepare($sql);
+  $result -> execute();
+  $cvdScore = $result -> fetch(PDO::FETCH_ASSOC);
+?>
+
         <div class="content">
           <div class="content-title">
-            <p>ความเสี่ยงต่อโรคหัวใจใน 10 ปี = เสี่ยงต่ำ</p>
+            <p>ความเสี่ยงต่อโรคหัวใจใน 10 ปี = <?php echo $cvdScore['cvdName']; ?> </p>
           </div>
           <div class="content-body risk">
-            <p class="advice"><b>เยี่ยมมาก!!</b> ความเสี่ยงต่อโรคหัวใจของคุณอยู่ในระดับต่ำที่สุด <br><b>คำแนะนำ</b></br></p>
-            <p>1. บริโภคอาหารรลดหวาน มัน เค็ม เพิ่มผักและผลไม้</p>
-            <p>2. ออกกำลังกาย การเคลื่อนไหวร่างกาย ระดับหนักปานกลาง เช่น เดินเร็ว อย่างน้อย 30 นาที ต่อวัน สัปดาห์ละ 5 วัน ในการเคลื่อนไหวในชีวิตประจำวัน เวลาว่าง และการทำงาน</p>
-            <p>3. น้ำหนักและรอบเอว ควบคุม ดัชนีมวลกาย (BMI) ให้อยู่ในช่วง 18.5 - 22.9 กก./ม หรือใกล้เคียง รอบเอว ผู้หญิงไม้เกิน 80 ซม. ชาย ไม่เกิน 90 ซม.</p>
-            <p>4. หยุดสูบบุหรี่หรือไม่เริ่มสูบและไม่สูดคมควันบุหรี่</p>
-            <p>5. หยุดดื่่มเครื่องดื่มที่มีแอลกอฮอล์ในรายที่หยุดดื่มไม่ได้ แนะนำให้ลดการดื่มลง (ผู้ชาย น้อยกว่าหรือเท่ากับ 2 หน่วยมาตรฐาน ผู้หญิง น้อยกว่าเท่ากับ 1 หน่วยมาตรฐาน)</p>
-            <p>6. ความคุมความดันโลหิตน้อยกว่า 140/90 มม.ปรอท</p>
-            <p>7. ติดตามทุก 6 เดือน</p>
-            <p>8. ติดตามประเมินซ้ำภายใน 1 ปี</p>
+            <p class="advice"><?php echo $cvdScore['conclude']; ?> <br>
+            <b>คำแนะนำ</b></br></p>
+            <p><?php echo html_entity_decode($cvdScore['advice']); ?></p>
+            <!-- echo html_entity_decode($str); -->
           </div>
         </div>
 
@@ -351,15 +351,25 @@ $str_history_cvd_score_data=implode(", ",$history_cvd_score_data);
           <div class="content-title">
             <p><b>รอบเอวของคุณอยู่ในเกณฑ์
             <?php 
-              echo ($now_row['waist']<=80)?" ปกติ":" เกินค่าปกติ";
-            ?>
+              $sql="select * from waist";
+              $result = $conn -> prepare($sql);
+              $result -> execute();
+              $rowsWaist = $result -> fetchAll(PDO::FETCH_ASSOC);
+              $thisWaistKey=0;
+              foreach ($rowsWaist as $key => $value) {
+                $ex1='$ex3='.$now_row['waist'].$value['sex'.$now_row['sexId'].'max'].";";
+                eval($ex1);
+                if ($ex3){
+                  $thisWaistKey=$key;
+                  break;
+                }
+              }
+              echo $rowsWaist[$thisWaistKey]['waistName'];
+              ?>
             </b> <br>(ชายไม่เกิน 90 ซม., หญิงไม่เกิน 80 ซม.)</p>
           </div>
           <div class="content-body waist">
-            <p class="advice"><b>เยี่ยมมาก!!</b> รอบเอวของคุณอยู่ในเกณฑ์ปกติ <br><b>คำแนะนำ</b></p>
-            <p>1. การรับประทานอาหารที่ดีต่อสุขภาพและออกกำลังกายอย่างสม่ำเสมอ</p>
-            <p>2. วัดรอบเอวด้วยตนเองทุก 2 - 3 เดือน</p>
-            <p>3. ปรับเปลี่ยนพฤติกรรม 3อ.2ส</p>
+            <p class="advice"><?php echo html_entity_decode($rowsWaist[$thisWaistKey]['waistAdvice']); ?></p>
           </div>
         </div>
 
@@ -372,15 +382,20 @@ $str_history_cvd_score_data=implode(", ",$history_cvd_score_data);
           </div>
         </div>
 
+        <?php
+          $sql = "select * from bloodPressure where ".$now_row['bpUpper']." >=sbp or ".$now_row['bpLower']." >=dbp order by sbp desc limit 1";
+          $result = $conn -> prepare($sql);
+          $result -> execute();
+          $rowBloodPressure = $result -> fetch(PDO::FETCH_ASSOC);
+        ?>
+
         <div class="content">
           <div class="content-title">
-            <p>ความดันโลหิตปกติ</p>
+            <p>HHHH <?php echo $rowBloodPressure['bloodPressureName']; ?></p>
           </div>
           <div class="content-body high-pressure-normal">
-            <p class="advice"><b>เยี่ยมมาก!!</b> ความดันโลหิตของคุณอยู่ในเกณฑ์ปกติ <br><b>คำแนะนำ</b></p>
-            <p>1. ควบคุมอาหาร</p>
-            <p>2. ออกกำลังกาย</p>
-            <p>3. วัดความดันโลหิตอย่างสม่ำเสมอ</p>
+            <p class="advice">hhhh <?php echo $rowBloodPressure['conclude']; ?></p>
+            <p><?php echo $rowBloodPressure['advice']; ?></p>
           </div>
         </div>
 
@@ -588,7 +603,7 @@ $str_history_cvd_score_data=implode(", ",$history_cvd_score_data);
                   "rgb(54, 162, 235)",
                   "rgb(153, 102, 255)",
                   "rgb(201, 203, 207)"],
-                borderWidth:1
+                borderWidth:8,
               }
             ]
           },
@@ -833,7 +848,7 @@ $str_history_cvd_score_data=implode(", ",$history_cvd_score_data);
                   beginAtZero:true,
                   max: <?php echo $maxCountAll+(10*$maxCountAll/100); ?>,
                   min: 0,
-                  stepSize: <?php echo $maxCountAll/10; ?>
+                  stepSize: <?php echo ceil($maxCountAll/10); ?>
                 }
               }],
 
