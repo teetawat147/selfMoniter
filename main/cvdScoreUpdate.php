@@ -7,7 +7,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>แก้ไขข้อมูลรายละเอียดของรอบเอว</title>
+    <title>แก้ไขข้อมูลรายละเอียดของการสูบบุหรี่</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
 
     <style>
@@ -24,56 +24,50 @@
 </head>
 
     <?php
-        $sql="select * from `waist` WHERE waistId=".$_GET['waistId'];
-        $obj=$conn->prepare($sql);
-        $obj->execute();
-        $rowsWaist=$obj->fetch(PDO::FETCH_ASSOC);
+        $sql = "select * from `cvdScore` WHERE cvdScoreId=".$_GET['cvdScoreId'];
+        $result = $conn -> prepare($sql);
+        $result -> execute();
+        $rowsCvdScore = $result -> fetch(PDO::FETCH_ASSOC);
     ?>
     
 <body>
     <div class="container">
-        <form action="ajaxWaistUpdate.php" method="POST">
+        <form action="ajaxCvdScoreUpdate.php" method="POST">
             <div class="form-row">
                 <div class="form-group col-md-12">
-                    <label for="waistName"><b>รายการ</b></label><br>
-                    <textarea name="waistName" id="waistName" cols="80" rows="10"><?php echo htmlentities($rowsWaist['waistName']); ?></textarea>
+                    <label for="cvdName"><b>รายการ</b></label><br>
+                    <textarea name="cvdName" id="cvdName" cols="80" rows="10"><?php echo htmlentities($rowsCvdScore['cvdName']); ?></textarea>
                 </div>
             </div>
 
             <div class="form-row">
                 <div class="form-group col-md-12">
-                    <label for="sex1max"><b>เกณฑ์ของผู้ชาย</b></label><br>
-                    <textarea name="sex1max" id="sex1max" cols="80" rows="10"><?php echo $rowsWaist['sex1max']; ?></textarea>
+                    <label for="conclude"><b>สรุป</b></label><br>
+                    <textarea name="conclude" id="conclude" cols="80" rows="10"><?php echo htmlentities($rowsCvdScore['conclude']); ?></textarea>
                 </div>
             </div>
             <div class="form-row">
                 <div class="form-group col-md-12">
-                    <label for="sex2max"><b>เกณฑ์ของผู้หญิง</b></label><br>
-                    <textarea name="sex2max" id="sex2max" cols="80" rows="10"><?php echo $rowsWaist['sex2max']; ?></textarea>
+                    <label for="advice"><b>คำแนะนำ</b></label><br>
+                    <textarea name="advice" id="advice" cols="80" rows="10"><?php echo htmlentities($rowsCvdScore['advice']); ?></textarea>
                 </div>
             </div>
 
             <div class="form-row">
                 <div class="form-group col-md-12">
-                    <label for="waistConclude"><b>สรุป</b></label><br>
-                    <textarea name="waistConclude" id="waistConclude" cols="80" rows="10"><?php echo htmlentities($rowsWaist['waistConclude']); ?></textarea>
+                    <label for="cvdMin"><b>CVD ค่าต่ำที่สุด</b></label><br>
+                    <textarea name="cvdMin" id="cvdMin" cols="80" rows="10"><?php echo htmlentities($rowsCvdScore['cvdMin']); ?></textarea>
                 </div>
             </div>
 
             <div class="form-row">
                 <div class="form-group col-md-12">
-                    <label for="waistDetail"><b>รายละเอียด</b></label><br>
-                    <textarea name="waistDetail" id="waistDetail" cols="80" rows="10"><?php echo htmlentities($rowsWaist['waistDetail']); ?></textarea>
+                    <label for="cvdMax"><b>CVD ค่ามากที่สุด</b></label><br>
+                    <textarea name="cvdMax" id="cvdMax" cols="80" rows="10"><?php echo htmlentities($rowsCvdScore['cvdMax']); ?></textarea>
                 </div>
             </div>
 
-            <div class="form-row">
-                <div class="form-group col-md-12">
-                    <label for="waistAdvice"><b>คำแนะนำ</b></label><br>
-                    <textarea name="waistAdvice" id="waistAdvice" cols="80" rows="10"><?php echo htmlentities($rowsWaist['waistAdvice']); ?></textarea>
-                </div>
-            </div>
-            <input type="hidden" name="waistId" id="waistId" value="<?php echo htmlentities($rowsWaist['waistId']); ?>">
+            <input type="hidden" name="cvdScoreId" id="cvdScoreId" value="<?php echo htmlentities($rowsCvdScore['cvdScoreId']); ?>">
             <button type="submit">บันทึก</button>
         </form>
     </div>
@@ -95,12 +89,11 @@
                 } );
             }
 
-            createCkeditor("waistName");
-            createCkeditor("waistDetail");
-            createCkeditor("waistConclude");
-            createCkeditor("sex1max");
-            createCkeditor("sex2max");
-            createCkeditor("waistAdvice");
+            createCkeditor("cvdName");
+            // createCkeditor("conclude");
+            // createCkeditor("advice");
+            // createCkeditor("cvdMin");
+            // createCkeditor("cvdMax");
     </script>
 
 
