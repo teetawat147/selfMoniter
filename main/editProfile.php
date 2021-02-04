@@ -41,7 +41,6 @@ if (!$_SESSION['personId']){
         <div class="form-row">
             <div class="form-group col-md-12">
                 <label for="cid">เลขบัตรประจำตัวประชาชน</label>
-                <!-- <input type="numId" class="form-control" id="inputnumId" placeholder="เลขบัตรประจำตัวประชาชน"> -->
                 <input name="cid" id="cid" class="form-control" min="3" required type="text" data-error-msg="กรุณากรอกเลขบัตรประจำตัวประชาชน" placeholder="เลขบัตรประจำตัวประชาชน" value="<?php echo $row['cid']; ?>">
             </div>
         </div>
