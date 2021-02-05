@@ -28,6 +28,7 @@
       thead tr th:nth-child(5),
       thead tr th:nth-child(6) {
         width: 9ch;
+        margin: 0 auto;
       }
 
       @media screen and (max-width: 768px) {
@@ -44,13 +45,13 @@
     <table class="table" id="myTable" style="width: 100%;">
       <thead>
         <tr>
-          <th style="height: 70px; vertical-align: top;">ลำดับ</th>
-          <th style="height: 70px; vertical-align: top;">รายการ</th>
-          <th style="height: 70px; vertical-align: top;">สรุป</th>
-          <th style="height: 70px; vertical-align: top;">รายละเอียด</th>
-          <th style="height: 70px; vertical-align: top;">เกณฑ์ผู้ชาย</th>
-          <th style="height: 70px; vertical-align: top;">เกณฑ์ผู้หญิง</th>
-          <th style="height: 70px; vertical-align: top;">คำแนะนำ</th>
+          <th style="height: 70px; vertical-align: top; text-align: center;">ลำดับ</th>
+          <th style="height: 70px; vertical-align: top; text-align: center;">รายการ</th>
+          <th style="height: 70px; vertical-align: top; text-align: center;">สรุป</th>
+          <th style="height: 70px; vertical-align: top; text-align: center;">รายละเอียด</th>
+          <th style="height: 70px; vertical-align: top; text-align: center;">เกณฑ์ผู้ชาย</th>
+          <th style="height: 70px; vertical-align: top; text-align: center;">เกณฑ์ผู้หญิง</th>
+          <th style="height: 70px; vertical-align: top; text-align: center;">คำแนะนำ</th>
           <th data-card-footer></th>
         </tr>
       </thead>
@@ -60,21 +61,21 @@
         ?>
 
         <tr>
-          <td><?php echo html_entity_decode($rowWaist['waistId']); ?></td>
-            <td><?php echo html_entity_decode($rowWaist['waistName']); ?></td>
-            <td><?php echo html_entity_decode($rowWaist['waistConclude']); ?></td>
-            <td><?php echo html_entity_decode($rowWaist['waistDetail']); ?></td>
-            <td><?php echo html_entity_decode($rowWaist['sex1max']); ?></td>
-            <td><?php echo html_entity_decode($rowWaist['sex2max']); ?></td>
-            <td><?php echo html_entity_decode($rowWaist['waistAdvice']); ?></td>
-            <td>
-            <center><a href="../main/waistUpdate.php?waistId=<?php echo html_entity_decode($rowWaist['waistId']); ?>" class="btn btn-warning">แก้ไขข้อความ</a></center>
+          <td style="text-align: center;"><?php echo html_entity_decode($rowWaist['waistId']); ?></td>
+          <td><?php echo html_entity_decode($rowWaist['waistName']); ?></td>
+          <td><?php echo html_entity_decode($rowWaist['waistConclude']); ?></td>
+          <td><?php echo html_entity_decode($rowWaist['waistDetail']); ?></td>
+          <td><?php echo html_entity_decode($rowWaist['sex1max']); ?></td>
+          <td><?php echo html_entity_decode($rowWaist['sex2max']); ?></td>
+          <td><?php echo html_entity_decode($rowWaist['waistAdvice']); ?></td>
+          <td>
+              <center><a href="../main/waistUpdate.php?waistId=<?php echo html_entity_decode($rowWaist['waistId']); ?>" class="btn btn-warning">แก้ไขข้อความ</a></center>
           </td>
         </tr>
         <?php 
           }
         ?>
       </tbody>
-</table>
+    </table>
   </body>
 </html>
