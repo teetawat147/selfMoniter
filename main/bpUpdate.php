@@ -7,16 +7,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>แก้ไขระดับ CVD risk</title>
+    <title>แก้ไขข้อมูลรายละเอียดของความดัน</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
    
 </head>
 
     <?php
-        $sql = "select * from `cvdScore` WHERE cvdScoreId=".$_GET['cvdScoreId'];
+        $sql = "select * from `bloodPressure` WHERE bloodPressureId=".$_GET['bloodPressureId'];
         $result = $conn -> prepare($sql);
         $result -> execute();
-        $rowsCvdScore = $result -> fetch(PDO::FETCH_ASSOC);
+        $rowsbloodPressure = $result -> fetch(PDO::FETCH_ASSOC);
     ?>
     
 <body>
@@ -25,43 +25,43 @@
   ?>
     
     <div class="container">
-        <h3>แก้ไขระดับ CVD risk</h3>
-        <form action="ajaxCvdScoreUpdate.php" method="POST">
+        <h3>แก้ไขระดับ ความดัน</h3>
+        <form action="ajaxBpUpdate.php" method="POST">
             <div class="form-row">
                 <div class="form-group col-md-12">
                     <label for="cvdName">รายการ</label>
-                    <input type="text" class="form-control" name="cvdName" id="cvdName" value="<?php echo htmlentities($rowsCvdScore['cvdName']); ?>">
+                    <input type="text" class="form-control" name="cvdName" id="cvdName" value="<?php echo htmlentities($rowsbloodPressure['bloodPressureName']); ?>">
                 </div>
             </div>
 
             <div class="form-row">
                 <div class="form-group col-md-12">
                     <label for="conclude">สรุป</label>
-                    <textarea name="conclude" id="conclude" cols="80" rows="10"><?php echo htmlentities($rowsCvdScore['conclude']); ?></textarea>
+                    <textarea name="conclude" id="conclude" cols="80" rows="10"><?php echo htmlentities($rowsbloodPressure['conclude']); ?></textarea>
                 </div>
             </div>
             <div class="form-row">
                 <div class="form-group col-md-12">
                     <label for="advice">คำแนะนำ</label>
-                    <textarea name="advice" id="advice" cols="80" rows="10"><?php echo htmlentities($rowsCvdScore['advice']); ?></textarea>
+                    <textarea name="advice" id="advice" cols="80" rows="10"><?php echo htmlentities($rowsbloodPressure['advice']); ?></textarea>
                 </div>
             </div>
 
             <div class="form-row">
                 <div class="form-group col-md-12">
-                    <label for="cvdMin">CVD ค่าต่ำที่สุด</label>
-                    <input type="text" class="form-control" name="cvdMin" id="cvdMin" value="<?php echo htmlentities($rowsCvdScore['cvdMin']); ?>">
+                    <label for="sbp">ความดันค่าล่าง</label>
+                    <input type="text" class="form-control" name="sbp" id="sbp" value="<?php echo htmlentities($rowsbloodPressure['sbp']); ?>">
                 </div>
             </div>
 
             <div class="form-row">
                 <div class="form-group col-md-12">
-                    <label for="cvdMax">CVD ค่ามากที่สุด</label>
-                    <input type="text" class="form-control" name="cvdMax" id="cvdMax" value="<?php echo htmlentities($rowsCvdScore['cvdMax']); ?>">
+                    <label for="dbp">ความดันค่าบน</label>
+                    <input type="text" class="form-control" name="dbp" id="dbp" value="<?php echo htmlentities($rowsbloodPressure['dbp']); ?>">
                 </div>
             </div>
 
-            <input type="hidden" name="cvdScoreId" id="cvdScoreId" value="<?php echo htmlentities($rowsCvdScore['cvdScoreId']); ?>">
+            <input type="hidden" name="bloodPressureId" id="bloodPressureId" value="<?php echo htmlentities($rowsbloodPressure['bloodPressureId']); ?>">
             <button class="btn btn-warning" type="reset">ยกเลิก</button>
             <button class="btn btn-success" type="submit">บันทึก</button>
         </form>

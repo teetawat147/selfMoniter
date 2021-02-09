@@ -8,19 +8,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>แก้ไขข้อมูลรายละเอียดของการสูบบุหรี่</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 
-    <style>
-        .container {
-            margin-top: 20px;
-            padding: 5px;
-            text-align: center;
-        }
-        
-        .form-group, label {
-            margin: 15px 0;
-        }
-    </style>
 </head>
 
     <?php
@@ -31,12 +20,16 @@
     ?>
     
 <body>
+<?php
+    include "./header.php";
+?>
     <div class="container">
+        <h3>แก้ไข ระดับการสูบบุหรี่</h3>
         <form action="ajaxSmokeUpdate.php" method="POST">
             <div class="form-row">
                 <div class="form-group col-md-12">
-                    <label for="smokeName"><b>รายการ</b></label><br>
-                    <textarea name="smokeName" id="smokeName" cols="80" rows="10"><?php echo htmlentities($rowsSmoke['smokeName']); ?></textarea>
+                    <label for="smokeName">รายการ</label>
+                    <input name="smokeName" id="smokeName" type="text" class="form-control" value="<?php echo htmlspecialchars_decode($rowsSmoke['smokeName']); ?>">
                 </div>
             </div>
 
@@ -60,7 +53,8 @@
                 </div>
             </div>
             <input type="hidden" name="smokeId" id="smokeId" value="<?php echo htmlentities($rowsSmoke['smokeId']); ?>">
-            <button type="submit">บันทึก</button>
+            <button class="btn btn-warning " style="text-align: center;"  type="reset">ยกเลิก</button>
+            <button class="btn btn-success " style="text-align: center;" type="submit">บันทึก</button>
         </form>
     </div>
     <!-- <script> -->
@@ -81,9 +75,10 @@
                 } );
             }
 
-            createCkeditor("smokeName");
+            //createCkeditor("smokeName");
             createCkeditor("conclude");
             createCkeditor("advice");
+            createCkeditor("map");
     </script>
 
 

@@ -23,6 +23,6 @@
 
     $result = $conn->prepare($sql);
     $result->execute();
-    // header('location: ../main/cvdScoreGet.php');
-    print_r($result);
+    header('location: ../main/cvdScoreGet.php');
+    //print_r($result);
 ?>

@@ -43,39 +43,41 @@
     </style>
   </head>
   <body>
+  <?php
+      include "./header.php";
+  ?>
+    <div class="container-fluid">
+      <h3>ระดับ การสูบบุหรี่</h3>
+      <table class="table" id="myTable">
+        <thead>
+          <tr>
+            <th>ลำดับ</th>
+            <th>รายการ</th>
+            <th>Map</th>
+            <th>สรุป</th>
+            <th>คำแนะนำ</th>
+            <th data-card-footer></th>
+          </tr>
+        </thead>
+        <tbody>
+          <?php
+            foreach ($rowsSmoke as $key => $rowSmoke) {
+          ?>
 
-
-
-    <table class="table" id="myTable">
-      <thead>
-        <tr>
-          <th>ลำดับ</th>
-          <th>รายการ</th>
-          <th>Map</th>
-          <th>สรุป</th>
-          <th>คำแนะนำ</th>
-          <th data-card-footer></th>
-        </tr>
-      </thead>
-      <tbody>
-        <?php
-          foreach ($rowsSmoke as $key => $rowSmoke) {
-        ?>
-
-        <tr>
-            <td><?php echo html_entity_decode($rowSmoke['smokeId']); ?></td>
-            <td><?php echo html_entity_decode($rowSmoke['smokeName']); ?></td>
-            <td><?php echo html_entity_decode($rowSmoke['map']); ?></td>
-            <td><?php echo html_entity_decode($rowSmoke['conclude']); ?></td>
-            <td><?php echo html_entity_decode($rowSmoke['advice']); ?></td>
-            <td>
-            <center><a href="../main/smokeUpdate.php?smokeId=<?php echo html_entity_decode($rowSmoke['smokeId']); ?>" class="btn btn-warning">แก้ไขข้อความ</a></center>
-          </td>
-        </tr>
-        <?php 
-          }
-        ?>
-      </tbody>
-</table>
+          <tr>
+              <td><?php echo html_entity_decode($rowSmoke['smokeId']); ?></td>
+              <td><?php echo html_entity_decode($rowSmoke['smokeName']); ?></td>
+              <td><?php echo html_entity_decode($rowSmoke['map']); ?></td>
+              <td><?php echo html_entity_decode($rowSmoke['conclude']); ?></td>
+              <td><?php echo html_entity_decode($rowSmoke['advice']); ?></td>
+              <td>
+              <center><a href="../main/smokeUpdate.php?smokeId=<?php echo html_entity_decode($rowSmoke['smokeId']); ?>" class="btn btn-warning">แก้ไขข้อความ</a></center>
+            </td>
+          </tr>
+          <?php 
+            }
+          ?>
+        </tbody>
+      </table>
   </body>
 </html>

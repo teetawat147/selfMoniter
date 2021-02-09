@@ -7,16 +7,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>แก้ไขระดับ CVD risk</title>
+    <title>แก้ไขข้อมูลรายละเอียดของ BMI</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
    
 </head>
 
     <?php
-        $sql = "select * from `cvdScore` WHERE cvdScoreId=".$_GET['cvdScoreId'];
+        $sql = "select * from `bmi` WHERE id=".$_GET['id'];
         $result = $conn -> prepare($sql);
         $result -> execute();
-        $rowsCvdScore = $result -> fetch(PDO::FETCH_ASSOC);
+        $rowsBmi = $result -> fetch(PDO::FETCH_ASSOC);
     ?>
     
 <body>
@@ -25,43 +25,64 @@
   ?>
     
     <div class="container">
-        <h3>แก้ไขระดับ CVD risk</h3>
-        <form action="ajaxCvdScoreUpdate.php" method="POST">
+        <h3>แก้ไขระดับ BMI</h3>
+        <form action="ajaxBmiUpdate.php" method="POST">
             <div class="form-row">
                 <div class="form-group col-md-12">
-                    <label for="cvdName">รายการ</label>
-                    <input type="text" class="form-control" name="cvdName" id="cvdName" value="<?php echo htmlentities($rowsCvdScore['cvdName']); ?>">
+                    <label for="nameBmi">รายการ</label>
+                    <input type="text" class="form-control" name="nameBmi" id="nameBmi" value="<?php echo htmlentities($rowsBmi['nameBmi']); ?>">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col-md-12">
+                    <label for="riskBmi">รายการ</label>
+                    <input type="text" class="form-control" name="riskBmi" id="riskBmi" value="<?php echo htmlentities($rowsBmi['riskBmi']); ?>">
                 </div>
             </div>
 
             <div class="form-row">
                 <div class="form-group col-md-12">
                     <label for="conclude">สรุป</label>
-                    <textarea name="conclude" id="conclude" cols="80" rows="10"><?php echo htmlentities($rowsCvdScore['conclude']); ?></textarea>
+                    <textarea name="conclude" id="conclude" cols="80" rows="10"><?php echo htmlentities($rowsBmi['conclude']); ?></textarea>
                 </div>
             </div>
             <div class="form-row">
                 <div class="form-group col-md-12">
                     <label for="advice">คำแนะนำ</label>
-                    <textarea name="advice" id="advice" cols="80" rows="10"><?php echo htmlentities($rowsCvdScore['advice']); ?></textarea>
+                    <textarea name="advice" id="advice" cols="80" rows="10"><?php echo htmlentities($rowsBmi['advice']); ?></textarea>
                 </div>
             </div>
 
             <div class="form-row">
                 <div class="form-group col-md-12">
-                    <label for="cvdMin">CVD ค่าต่ำที่สุด</label>
-                    <input type="text" class="form-control" name="cvdMin" id="cvdMin" value="<?php echo htmlentities($rowsCvdScore['cvdMin']); ?>">
+                    <label for="sex1min">ค่าต่ำสุด(ผู้ชาย)</label>
+                    <input type="text" class="form-control" name="sex1min" id="sex1min" value="<?php echo htmlentities($rowsBmi['sex1min']); ?>">
                 </div>
             </div>
 
             <div class="form-row">
                 <div class="form-group col-md-12">
-                    <label for="cvdMax">CVD ค่ามากที่สุด</label>
-                    <input type="text" class="form-control" name="cvdMax" id="cvdMax" value="<?php echo htmlentities($rowsCvdScore['cvdMax']); ?>">
+                    <label for="sex1max">ค่าสูงสุด(ผู้ชาย)</label>
+                    <input type="text" class="form-control" name="sex1max" id="sex1max" value="<?php echo htmlentities($rowsBmi['sex1max']); ?>">
                 </div>
             </div>
 
-            <input type="hidden" name="cvdScoreId" id="cvdScoreId" value="<?php echo htmlentities($rowsCvdScore['cvdScoreId']); ?>">
+            <div class="form-row">
+                <div class="form-group col-md-12">
+                    <label for="sex2min">ค่าต่ำสุด(ผู้หญฺิง)</label>
+                    <input type="text" class="form-control" name="sex2min" id="sex2min" value="<?php echo htmlentities($rowsBmi['sex2min']); ?>">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col-md-12">
+                    <label for="sex2max">ค่าสูงสุด(ผู้หญฺิง)</label>
+                    <input type="text" class="form-control" name="sex2max" id="sex2max" value="<?php echo htmlentities($rowsBmi['sex2max']); ?>">
+                </div>
+            </div>
+
+            <input type="hidden" name="id" id="id" value="<?php echo htmlentities($rowsBmi['id']); ?>">
             <button class="btn btn-warning" type="reset">ยกเลิก</button>
             <button class="btn btn-success" type="submit">บันทึก</button>
         </form>

@@ -1,10 +1,10 @@
 <?php
   include('../include/connection.php');
 
-  $sql = "SELECT * FROM cvdScore";
+  $sql = "SELECT * FROM bmi";
   $result = $conn -> prepare($sql);
   $result -> execute();
-  $rowsCvdScore = $result -> fetchAll(PDO::FETCH_ASSOC);
+  $rowsBmi = $result -> fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <!doctype html>
@@ -21,7 +21,7 @@
     <script src="https://cdn.ckeditor.com/ckeditor5/25.0.0/classic/ckeditor.js"></script>
     <script src="../js/tableToCards.js"></script>
   
-    <title>ระดับ CVD risk</title>
+    <title>ค่า BMI</title>
 
     <style>
 
@@ -47,33 +47,40 @@
       include "./header.php";
     ?>
     <div class="container-fluid">
-      <h3>ระดับ CVD risk</h3>
+      <h3>ระดับ BMI</h3>
       <table class="table" id="myTable">
         <thead>
           <tr>
             <th>ลำดับ</th>
-            <th>รายการ</th>
+            <th>ระดับ</th>
+            <th>ความเสี่ยง</th>
             <th>สรุป</th>
             <th>คำแนะนำ</th>
-            <th>CVD ค่าต่ำที่สุด</th>
-            <th>CVD ค่ามากที่สุด</th>
+            <th>ค่าต่ำสุด(ผู้ชาย)</th>
+            <th>ค่าสูงสุด(ผู้ชาย)</th>
+            <th>ค่าต่ำสุด(ผู้หญิง)</th>
+            <th>ค่าสูงสุด(ผู้หญิง)</th>
             <th data-card-footer></th>
           </tr>
         </thead>
         <tbody>
           <?php
-            foreach ($rowsCvdScore as $key => $rowCvdScore) {
+            foreach ($rowsBmi as $key => $rowBmi) {
           ?>
 
           <tr>
-              <td><?php echo html_entity_decode($rowCvdScore['cvdScoreId']); ?></td>
-              <td><?php echo html_entity_decode($rowCvdScore['cvdName']); ?></td>
-              <td><?php echo html_entity_decode($rowCvdScore['conclude']); ?></td>
-              <td><?php echo html_entity_decode($rowCvdScore['advice']); ?></td>
-              <td><?php echo html_entity_decode($rowCvdScore['cvdMin']); ?></td>
-              <td><?php echo html_entity_decode($rowCvdScore['cvdMax']); ?></td>
+              <td><?php echo html_entity_decode($rowBmi['id']); ?></td>
+              <td><?php echo html_entity_decode($rowBmi['nameBmi']); ?></td>
+              <td><?php echo html_entity_decode($rowBmi['riskBmi']); ?></td>
+              <td><?php echo html_entity_decode($rowBmi['conclude']); ?></td>
+              <td><?php echo html_entity_decode($rowBmi['advice']); ?></td>
+              <td><?php echo html_entity_decode($rowBmi['sex1min']); ?></td>
+              <td><?php echo html_entity_decode($rowBmi['sex1max']); ?></td>
+              <td><?php echo html_entity_decode($rowBmi['sex2min']); ?></td>
+              <td><?php echo html_entity_decode($rowBmi['sex2max']); ?></td>
+
               <td>
-              <center><a href="../main/cvdScoreUpdate.php?cvdScoreId=<?php echo html_entity_decode($rowCvdScore['cvdScoreId']); ?>" class="btn btn-warning">แก้ไขข้อความ</a></center>
+              <center><a href="../main/bmiUpdate.php?id=<?php echo html_entity_decode($rowBmi['id']); ?>" class="btn btn-warning">แก้ไขข้อความ</a></center>
             </td>
           </tr>
           <?php 

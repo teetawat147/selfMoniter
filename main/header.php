@@ -8,7 +8,26 @@
       <li class="nav-item">
         <a class="nav-link" href="../main/healthScreen.php">ข้อมูลสุขภาพ</a>
       </li>
+      
+      <?php if($_SESSION['groupId']=='1')  ?>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              ระบบแอดมิน
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="../main/bmiGet.php">ระดับ BMI</a>
+            <a class="dropdown-item" href="../main/cvdScoreGet.php">ระดับ CVD risk</a>
+            <a class="dropdown-item" href="../main/waistGet.php">ระดับ รอบเอว</a>
+            <a class="dropdown-item" href="../main/bpGet.php">ระดับ BP</a>
+            <a class="dropdown-item" href="../main/dmGet.php">ระดับ DM</a>
+            <a class="dropdown-item" href="../main/smokeGet.php">ระดับ การสูบบุหรี่</a>
+            <a class="dropdown-item" href="../main/alcoholGet.php">ระดับ การดื่มสุรา</a>
+
+          </div>
+        </li>
+    
     </ul>
+    
 
 
     <?php

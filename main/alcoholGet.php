@@ -1,10 +1,10 @@
 <?php
   include('../include/connection.php');
 
-  $sql = "SELECT * FROM cvdScore";
+  $sql = "SELECT * FROM alcohol";
   $result = $conn -> prepare($sql);
   $result -> execute();
-  $rowsCvdScore = $result -> fetchAll(PDO::FETCH_ASSOC);
+  $rowsAlcohol = $result -> fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <!doctype html>
@@ -21,7 +21,7 @@
     <script src="https://cdn.ckeditor.com/ckeditor5/25.0.0/classic/ckeditor.js"></script>
     <script src="../js/tableToCards.js"></script>
   
-    <title>ระดับ CVD risk</title>
+    <title>สูบบุหรี่</title>
 
     <style>
 
@@ -47,7 +47,7 @@
       include "./header.php";
     ?>
     <div class="container-fluid">
-      <h3>ระดับ CVD risk</h3>
+      <h3>ระดับ แอลกอฮอล์</h3>
       <table class="table" id="myTable">
         <thead>
           <tr>
@@ -55,25 +55,21 @@
             <th>รายการ</th>
             <th>สรุป</th>
             <th>คำแนะนำ</th>
-            <th>CVD ค่าต่ำที่สุด</th>
-            <th>CVD ค่ามากที่สุด</th>
             <th data-card-footer></th>
           </tr>
         </thead>
         <tbody>
           <?php
-            foreach ($rowsCvdScore as $key => $rowCvdScore) {
+            foreach ($rowsAlcohol as $key => $rowAlcohol) {
           ?>
 
           <tr>
-              <td><?php echo html_entity_decode($rowCvdScore['cvdScoreId']); ?></td>
-              <td><?php echo html_entity_decode($rowCvdScore['cvdName']); ?></td>
-              <td><?php echo html_entity_decode($rowCvdScore['conclude']); ?></td>
-              <td><?php echo html_entity_decode($rowCvdScore['advice']); ?></td>
-              <td><?php echo html_entity_decode($rowCvdScore['cvdMin']); ?></td>
-              <td><?php echo html_entity_decode($rowCvdScore['cvdMax']); ?></td>
+              <td><?php echo html_entity_decode($rowAlcohol['alcoholId']); ?></td>
+              <td><?php echo html_entity_decode($rowAlcohol['alcoholName']); ?></td>
+              <td><?php echo html_entity_decode($rowAlcohol['conclude']); ?></td>
+              <td><?php echo html_entity_decode($rowAlcohol['advice']); ?></td>
               <td>
-              <center><a href="../main/cvdScoreUpdate.php?cvdScoreId=<?php echo html_entity_decode($rowCvdScore['cvdScoreId']); ?>" class="btn btn-warning">แก้ไขข้อความ</a></center>
+              <center><a href="../main/AlcoholUpdate.php?alcoholId=<?php echo html_entity_decode($rowAlcohol['alcoholId']); ?>" class="btn btn-warning">แก้ไขข้อความ</a></center>
             </td>
           </tr>
           <?php 
