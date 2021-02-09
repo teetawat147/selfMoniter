@@ -40,7 +40,7 @@ include("../include/connection.php");
         
                 <div class="form-group col-md-12">
                     <label for="password">Password</label>
-                    <input name ="password" id="password" type="text" class="form-control"  required data-error-msg="กรุณากรอก Password!">
+                    <input name ="password" id="password" type="password" class="form-control"  required data-error-msg="กรุณากรอก Password!">
                 </div>
             </div>
 

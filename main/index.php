@@ -4,168 +4,174 @@
 if (!$_SESSION['fname']){
   header("Location: ../main/login.php");
 }
-
-  $sql = "SELECT h.*,p.birthdate,
-    b.*,
-    h.healthWeight/((h.healthHeight/100)*(h.healthHeight/100)) as bmi,
-    p.sexId,
-    (1-power(0.978296,exp(((0.079*(YEAR(curdate())-YEAR(p.birthdate)-(DATE_FORMAT(curdate(), '%m%d') < DATE_FORMAT(p.birthdate, '%m%d'))))+(0.128*p.sexId)+(0.019350987*h.bpUpper)+(0.58454*h.diabetesId)+(3.512566*((h.waist)/h.healthHeight))+(0.459*h.smokeId))-7.720484)))*100 as cvd_score
-  FROM health_data_record h 
-  left join person p on h.personId=p.personId
-  LEFT JOIN bmi b ON h.healthWeight/((h.healthHeight/100)*(h.healthHeight/100)) >= IF(p.sexId = 1,b.sex1min,b.sex2min)
-    AND h.healthWeight/((h.healthHeight/100)*(h.healthHeight/100)) < IF(p.sexId = 1,b.sex1max,b.sex2max)
-  WHERE h.helpRecordId = '".$_GET['helpRecordId']."' 
-  order by h.inputDatetime";
-
-
-// echo "<br>sql=".$sql;
+  $sql="select * from health_data_record h where h.personId=".$_SESSION['personId']." order by helpRecordId desc limit 1";
   $result = $conn -> prepare($sql);
   $result -> execute();
-  $rows = $result -> fetchAll(PDO::FETCH_ASSOC);
-  $now_row=$rows[0];
-// echo "<br>now_row=";
-// print_r($now_row);
+  $myRecords = $result -> fetchAll(PDO::FETCH_ASSOC);
+  if (count($myRecords)>0){
+    $helpRecordId=$myRecords[0]['helpRecordId'];
 
-  $sqlBmi = "SELECT p.personId,
-    p.sexId,
-    h.healthWeight,
-    h.healthHeight,
-    h.healthWeight/((h.healthHeight/100)*(h.healthHeight/100)) AS bmi,b.nameBmi, 
-    h.waist,
-    h.bpUpper,
-    h.bpLower,
-    h.bloodsugar,
-    b.conclude, 
-    b.advice,
-    h.inputDatetime, 
-    h.lastUpdate,
-    (1-power(0.978296,exp(((0.079*(YEAR(curdate())-YEAR(p.birthdate)-(DATE_FORMAT(curdate(), '%m%d') < DATE_FORMAT(p.birthdate, '%m%d'))))+(0.128*p.sexId)+(0.019350987*h.bpUpper)+(0.58454*h.diabetesId)+(3.512566*((h.waist)/h.healthHeight))+(0.459*h.smokeId))-7.720484)))*100 as cvd_score
-  FROM health_data_record h
-    LEFT JOIN person p ON h.personId = p.personId
+    $sql = "SELECT h.*,p.birthdate,
+      b.*,
+      h.healthWeight/((h.healthHeight/100)*(h.healthHeight/100)) as bmi,
+      p.sexId,
+      (1-power(0.978296,exp(((0.079*(YEAR(curdate())-YEAR(p.birthdate)-(DATE_FORMAT(curdate(), '%m%d') < DATE_FORMAT(p.birthdate, '%m%d'))))+(0.128*p.sexId)+(0.019350987*h.bpUpper)+(0.58454*h.diabetesId)+(3.512566*((h.waist)/h.healthHeight))+(0.459*h.smokeId))-7.720484)))*100 as cvd_score
+    FROM health_data_record h 
+    left join person p on h.personId=p.personId
     LEFT JOIN bmi b ON h.healthWeight/((h.healthHeight/100)*(h.healthHeight/100)) >= IF(p.sexId = 1,b.sex1min,b.sex2min)
-    AND h.healthWeight/((h.healthHeight/100)*(h.healthHeight/100)) < IF(p.sexId = 1,b.sex1max,b.sex2max)
-  where h.personId=".$_SESSION['personId']."
-  ORDER BY h.inputDatetime";
-// echo "<br>sqlBmi=".$sqlBmi;
-  $resultBmi = $conn -> prepare($sqlBmi);
-  $resultBmi -> execute();
-  $history_rows = $resultBmi -> fetchAll(PDO::FETCH_ASSOC);
-// echo "<br>history_rows=";
-// print_r($history_rows);
-
-$sql="select * from bmi where id=2";
-$result = $conn -> prepare($sql);
-$result -> execute();
-$rowNormalBmi = $result -> fetch(PDO::FETCH_ASSOC);
-
-// echo "<br>rowNormalBmi=";
-// print_r($rowNormalBmi);
-
-$sql="
-SELECT
-	
-	
-	CEILING(((
-		1 - power(
-			0.978296,
-			exp(
-				(
-					(
-						0.079 * (
-							YEAR (curdate()) - YEAR (p.birthdate) - (
-								DATE_FORMAT(curdate(), '%m%d') < DATE_FORMAT(p.birthdate, '%m%d')
-							)
-						)
-					) + (0.128 * p.sexId) + (0.019350987 * h.bpUpper) + (0.58454 * h.diabetesId) + (
-						3.512566 * ((h.waist) / h.healthHeight)
-					) + (0.459 * h.smokeId)
-				) - 7.720484
-			)
-		)
-	) * 100)/10) AS cvd_level,
-count(*) as countAll
-FROM
-	health_data_record h
-LEFT JOIN person p ON h.personId = p.personId
-LEFT JOIN bmi b ON h.healthWeight / (
-	(h.healthHeight / 100) * (h.healthHeight / 100)
-) >=
-IF (
-	p.sexId = 1,
-	b.sex1min,
-	b.sex2min
-)
-AND h.healthWeight / (
-	(h.healthHeight / 100) * (h.healthHeight / 100)
-) <
-IF (
-	p.sexId = 1,
-	b.sex1max,
-	b.sex2max
-)
-WHERE
-h.helpRecordId in (select max(helpRecordId)as max_helpRecordId from health_data_record group by personId) and
-p.personId
-GROUP BY 
-cvd_level";
-$result = $conn -> prepare($sql);
-$result -> execute();
-$rows_cvd_level = $result -> fetchAll(PDO::FETCH_ASSOC);
-// print_r($rows_cvd_level);
+      AND h.healthWeight/((h.healthHeight/100)*(h.healthHeight/100)) < IF(p.sexId = 1,b.sex1max,b.sex2max)
+    WHERE h.helpRecordId = '".$helpRecordId."' 
+    order by h.inputDatetime";
 
 
-$maxCountAll=0;
-$cvd_level_label=array();
-$cvd_level_data=array();
-for ($i=1; $i <=10 ; $i++) { 
-  $key = arraySearch2D($rows_cvd_level,'cvd_level',$i);
-  if($key>0){
-    array_push($cvd_level_label,"'".$rows_cvd_level[$key-1]['cvd_level']."'");
-    array_push($cvd_level_data,$rows_cvd_level[$key-1]['countAll']);
-    $maxCountAll=($maxCountAll<$rows_cvd_level[$key-1]['countAll'])?$rows_cvd_level[$key]['countAll']:$maxCountAll;
-  }else{
-    array_push($cvd_level_label,"'".$i."'");
-    array_push($cvd_level_data,0);
+  // echo "<br>sql=".$sql;
+    $result = $conn -> prepare($sql);
+    $result -> execute();
+    $rows = $result -> fetchAll(PDO::FETCH_ASSOC);
+    $now_row=$rows[0];
+  // echo "<br>now_row=";
+  // print_r($now_row);
+
+    $sqlBmi = "SELECT p.personId,
+      p.sexId,
+      h.healthWeight,
+      h.healthHeight,
+      h.healthWeight/((h.healthHeight/100)*(h.healthHeight/100)) AS bmi,b.nameBmi, 
+      h.waist,
+      h.bpUpper,
+      h.bpLower,
+      h.bloodsugar,
+      b.conclude, 
+      b.advice,
+      h.inputDatetime, 
+      h.lastUpdate,
+      (1-power(0.978296,exp(((0.079*(YEAR(curdate())-YEAR(p.birthdate)-(DATE_FORMAT(curdate(), '%m%d') < DATE_FORMAT(p.birthdate, '%m%d'))))+(0.128*p.sexId)+(0.019350987*h.bpUpper)+(0.58454*h.diabetesId)+(3.512566*((h.waist)/h.healthHeight))+(0.459*h.smokeId))-7.720484)))*100 as cvd_score
+    FROM health_data_record h
+      LEFT JOIN person p ON h.personId = p.personId
+      LEFT JOIN bmi b ON h.healthWeight/((h.healthHeight/100)*(h.healthHeight/100)) >= IF(p.sexId = 1,b.sex1min,b.sex2min)
+      AND h.healthWeight/((h.healthHeight/100)*(h.healthHeight/100)) < IF(p.sexId = 1,b.sex1max,b.sex2max)
+    where h.personId=".$_SESSION['personId']."
+    ORDER BY h.inputDatetime";
+  // echo "<br>sqlBmi=".$sqlBmi;
+    $resultBmi = $conn -> prepare($sqlBmi);
+    $resultBmi -> execute();
+    $history_rows = $resultBmi -> fetchAll(PDO::FETCH_ASSOC);
+  // echo "<br>history_rows=";
+  // print_r($history_rows);
+
+  $sql="select * from bmi where id=2";
+  $result = $conn -> prepare($sql);
+  $result -> execute();
+  $rowNormalBmi = $result -> fetch(PDO::FETCH_ASSOC);
+
+  // echo "<br>rowNormalBmi=";
+  // print_r($rowNormalBmi);
+
+  $sql="
+  SELECT
+    
+    
+    CEILING(((
+      1 - power(
+        0.978296,
+        exp(
+          (
+            (
+              0.079 * (
+                YEAR (curdate()) - YEAR (p.birthdate) - (
+                  DATE_FORMAT(curdate(), '%m%d') < DATE_FORMAT(p.birthdate, '%m%d')
+                )
+              )
+            ) + (0.128 * p.sexId) + (0.019350987 * h.bpUpper) + (0.58454 * h.diabetesId) + (
+              3.512566 * ((h.waist) / h.healthHeight)
+            ) + (0.459 * h.smokeId)
+          ) - 7.720484
+        )
+      )
+    ) * 100)/10) AS cvd_level,
+  count(*) as countAll
+  FROM
+    health_data_record h
+  LEFT JOIN person p ON h.personId = p.personId
+  LEFT JOIN bmi b ON h.healthWeight / (
+    (h.healthHeight / 100) * (h.healthHeight / 100)
+  ) >=
+  IF (
+    p.sexId = 1,
+    b.sex1min,
+    b.sex2min
+  )
+  AND h.healthWeight / (
+    (h.healthHeight / 100) * (h.healthHeight / 100)
+  ) <
+  IF (
+    p.sexId = 1,
+    b.sex1max,
+    b.sex2max
+  )
+  WHERE
+  h.helpRecordId in (select max(helpRecordId)as max_helpRecordId from health_data_record group by personId) and
+  p.personId
+  GROUP BY 
+  cvd_level";
+  $result = $conn -> prepare($sql);
+  $result -> execute();
+  $rows_cvd_level = $result -> fetchAll(PDO::FETCH_ASSOC);
+  // print_r($rows_cvd_level);
+
+
+  $maxCountAll=0;
+  $cvd_level_label=array();
+  $cvd_level_data=array();
+  for ($i=1; $i <=10 ; $i++) { 
+    $key = arraySearch2D($rows_cvd_level,'cvd_level',$i);
+    if($key>0){
+      array_push($cvd_level_label,"'".$rows_cvd_level[$key-1]['cvd_level']."'");
+      array_push($cvd_level_data,$rows_cvd_level[$key-1]['countAll']);
+      $maxCountAll=($maxCountAll<$rows_cvd_level[$key-1]['countAll'])?$rows_cvd_level[$key]['countAll']:$maxCountAll;
+    }else{
+      array_push($cvd_level_label,"'".$i."'");
+      array_push($cvd_level_data,0);
+    }
   }
+  $str_cvd_level_label=implode(", ",$cvd_level_label);
+  $str_cvd_level_data=implode(", ",$cvd_level_data);
+
+
+
+
+  $history_label=array();
+  $history_bmi_data=array();
+  $history_waist_data=array();
+  $history_weight_data=array();
+  $history_bpUpper_data=array();
+  $history_bpLower_data=array();
+  $history_bloodsugar_data=array();
+  $history_cvd_score_data=array();
+  foreach ($history_rows as $hkey => $hvalue) {
+    array_push($history_label,"'".$hvalue['inputDatetime']."'");
+    array_push($history_bmi_data,$hvalue['bmi']);
+    array_push($history_waist_data,$hvalue['waist']);
+    array_push($history_bpUpper_data,$hvalue['bpUpper']);
+    array_push($history_bpLower_data,$hvalue['bpLower']);
+    array_push($history_bloodsugar_data,$hvalue['bloodsugar']);
+    array_push($history_weight_data,$hvalue['healthWeight']);
+    array_push($history_cvd_score_data,$hvalue['cvd_score']);
+  }
+  $str_history_label=implode(", ",$history_label);
+  $str_history_bmi_data=implode(", ",$history_bmi_data);
+  $str_history_waist_data=implode(", ",$history_waist_data);
+  $str_history_bpUpper_data=implode(", ",$history_bpUpper_data);
+  $str_history_bpLower_data=implode(", ",$history_bpLower_data);
+  $str_history_bloodsugar_data=implode(", ",$history_bloodsugar_data);
+  $str_history_weight_data=implode(", ",$history_weight_data);
+  $str_history_cvd_score_data=implode(", ",$history_cvd_score_data);
+  // echo "<br>str_history_label";
+  // print_r($str_history_label);
+  // echo "<br>str_history_bmi_data";
+  // print_r($str_history_bmi_data);
+
 }
-$str_cvd_level_label=implode(", ",$cvd_level_label);
-$str_cvd_level_data=implode(", ",$cvd_level_data);
-
-
-
-
-$history_label=array();
-$history_bmi_data=array();
-$history_waist_data=array();
-$history_weight_data=array();
-$history_bpUpper_data=array();
-$history_bpLower_data=array();
-$history_bloodsugar_data=array();
-$history_cvd_score_data=array();
-foreach ($history_rows as $hkey => $hvalue) {
-  array_push($history_label,"'".$hvalue['inputDatetime']."'");
-  array_push($history_bmi_data,$hvalue['bmi']);
-  array_push($history_waist_data,$hvalue['waist']);
-  array_push($history_bpUpper_data,$hvalue['bpUpper']);
-  array_push($history_bpLower_data,$hvalue['bpLower']);
-  array_push($history_bloodsugar_data,$hvalue['bloodsugar']);
-  array_push($history_weight_data,$hvalue['healthWeight']);
-  array_push($history_cvd_score_data,$hvalue['cvd_score']);
-}
-$str_history_label=implode(", ",$history_label);
-$str_history_bmi_data=implode(", ",$history_bmi_data);
-$str_history_waist_data=implode(", ",$history_waist_data);
-$str_history_bpUpper_data=implode(", ",$history_bpUpper_data);
-$str_history_bpLower_data=implode(", ",$history_bpLower_data);
-$str_history_bloodsugar_data=implode(", ",$history_bloodsugar_data);
-$str_history_weight_data=implode(", ",$history_weight_data);
-$str_history_cvd_score_data=implode(", ",$history_cvd_score_data);
-// echo "<br>str_history_label";
-// print_r($str_history_label);
-// echo "<br>str_history_bmi_data";
-// print_r($str_history_bmi_data);
-
-
 ?>
 
 <!doctype html>
@@ -173,8 +179,8 @@ $str_history_cvd_score_data=implode(", ",$history_cvd_score_data);
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
-
+    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous"> -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <title>Dasboaed</title>
     <style>
       .title-main
@@ -270,21 +276,17 @@ $str_history_cvd_score_data=implode(", ",$history_cvd_score_data);
       include "./header.php";
   ?>
 
-  <main role="main" style="margin-top:90px;">
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+  <main role="main" >
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script> -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 
       <div class="container">
-
-
-
         <div class="title-main">
-          <p>ผลการคัดกรองด้วยตนเอง <br> (<?php echo thaiShortDate($now_row['inputDatetime']); ?>)</p>
+          <p>บันทึกข้อมูลสุขภาพครั้งสุดท้ายเมื่อ <?php echo thaiShortDate($now_row['inputDatetime']); ?></p>
         </div>
-      
-
       <div class="row">
         <div class="content col-lg-6">
           <div class="content-title">
