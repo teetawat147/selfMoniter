@@ -139,7 +139,7 @@ include("../include/connection.php");
         <div class="form-row">
             <div class="form-group col-md-12">
                 <label for="birthdate">วันเกิด</label>
-                <input name="birthdate" id="birthdate" class="form-control" min="3" required type="text" data-error-msg="กรุณากรอกวันเกิด">
+                <input name="birthdate" id="birthdate" class="form-control" min="3" required type="date" data-error-msg="กรุณากรอกวันเกิด">
             </div>
         </div>
         
@@ -261,7 +261,7 @@ include("../include/connection.php");
          
             <div class="form-group col-md-12">
                 <label for="password">Password</label>
-                <input name="password" id="password" class="form-control" min="3" required type="text" data-error-msg="กรุณากรอก Password">
+                <input name="password" id="password" class="form-control" min="3" required type="password" data-error-msg="กรุณากรอก Password">
             </div>
         </div>
 

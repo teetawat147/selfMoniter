@@ -259,712 +259,717 @@ $str_history_cvd_score_data=implode(", ",$history_cvd_score_data);
         }
       }
     </style>
+
+    <link href='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css'>
+    <link href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.3/css/font-awesome.css'>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
+    <script src='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js'></script>
+    <script src="https://cdn.ckeditor.com/ckeditor5/25.0.0/classic/ckeditor.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
+
   </head>
   <body>
 
   <?php
-      include "./header.php";
+    include("../main/header.php");   
   ?>
 
-  <main role="main" style="margin-top:90px;">
+<main role="main" style="margin-top:90px;">
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+<!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
 
-      <div class="container">
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script> -->
 
-
-
-        <div class="title-main">
-          <p>ผลการคัดกรองด้วยตนเอง <br> (<?php echo thaiShortDate($now_row['inputDatetime']); ?>)</p>
-        </div>
-        <div class="content">
-          <div class="content-title">
-            <p> <?php echo $now_row['nameBmi']; ?> </p>
-          </div>
-          <div class="content-body">
-            <p id="p1"> <?php echo $now_row['conclude']; ?></p>
-            <p id="p2"><b>คำแนะนำเบื้องต้น</b> <br> <?php echo html_entity_decode($now_row['advice']); ?></p>
-            <?php
-              $minWeight = round($rowNormalBmi['sex'.$now_row['sexId'].'min']*(($now_row['healthHeight']/100)*($now_row['healthHeight']/100)),2);
-              $maxWeight = round($rowNormalBmi['sex'.$now_row['sexId'].'max']*(($now_row['healthHeight']/100)*($now_row['healthHeight']/100)),2);
-            ?>
-            <p id="p3">
-              คุณมีน้ำหนักอยู่ในช่วงที่ดีแล้ว ขอให้รักษาน้ำหนักอยู่ระหว่าง <?php echo $minWeight; ?> กก. ถึง <?php echo $maxWeight; ?> กก. ต่อไปนะคะ
-            </p>
-          </div>
-        </div>
-
-
-        <div class="content">
-          <div class="content-title">
-            <p class="text-bmi">BMI</p>
-          </div>
-          <div class="content-body">
-            <canvas id="chart-bmi"></canvas>
-          </div>
-        </div>
-
-
-
-
-        <div class="content">
-          <div class="content-title">
-            <p>น้ำหนัก</p>
-          </div>
-          <div class="content-body">
-            <canvas id="chart-weight"></canvas>
-          </div>
-        </div>
-
-<?php 
-  $sql = "select * FROM cvdScore where ".$now_row['cvd_score']." >= cvdMin and ".$now_row['cvd_score']." <= cvdMax";
-  $result = $conn -> prepare($sql);
-  $result -> execute();
-  $cvdScore = $result -> fetch(PDO::FETCH_ASSOC);
-?>
-
-        <div class="content">
-          <div class="content-title">
-            <p>ความเสี่ยงต่อโรคหัวใจใน 10 ปี = <?php echo $cvdScore['cvdName']; ?> </p>
-          </div>
-          <div class="content-body risk">
-            <p class="advice"><?php echo $cvdScore['conclude']; ?> <br>
-            <b>คำแนะนำ</b></br></p>
-            <p><?php echo html_entity_decode($cvdScore['advice']); ?></p>
-          </div>
-        </div>
-
-        <div class="content">
-          <div class="content-title">
-            <p class="text-cvd">CVD risk</p>
-          </div>
-          <div class="content-body">
-            <canvas id="chart-cvd"></canvas>
-          </div>
-        </div>
-
-
-        <div class="content">
-          <div class="content-title">
-            <p><b>รอบเอวของคุณอยู่ในเกณฑ์
-            <?php 
-              $sql="select * from waist";
-              $result = $conn -> prepare($sql);
-              $result -> execute();
-              $rowsWaist = $result -> fetchAll(PDO::FETCH_ASSOC);
-              $thisWaistKey=0;
-              foreach ($rowsWaist as $key => $value) {
-                $ex1='$ex3='.$now_row['waist'].$value['sex'.$now_row['sexId'].'max'].";";
-                eval($ex1);
-                if ($ex3){
-                  $thisWaistKey=$key;
-                  break;
-                }
-              }
-              echo $rowsWaist[$thisWaistKey]['waistName'];
-              ?>
-            </b> <br>(<?php echo $rowsWaist[$thisWaistKey]['waistDetail']; ?>)</p>
-          </div>
-          <div class="content-body waist">
-            <p class="advice"><?php echo html_entity_decode($rowsWaist[$thisWaistKey]['waistAdvice']); ?></p>
-          </div>
-        </div>
-
-        <div class="content">
-          <div class="content-title">
-            <p>รอบเอว</p>
-          </div>
-          <div class="content-body">
-            <canvas id="chart-waist"></canvas>
-          </div>
-        </div>
-
-        <?php
-          $sql = "select * from bloodPressure where ".$now_row['bpUpper']." >=sbp or ".$now_row['bpLower']." >=dbp order by sbp desc limit 1";
-          $result = $conn -> prepare($sql);
-          $result -> execute();
-          $rowBloodPressure = $result -> fetch(PDO::FETCH_ASSOC);
-        ?>
-
-        <div class="content">
-          <div class="content-title">
-            <p><?php echo $rowBloodPressure['bloodPressureName']; ?></p>
-          </div>
-          <div class="content-body high-pressure-normal">
-            <p class="advice"><?php echo $rowBloodPressure['conclude']; ?></p>
-            <p><?php echo html_entity_decode($rowBloodPressure['advice']); ?></p>
-          </div>
-        </div>
-
-        <div class="content">
-          <div class="content-title">
-            <p>ความดันโลหิต</p>
-          </div>
-          <div class="content-body">
-            <canvas id="chart-bp"></canvas>
-          </div>
-        </div>
-
-        <?php
-          $sql = "SELECT * FROM `bloodSugar` WHERE ".$now_row['bloodSugar']." >= fbs ORDER BY fbs DESC LIMIT 1";
-          $result = $conn -> prepare($sql);
-          $result -> execute();
-          $rowBloodSugar = $result -> fetch(PDO::FETCH_ASSOC);
-        ?>
-
-        <div class="content">
-          <div class="content-title">
-            <p><b><?php echo $rowBloodSugar['bloodSugarName']; ?></b>
-            <br>(<?php echo $rowBloodSugar['bloodSugarDetail']; ?>)</p>
-          </div>
-          <div class="content-body waist">
-            <p class="advice"><?php echo $rowBloodSugar['conclude']; ?><br><b>คำแนะนำ</b></p>
-            <p><?php echo html_entity_decode($rowBloodSugar['advice']); ?></p>
-          </div>
-        </div>
-
-        <div class="content">
-          <div class="content-title">
-            <p>น้ำตาลในเลือด</p>
-          </div>
-          <div class="content-body">
-            <canvas id="chart-blood-sugar"></canvas>
-          </div>
-        </div>
-
-        <?php
-          $sqlSmoke = "SELECT * FROM smoke WHERE ".$now_row['smokeId']." = smokeId";
-          $result = $conn -> prepare($sqlSmoke);
-          $result -> execute();
-          $rowSmoke = $result -> fetch(PDO::FETCH_ASSOC);
-        ?>
-
-        <div class="content">
-          <div class="content-title">
-            <p><?php echo $rowSmoke['smokeName']; ?></p>
-          </div>
-          <div class="content-body waist">
-            <p class="advice"><?php echo $rowSmoke['conclude']; ?></p>
-            <p><?php echo html_entity_decode($rowSmoke['advice']); ?></p>
-          </div>
-        </div>
-
-        <?php
-          $sqlAlcohol = "SELECT * FROM alcohol WHERE ".$now_row['alcoholId']." = alcoholId";
-          $result = $conn -> prepare($sqlAlcohol);
-          $result -> execute();
-          $rowAlcohol = $result -> fetch(PDO::FETCH_ASSOC);
-        ?>
-
-        <div class="content">
-          <div class="content-title">
-            <p><?php echo $rowAlcohol['alcoholName']; ?></p>
-          </div>
-          <div class="content-body waist">
-          <p class="advice"><?php echo $rowAlcohol['conclude']; ?></p>
-            <p><?php echo html_entity_decode($rowAlcohol['advice']); ?></p>
-          </div>
-        </div>
-
-        <div class="content">
-          <div class="content-title">
-            <p>chart-risk</p>
-          </div>
-          <div class="content-body">
-            <canvas id="chart-risk"></canvas>
-          </div>
-        </div>
-        
-
+  <div class="container">
+    <div class="title-main">
+      <p>ผลการคัดกรองด้วยตนเอง <br> (<?php echo thaiShortDate($now_row['inputDatetime']); ?>)</p>
+    </div>
+    <div class="content">
+      <div class="content-title">
+        <p> <?php echo $now_row['nameBmi']; ?> </p>
       </div>
-
-      <div class="button d-flex justify-content-center">
-        <button type="button" onclick="window.location.href='../main/historyHealth.php'">ดูประวัติการบันทึกสุขภาพ</button>
-        <button type="button" onclick="window.location.href='../main/index.php'">ปิด</button>
-      
+      <div class="content-body">
+        <p id="p1"> <?php echo $now_row['conclude']; ?></p>
+        <p id="p2"><b>คำแนะนำเบื้องต้น</b> <br> <?php echo html_entity_decode($now_row['advice']); ?></p>
+        <?php
+          $minWeight = round($rowNormalBmi['sex'.$now_row['sexId'].'min']*(($now_row['healthHeight']/100)*($now_row['healthHeight']/100)),2);
+          $maxWeight = round($rowNormalBmi['sex'.$now_row['sexId'].'max']*(($now_row['healthHeight']/100)*($now_row['healthHeight']/100)),2);
+        ?>
+        <p id="p3">
+          คุณมีน้ำหนักอยู่ในช่วงที่ดีแล้ว ขอให้รักษาน้ำหนักอยู่ระหว่าง <?php echo $minWeight; ?> กก. ถึง <?php echo $maxWeight; ?> กก. ต่อไปนะคะ
+        </p>
       </div>
     </div>
 
-   
+
+    <div class="content">
+      <div class="content-title">
+        <p class="text-bmi">BMI</p>
+      </div>
+      <div class="content-body">
+        <canvas id="chart-bmi"></canvas>
+      </div>
+    </div>
 
 
-      <script>
 
 
-        let chartBmiElem = document.getElementById('chart-bmi').getContext('2d');
-        let chartBmi = new Chart(chartBmiElem,{
-          type:"line",
-          data:{
-            labels:[
-              <?php echo $str_history_label; ?>
-            ],
-            datasets:[
-              {
-                label:"BMI",
-                data:[
-                  <?php echo $str_history_bmi_data; ?>
-                    ],
-                fill:false,
-                backgroundColor:[
-                  "rgba(255, 99, 132, 0.2)",
-                  "rgba(255, 159, 64, 0.2)",
-                  "rgba(255, 205, 86, 0.2)",
-                  "rgba(75, 192, 192, 0.2)",
-                  "rgba(54, 162, 235, 0.2)",
-                  "rgba(153, 102, 255, 0.2)",
-                  "rgba(201, 203, 207, 0.2)"],
-                borderColor:[
-                  "rgb(255, 99, 132)",
-                  "rgb(255, 159, 64)",
-                  "rgb(255, 205, 86)",
-                  "rgb(75, 192, 192)",
-                  "rgb(54, 162, 235)",
-                  "rgb(153, 102, 255)",
-                  "rgb(201, 203, 207)"],
-                borderWidth:5
-              }
-            ]
-          },
-          options:{
-            legend:{display:false},
-            scales:{
-              yAxes:[{
-                ticks:{
-                  beginAtZero:true,
-                  max: 40,
-                  min: 0,
-                  stepSize: 5
-                }
-              }]
+    <div class="content">
+      <div class="content-title">
+        <p>น้ำหนัก</p>
+      </div>
+      <div class="content-body">
+        <canvas id="chart-weight"></canvas>
+      </div>
+    </div>
+
+<?php 
+$sql = "select * FROM cvdScore where ".$now_row['cvd_score']." >= cvdMin and ".$now_row['cvd_score']." <= cvdMax";
+$result = $conn -> prepare($sql);
+$result -> execute();
+$cvdScore = $result -> fetch(PDO::FETCH_ASSOC);
+?>
+
+    <div class="content">
+      <div class="content-title">
+        <p>ความเสี่ยงต่อโรคหัวใจใน 10 ปี = <?php echo $cvdScore['cvdName']; ?> </p>
+      </div>
+      <div class="content-body risk">
+        <p class="advice"><?php echo $cvdScore['conclude']; ?> <br>
+        <b>คำแนะนำ</b></br></p>
+        <p><?php echo html_entity_decode($cvdScore['advice']); ?></p>
+      </div>
+    </div>
+
+    <div class="content">
+      <div class="content-title">
+        <p class="text-cvd">CVD risk</p>
+      </div>
+      <div class="content-body">
+        <canvas id="chart-cvd"></canvas>
+      </div>
+    </div>
+
+
+    <div class="content">
+      <div class="content-title">
+        <p><b>รอบเอวของคุณอยู่ในเกณฑ์
+        <?php 
+          $sql="select * from waist";
+          $result = $conn -> prepare($sql);
+          $result -> execute();
+          $rowsWaist = $result -> fetchAll(PDO::FETCH_ASSOC);
+          $thisWaistKey=0;
+          foreach ($rowsWaist as $key => $value) {
+            $ex1='$ex3='.$now_row['waist'].$value['sex'.$now_row['sexId'].'max'].";";
+            eval($ex1);
+            if ($ex3){
+              $thisWaistKey=$key;
+              break;
             }
           }
-        });
+          echo $rowsWaist[$thisWaistKey]['waistName'];
+          ?>
+        </b> <br>(<?php echo $rowsWaist[$thisWaistKey]['waistDetail']; ?>)</p>
+      </div>
+      <div class="content-body waist">
+        <p class="advice"><?php echo html_entity_decode($rowsWaist[$thisWaistKey]['waistAdvice']); ?></p>
+      </div>
+    </div>
+
+    <div class="content">
+      <div class="content-title">
+        <p>รอบเอว</p>
+      </div>
+      <div class="content-body">
+        <canvas id="chart-waist"></canvas>
+      </div>
+    </div>
+
+    <?php
+      $sql = "select * from bloodPressure where ".$now_row['bpUpper']." >=sbp or ".$now_row['bpLower']." >=dbp order by sbp desc limit 1";
+      $result = $conn -> prepare($sql);
+      $result -> execute();
+      $rowBloodPressure = $result -> fetch(PDO::FETCH_ASSOC);
+    ?>
+
+    <div class="content">
+      <div class="content-title">
+        <p><?php echo $rowBloodPressure['bloodPressureName']; ?></p>
+      </div>
+      <div class="content-body high-pressure-normal">
+        <p class="advice"><?php echo $rowBloodPressure['conclude']; ?></p>
+        <p><?php echo html_entity_decode($rowBloodPressure['advice']); ?></p>
+      </div>
+    </div>
+
+    <div class="content">
+      <div class="content-title">
+        <p>ความดันโลหิต</p>
+      </div>
+      <div class="content-body">
+        <canvas id="chart-bp"></canvas>
+      </div>
+    </div>
+
+    <?php
+      $sql = "SELECT * FROM `bloodSugar` WHERE ".$now_row['bloodSugar']." >= fbs ORDER BY fbs DESC LIMIT 1";
+      $result = $conn -> prepare($sql);
+      $result -> execute();
+      $rowBloodSugar = $result -> fetch(PDO::FETCH_ASSOC);
+    ?>
+
+    <div class="content">
+      <div class="content-title">
+        <p><b><?php echo $rowBloodSugar['bloodSugarName']; ?></b>
+        <br>(<?php echo $rowBloodSugar['bloodSugarDetail']; ?>)</p>
+      </div>
+      <div class="content-body waist">
+        <p class="advice"><?php echo $rowBloodSugar['conclude']; ?><br><b>คำแนะนำ</b></p>
+        <p><?php echo html_entity_decode($rowBloodSugar['advice']); ?></p>
+      </div>
+    </div>
+
+    <div class="content">
+      <div class="content-title">
+        <p>น้ำตาลในเลือด</p>
+      </div>
+      <div class="content-body">
+        <canvas id="chart-blood-sugar"></canvas>
+      </div>
+    </div>
+
+    <?php
+      $sqlSmoke = "SELECT * FROM smoke WHERE ".$now_row['smokeId']." = smokeId";
+      $result = $conn -> prepare($sqlSmoke);
+      $result -> execute();
+      $rowSmoke = $result -> fetch(PDO::FETCH_ASSOC);
+    ?>
+
+    <div class="content">
+      <div class="content-title">
+        <p><?php echo $rowSmoke['smokeName']; ?></p>
+      </div>
+      <div class="content-body waist">
+        <p class="advice"><?php echo $rowSmoke['conclude']; ?></p>
+        <p><?php echo html_entity_decode($rowSmoke['advice']); ?></p>
+      </div>
+    </div>
+
+    <?php
+      $sqlAlcohol = "SELECT * FROM alcohol WHERE ".$now_row['alcoholId']." = alcoholId";
+      $result = $conn -> prepare($sqlAlcohol);
+      $result -> execute();
+      $rowAlcohol = $result -> fetch(PDO::FETCH_ASSOC);
+    ?>
+
+    <div class="content">
+      <div class="content-title">
+        <p><?php echo $rowAlcohol['alcoholName']; ?></p>
+      </div>
+      <div class="content-body waist">
+      <p class="advice"><?php echo $rowAlcohol['conclude']; ?></p>
+        <p><?php echo html_entity_decode($rowAlcohol['advice']); ?></p>
+      </div>
+    </div>
+
+    <div class="content">
+      <div class="content-title">
+        <p>chart-risk</p>
+      </div>
+      <div class="content-body">
+        <canvas id="chart-risk"></canvas>
+      </div>
+    </div>
+    
+
+  </div>
+
+  <div class="button d-flex justify-content-center">
+    <button type="button" onclick="window.location.href='../main/historyHealth.php'">ดูประวัติการบันทึกสุขภาพ</button>
+    <button type="button" onclick="window.location.href='../main/index.php'">ปิด</button>
+  
+  </div>
+</div>
 
 
-        let chartWeightElem = document.getElementById('chart-weight').getContext('2d');
-        let chartWeight = new Chart(chartWeightElem, {
-            type: "line",
-            data: {
-                labels: [
-                  <?php echo $str_history_label; ?>
+
+
+  <script>
+
+
+    let chartBmiElem = document.getElementById('chart-bmi').getContext('2d');
+    let chartBmi = new Chart(chartBmiElem,{
+      type:"line",
+      data:{
+        labels:[
+          <?php echo $str_history_label; ?>
+        ],
+        datasets:[
+          {
+            label:"BMI",
+            data:[
+              <?php echo $str_history_bmi_data; ?>
                 ],
-                datasets: [{
-                    label: 'น้ำหนัก',
-                    data: [
-                      <?php echo $str_history_weight_data; ?>
-                    ],
-                    backgroundColor: [
-                        'rgba(255, 99, 132, 0.2)',
-                        'rgba(54, 162, 235, 0.2)',
-                        'rgba(255, 206, 86, 0.2)',
-                        'rgba(75, 192, 192, 0.2)',
-                        'rgba(153, 102, 255, 0.2)',
-                        'rgba(255, 159, 64, 0.2)'
-                    ],
-                    borderColor: [
-                        'rgba(255, 99, 132, 1)',
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(255, 206, 86, 1)',
-                        'rgba(75, 192, 192, 1)',
-                        'rgba(153, 102, 255, 1)',
-                        'rgba(255, 159, 64, 1)'
-                    ],
-                    borderWidth: 1
-                }]
-            },
-            options: {
-              legend:{
-                display:false
-              },
-              scales:{
-                yAxes:[{
-                  ticks:{
-                    beginAtZero:true,
-                    max: 200,
-                    min: 0,
-                    stepSize: 5
-                  }
-                }]
-              }
-            }
-        });
-
-        let chartCvdElem = document.getElementById('chart-cvd').getContext('2d');
-        let chartCvd = new Chart(chartCvdElem,{
-          type:"line",
-          data:{
-            labels:[
-              <?php echo $str_history_label; ?>
-            ],
-            datasets:[
-              {
-                label:"BMI",
-                data:[
-                  <?php echo $str_history_cvd_score_data; ?>
-                    ],
-                fill:false,
-                backgroundColor:[
-                  "rgba(255, 99, 132, 0.2)",
-                  "rgba(255, 159, 64, 0.2)",
-                  "rgba(255, 205, 86, 0.2)",
-                  "rgba(75, 192, 192, 0.2)",
-                  "rgba(54, 162, 235, 0.2)",
-                  "rgba(153, 102, 255, 0.2)",
-                  "rgba(201, 203, 207, 0.2)"],
-                borderColor:[
-                  "rgb(255, 99, 132)",
-                  "rgb(255, 159, 64)",
-                  "rgb(255, 205, 86)",
-                  "rgb(75, 192, 192)",
-                  "rgb(54, 162, 235)",
-                  "rgb(153, 102, 255)",
-                  "rgb(201, 203, 207)"],
-                borderWidth:8,
-              }
-            ]
-          },
-          options:{
-            legend:{display:false},
-            scales:{
-              yAxes:[{
-                ticks:{
-                  beginAtZero:true,
-                  max: 100,
-                  min: 0,
-                  stepSize: 5
-                }
-              }]
-            }
+            fill:false,
+            backgroundColor:[
+              "rgba(255, 99, 132, 0.2)",
+              "rgba(255, 159, 64, 0.2)",
+              "rgba(255, 205, 86, 0.2)",
+              "rgba(75, 192, 192, 0.2)",
+              "rgba(54, 162, 235, 0.2)",
+              "rgba(153, 102, 255, 0.2)",
+              "rgba(201, 203, 207, 0.2)"],
+            borderColor:[
+              "rgb(255, 99, 132)",
+              "rgb(255, 159, 64)",
+              "rgb(255, 205, 86)",
+              "rgb(75, 192, 192)",
+              "rgb(54, 162, 235)",
+              "rgb(153, 102, 255)",
+              "rgb(201, 203, 207)"],
+            borderWidth:5
           }
-        });
-
-
-        let chartWaistElem = document.getElementById('chart-waist').getContext('2d');
-        let chartWaist = new Chart(chartWaistElem,{
-          type:"line",
-          data:{
-            labels:[
-              <?php echo $str_history_label; ?>
-            ],
-            datasets:[
-              {
-                label:"Waist",
-                data:[
-                  <?php echo $str_history_waist_data; ?>
-                    ],
-                fill:false,
-                backgroundColor:[
-                  "rgba(255, 99, 132, 0.2)",
-                  "rgba(255, 159, 64, 0.2)",
-                  "rgba(255, 205, 86, 0.2)",
-                  "rgba(75, 192, 192, 0.2)",
-                  "rgba(54, 162, 235, 0.2)",
-                  "rgba(153, 102, 255, 0.2)",
-                  "rgba(201, 203, 207, 0.2)"],
-                borderColor:[
-                  "rgb(255, 99, 132)",
-                  "rgb(255, 159, 64)",
-                  "rgb(255, 205, 86)",
-                  "rgb(75, 192, 192)",
-                  "rgb(54, 162, 235)",
-                  "rgb(153, 102, 255)",
-                  "rgb(201, 203, 207)"],
-                borderWidth:5
-              }
-            ]
-          },
-          options:{
-            legend:{display:false},
-            scales:{
-              yAxes:[{
-                ticks:{
-                  beginAtZero:true,
-                  max: 150,
-                  min: 0,
-                  stepSize: 10
-                }
-              }]
+        ]
+      },
+      options:{
+        legend:{display:false},
+        scales:{
+          yAxes:[{
+            ticks:{
+              beginAtZero:true,
+              max: 40,
+              min: 0,
+              stepSize: 5
             }
-          }
-        });
+          }]
+        }
+      }
+    });
 
 
-        let chartBpElem = document.getElementById('chart-bp').getContext('2d');
-        let chartBp = new Chart(chartBpElem,{
-          type:"line",
-          data:{
-            labels:[
+    let chartWeightElem = document.getElementById('chart-weight').getContext('2d');
+    let chartWeight = new Chart(chartWeightElem, {
+        type: "line",
+        data: {
+            labels: [
               <?php echo $str_history_label; ?>
             ],
             datasets: [{
-                label: "bpUpper",
-                fill: false,
-                lineTension: 0.1,
-                backgroundColor: "rgba(225,0,0,0.4)",
-                borderColor: "red", // The main line color
-                borderCapStyle: 'square',
-                borderDash: [], // try [5, 15] for instance
-                borderDashOffset: 0.0,
-                borderJoinStyle: 'miter',
-                pointBorderColor: "black",
-                pointBackgroundColor: "white",
-                pointBorderWidth: 1,
-                pointHoverRadius: 8,
-                pointHoverBackgroundColor: "yellow",
-                pointHoverBorderColor: "brown",
-                pointHoverBorderWidth: 2,
-                pointRadius: 4,
-                pointHitRadius: 10,
-                // notice the gap in the data and the spanGaps: true
-                data: [<?php echo $str_history_bpUpper_data; ?>],
-                spanGaps: true,
-              }, {
-                label: "bpLower",
-                fill: false,
-                lineTension: 0.1,
-                backgroundColor: "rgba(167,105,0,0.4)",
-                borderColor: "blue",
-                borderCapStyle: 'butt',
-                borderDash: [],
-                borderDashOffset: 0.0,
-                borderJoinStyle: 'miter',
-                pointBorderColor: "white",
-                pointBackgroundColor: "black",
-                pointBorderWidth: 1,
-                pointHoverRadius: 8,
-                pointHoverBackgroundColor: "brown",
-                pointHoverBorderColor: "yellow",
-                pointHoverBorderWidth: 2,
-                pointRadius: 4,
-                pointHitRadius: 10,
-                // notice the gap in the data and the spanGaps: false
-                data: [<?php echo $str_history_bpLower_data; ?>],
-                spanGaps: false,
-              }
-            ]
+                label: 'น้ำหนัก',
+                data: [
+                  <?php echo $str_history_weight_data; ?>
+                ],
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(255, 159, 64, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+          legend:{
+            display:false
           },
-          options:{
-            legend:{display:false},
-            scales:{
-              yAxes:[{
-                ticks:{
-                  beginAtZero:true,
-                  max: 220,
-                  min: 0,
-                  stepSize: 10
-                }
-              }]
-            }
-          }
-        });
-
-
-        let chartBloodsugarElem = document.getElementById('chart-blood-sugar').getContext('2d');
-        let chartBloodsugar = new Chart(chartBloodsugarElem,{
-          type:"line",
-          data:{
-            labels:[
-              <?php echo $str_history_label; ?>
-            ],
-            datasets:[
-              {
-                label:"Bloodsugar",
-                data:[
-                  <?php echo $str_history_bloodsugar_data; ?>
-                    ],
-                fill:false,
-                backgroundColor:[
-                  "rgba(255, 99, 132, 0.2)",
-                  "rgba(255, 159, 64, 0.2)",
-                  "rgba(255, 205, 86, 0.2)",
-                  "rgba(75, 192, 192, 0.2)",
-                  "rgba(54, 162, 235, 0.2)",
-                  "rgba(153, 102, 255, 0.2)",
-                  "rgba(201, 203, 207, 0.2)"],
-                borderColor:[
-                  "rgb(255, 99, 132)",
-                  "rgb(255, 159, 64)",
-                  "rgb(255, 205, 86)",
-                  "rgb(75, 192, 192)",
-                  "rgb(54, 162, 235)",
-                  "rgb(153, 102, 255)",
-                  "rgb(201, 203, 207)"],
-                borderWidth:5
+          scales:{
+            yAxes:[{
+              ticks:{
+                beginAtZero:true,
+                max: 200,
+                min: 0,
+                stepSize: 5
               }
-            ]
-          },
-          options:{
-            legend:{display:false},
-            scales:{
-              yAxes:[{
-                ticks:{
-                  beginAtZero:true,
-                  max: 150,
-                  min: 0,
-                  stepSize: 10
-                }
-              }]
-            }
+            }]
           }
-        });
+        }
+    });
 
-
-        let chartRiskElem = document.getElementById('chart-risk').getContext('2d');
-        let chartRisk = new Chart(chartRiskElem,{
-          type:"bar",
-          data:{
-            labels:[
-              <?php echo $str_cvd_level_label; ?>
-            ],
-
-           datasets:[
-              {
-                label:"Risk",
-                data:[
-                  <?php echo $str_cvd_level_data; ?>
-                    ],
-                fill:false,
-                backgroundColor:[
-                  "rgba(255, 99, 132, 0.2)",
-                  "rgba(255, 159, 64, 0.2)",
-                  "rgba(255, 205, 86, 0.2)",
-                  "rgba(75, 192, 192, 0.2)",
-                  "rgba(54, 162, 235, 0.2)",
-                  "rgba(153, 102, 255, 0.2)",
-                  "rgba(201, 203, 207, 0.2)"],
-                borderColor:[
-                  "rgb(255, 99, 132)",
-                  "rgb(255, 159, 64)",
-                  "rgb(255, 205, 86)",
-                  "rgb(75, 192, 192)",
-                  "rgb(54, 162, 235)",
-                  "rgb(153, 102, 255)",
-                  "rgb(201, 203, 207)"],
-                borderWidth:5
-              }
-            ]
-          },
-          options:{
-            legend:{display:false},
-            annotation: {
-        annotations: [{
-            type: 'line',
-            mode: 'horizontal',
-            scaleID: 'y-axis-0',
-            value: '26',
-            borderColor: 'tomato',
-            borderWidth: 1
-        }],
-        drawTime: "afterDraw" // (default)
-    },
-
-            scales:{
-              yAxes:[{
-                ticks:{
-                  beginAtZero:true,
-                  max: <?php echo $maxCountAll+(10*$maxCountAll/100); ?>,
-                  min: 0,
-                  stepSize: <?php echo ceil($maxCountAll/10); ?>
-                }
-              }],
-
-              
-            }
+    let chartCvdElem = document.getElementById('chart-cvd').getContext('2d');
+    let chartCvd = new Chart(chartCvdElem,{
+      type:"line",
+      data:{
+        labels:[
+          <?php echo $str_history_label; ?>
+        ],
+        datasets:[
+          {
+            label:"BMI",
+            data:[
+              <?php echo $str_history_cvd_score_data; ?>
+                ],
+            fill:false,
+            backgroundColor:[
+              "rgba(255, 99, 132, 0.2)",
+              "rgba(255, 159, 64, 0.2)",
+              "rgba(255, 205, 86, 0.2)",
+              "rgba(75, 192, 192, 0.2)",
+              "rgba(54, 162, 235, 0.2)",
+              "rgba(153, 102, 255, 0.2)",
+              "rgba(201, 203, 207, 0.2)"],
+            borderColor:[
+              "rgb(255, 99, 132)",
+              "rgb(255, 159, 64)",
+              "rgb(255, 205, 86)",
+              "rgb(75, 192, 192)",
+              "rgb(54, 162, 235)",
+              "rgb(153, 102, 255)",
+              "rgb(201, 203, 207)"],
+            borderWidth:8,
           }
-        });
+        ]
+      },
+      options:{
+        legend:{display:false},
+        scales:{
+          yAxes:[{
+            ticks:{
+              beginAtZero:true,
+              max: 100,
+              min: 0,
+              stepSize: 5
+            }
+          }]
+        }
+      }
+    });
+
+
+    let chartWaistElem = document.getElementById('chart-waist').getContext('2d');
+    let chartWaist = new Chart(chartWaistElem,{
+      type:"line",
+      data:{
+        labels:[
+          <?php echo $str_history_label; ?>
+        ],
+        datasets:[
+          {
+            label:"Waist",
+            data:[
+              <?php echo $str_history_waist_data; ?>
+                ],
+            fill:false,
+            backgroundColor:[
+              "rgba(255, 99, 132, 0.2)",
+              "rgba(255, 159, 64, 0.2)",
+              "rgba(255, 205, 86, 0.2)",
+              "rgba(75, 192, 192, 0.2)",
+              "rgba(54, 162, 235, 0.2)",
+              "rgba(153, 102, 255, 0.2)",
+              "rgba(201, 203, 207, 0.2)"],
+            borderColor:[
+              "rgb(255, 99, 132)",
+              "rgb(255, 159, 64)",
+              "rgb(255, 205, 86)",
+              "rgb(75, 192, 192)",
+              "rgb(54, 162, 235)",
+              "rgb(153, 102, 255)",
+              "rgb(201, 203, 207)"],
+            borderWidth:5
+          }
+        ]
+      },
+      options:{
+        legend:{display:false},
+        scales:{
+          yAxes:[{
+            ticks:{
+              beginAtZero:true,
+              max: 150,
+              min: 0,
+              stepSize: 10
+            }
+          }]
+        }
+      }
+    });
+
+
+    let chartBpElem = document.getElementById('chart-bp').getContext('2d');
+    let chartBp = new Chart(chartBpElem,{
+      type:"line",
+      data:{
+        labels:[
+          <?php echo $str_history_label; ?>
+        ],
+        datasets: [{
+            label: "bpUpper",
+            fill: false,
+            lineTension: 0.1,
+            backgroundColor: "rgba(225,0,0,0.4)",
+            borderColor: "red", // The main line color
+            borderCapStyle: 'square',
+            borderDash: [], // try [5, 15] for instance
+            borderDashOffset: 0.0,
+            borderJoinStyle: 'miter',
+            pointBorderColor: "black",
+            pointBackgroundColor: "white",
+            pointBorderWidth: 1,
+            pointHoverRadius: 8,
+            pointHoverBackgroundColor: "yellow",
+            pointHoverBorderColor: "brown",
+            pointHoverBorderWidth: 2,
+            pointRadius: 4,
+            pointHitRadius: 10,
+            // notice the gap in the data and the spanGaps: true
+            data: [<?php echo $str_history_bpUpper_data; ?>],
+            spanGaps: true,
+          }, {
+            label: "bpLower",
+            fill: false,
+            lineTension: 0.1,
+            backgroundColor: "rgba(167,105,0,0.4)",
+            borderColor: "blue",
+            borderCapStyle: 'butt',
+            borderDash: [],
+            borderDashOffset: 0.0,
+            borderJoinStyle: 'miter',
+            pointBorderColor: "white",
+            pointBackgroundColor: "black",
+            pointBorderWidth: 1,
+            pointHoverRadius: 8,
+            pointHoverBackgroundColor: "brown",
+            pointHoverBorderColor: "yellow",
+            pointHoverBorderWidth: 2,
+            pointRadius: 4,
+            pointHitRadius: 10,
+            // notice the gap in the data and the spanGaps: false
+            data: [<?php echo $str_history_bpLower_data; ?>],
+            spanGaps: false,
+          }
+        ]
+      },
+      options:{
+        legend:{display:false},
+        scales:{
+          yAxes:[{
+            ticks:{
+              beginAtZero:true,
+              max: 220,
+              min: 0,
+              stepSize: 10
+            }
+          }]
+        }
+      }
+    });
+
+
+    let chartBloodsugarElem = document.getElementById('chart-blood-sugar').getContext('2d');
+    let chartBloodsugar = new Chart(chartBloodsugarElem,{
+      type:"line",
+      data:{
+        labels:[
+          <?php echo $str_history_label; ?>
+        ],
+        datasets:[
+          {
+            label:"Bloodsugar",
+            data:[
+              <?php echo $str_history_bloodsugar_data; ?>
+                ],
+            fill:false,
+            backgroundColor:[
+              "rgba(255, 99, 132, 0.2)",
+              "rgba(255, 159, 64, 0.2)",
+              "rgba(255, 205, 86, 0.2)",
+              "rgba(75, 192, 192, 0.2)",
+              "rgba(54, 162, 235, 0.2)",
+              "rgba(153, 102, 255, 0.2)",
+              "rgba(201, 203, 207, 0.2)"],
+            borderColor:[
+              "rgb(255, 99, 132)",
+              "rgb(255, 159, 64)",
+              "rgb(255, 205, 86)",
+              "rgb(75, 192, 192)",
+              "rgb(54, 162, 235)",
+              "rgb(153, 102, 255)",
+              "rgb(201, 203, 207)"],
+            borderWidth:5
+          }
+        ]
+      },
+      options:{
+        legend:{display:false},
+        scales:{
+          yAxes:[{
+            ticks:{
+              beginAtZero:true,
+              max: 150,
+              min: 0,
+              stepSize: 10
+            }
+          }]
+        }
+      }
+    });
+
+
+    let chartRiskElem = document.getElementById('chart-risk').getContext('2d');
+    let chartRisk = new Chart(chartRiskElem,{
+      type:"bar",
+      data:{
+        labels:[
+          <?php echo $str_cvd_level_label; ?>
+        ],
+
+       datasets:[
+          {
+            label:"Risk",
+            data:[
+              <?php echo $str_cvd_level_data; ?>
+                ],
+            fill:false,
+            backgroundColor:[
+              "rgba(255, 99, 132, 0.2)",
+              "rgba(255, 159, 64, 0.2)",
+              "rgba(255, 205, 86, 0.2)",
+              "rgba(75, 192, 192, 0.2)",
+              "rgba(54, 162, 235, 0.2)",
+              "rgba(153, 102, 255, 0.2)",
+              "rgba(201, 203, 207, 0.2)"],
+            borderColor:[
+              "rgb(255, 99, 132)",
+              "rgb(255, 159, 64)",
+              "rgb(255, 205, 86)",
+              "rgb(75, 192, 192)",
+              "rgb(54, 162, 235)",
+              "rgb(153, 102, 255)",
+              "rgb(201, 203, 207)"],
+            borderWidth:5
+          }
+        ]
+      },
+      options:{
+        legend:{display:false},
+        annotation: {
+    annotations: [{
+        type: 'line',
+        mode: 'horizontal',
+        scaleID: 'y-axis-0',
+        value: '26',
+        borderColor: 'tomato',
+        borderWidth: 1
+    }],
+    drawTime: "afterDraw" // (default)
+},
+
+        scales:{
+          yAxes:[{
+            ticks:{
+              beginAtZero:true,
+              max: <?php echo $maxCountAll+(10*$maxCountAll/100); ?>,
+              min: 0,
+              stepSize: <?php echo ceil($maxCountAll/10); ?>
+            }
+          }],
+
+          
+        }
+      }
+    });
 
 
 
 
-        
-        
-       
+    
+    
+   
 
 
-      // function chartTestBar() {
-      //   let options = {
-      //     series: [{
-      //     name: 'BMI',
-      //     data: [31, 40, 28, 51, 42, 109, 100]
-      //     // data: [<?php echo $str_history_bmi_data; ?>]
-      //   }],
-      //     chart: {
-      //     height: 400,
-      //     type: 'area'
-      //   },
-      //   dataLabels: {
-      //     enabled: false
-      //   },
-      //   stroke: {
-      //     curve: 'smooth'
-      //   },
-      //   xaxis: {
-      //     categories: ['ม.ค.','มี.ค.','พ.ค.','ก.ค.','ก.ย.','พ.ค.']
-      //   },
-      //   yaxis: {
-      //     tickAmount: 7,
-      //     min: 0,
-      //     max: 140
-      //   }
-      // };
+  // function chartTestBar() {
+  //   let options = {
+  //     series: [{
+  //     name: 'BMI',
+  //     data: [31, 40, 28, 51, 42, 109, 100]
+  //     // data: [<?php echo $str_history_bmi_data; ?>]
+  //   }],
+  //     chart: {
+  //     height: 400,
+  //     type: 'area'
+  //   },
+  //   dataLabels: {
+  //     enabled: false
+  //   },
+  //   stroke: {
+  //     curve: 'smooth'
+  //   },
+  //   xaxis: {
+  //     categories: ['ม.ค.','มี.ค.','พ.ค.','ก.ค.','ก.ย.','พ.ค.']
+  //   },
+  //   yaxis: {
+  //     tickAmount: 7,
+  //     min: 0,
+  //     max: 140
+  //   }
+  // };
 
-      //   let chart = new ApexCharts(document.getElementById('chart-line-test'), options);
-      //   chart.render();
-      // }
+  //   let chart = new ApexCharts(document.getElementById('chart-line-test'), options);
+  //   chart.render();
+  // }
 
-      // function chartTestLine(typeChart, nameChart, categories, tickAmount, minValue, maxValue) {
-      //   let options = {
-      //     chart: {
-      //       type: typeChart
-      //     },
-      //     series: [{
-      //       name: nameChart,
-      //       data: [5, 10, 2, 15, 12, 10]
-      //     }],
-      //     xaxis: {
-      //       categories: categories
-      //     }, 
-      //     yaxis: {
-      //       tickAmount: tickAmount,
-      //       min: minValue,
-      //       max: maxValue
-      //     },
-      //     // colors: ['#008FFB']
-      //   }
+  // function chartTestLine(typeChart, nameChart, categories, tickAmount, minValue, maxValue) {
+  //   let options = {
+  //     chart: {
+  //       type: typeChart
+  //     },
+  //     series: [{
+  //       name: nameChart,
+  //       data: [5, 10, 2, 15, 12, 10]
+  //     }],
+  //     xaxis: {
+  //       categories: categories
+  //     }, 
+  //     yaxis: {
+  //       tickAmount: tickAmount,
+  //       min: minValue,
+  //       max: maxValue
+  //     },
+  //     // colors: ['#008FFB']
+  //   }
 
-      //   let chart = new ApexCharts(document.getElementById('chart-bar-test'), options);
-      //   chart.render();
-      // }
+  //   let chart = new ApexCharts(document.getElementById('chart-bar-test'), options);
+  //   chart.render();
+  // }
 
-      // function chartTestPie() {
-      //   let options = {
-      //     series: [100, 55, 13, 43, 22], // data
-      //     chart: {
-      //       width: 500,
-      //       type: 'pie',
-      //   },
-      //   labels: ['BMI1', 'BMI2', 'BMI3', 'BMI4', 'BMI5'],
-      //   responsive: [{
-      //     breakpoint: 480,
-      //     options: {
-      //       chart: {
-      //         width: 200
-      //       },
-      //       legend: {
-      //         position: 'bottom'
-      //       }
-      //     }
-      //   }]
-      //   };
+  // function chartTestPie() {
+  //   let options = {
+  //     series: [100, 55, 13, 43, 22], // data
+  //     chart: {
+  //       width: 500,
+  //       type: 'pie',
+  //   },
+  //   labels: ['BMI1', 'BMI2', 'BMI3', 'BMI4', 'BMI5'],
+  //   responsive: [{
+  //     breakpoint: 480,
+  //     options: {
+  //       chart: {
+  //         width: 200
+  //       },
+  //       legend: {
+  //         position: 'bottom'
+  //       }
+  //     }
+  //   }]
+  //   };
 
-      //   let chart = new ApexCharts(document.getElementById('chart-pie-test'), options);
-      //   chart.render();
-      // }
+  //   let chart = new ApexCharts(document.getElementById('chart-pie-test'), options);
+  //   chart.render();
+  // }
 
 
-      </script>
+  </script>
   </body>
 </html>
 
