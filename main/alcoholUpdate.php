@@ -24,7 +24,7 @@
     include "./header.php";
 ?>
     
-    <div class="container">
+    <div class="container mt-3">
         <h3>ระดับ แอลกอฮอล์</h3>
         <form action="ajaxAlcoholUpdate.php" method="POST">
             <div class="form-row">
@@ -48,8 +48,8 @@
             </div>
 
             <input type="hidden" name="alcoholId" id="alcoholId" value="<?php echo htmlentities($rowsAlcohol['alcoholId']); ?>">
-            <button class="btn btn-warning" type="reset">ยกเลิก</button>
-            <button class="btn btn-success" type="submit">บันทึก</button>
+            <center><button class="btn btn-warning mr-3" type="reset">ยกเลิก</button>
+            <button class="btn btn-success" type="submit">บันทึก</button></center>
         </form>
     </div>
     <!-- <script> -->

@@ -24,7 +24,7 @@
       include "./header.php";
   ?>
     
-    <div class="container">
+    <div class="container mt-3">
         <h3>แก้ไขระดับ BMI</h3>
         <form action="ajaxBmiUpdate.php" method="POST">
             <div class="form-row">
@@ -83,8 +83,8 @@
             </div>
 
             <input type="hidden" name="id" id="id" value="<?php echo htmlentities($rowsBmi['id']); ?>">
-            <button class="btn btn-warning" type="reset">ยกเลิก</button>
-            <button class="btn btn-success" type="submit">บันทึก</button>
+            <center><button class="btn btn-warning mr-3" type="reset">ยกเลิก</button>
+            <button class="btn btn-success" type="submit">บันทึก</button></center>
         </form>
     </div>
     <!-- <script> -->

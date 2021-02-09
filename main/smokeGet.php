@@ -46,7 +46,7 @@
   <?php
       include "./header.php";
   ?>
-    <div class="container-fluid">
+    <div class="container-fluid mt-2">
       <h3>ระดับ การสูบบุหรี่</h3>
       <table class="table" id="myTable">
         <thead>

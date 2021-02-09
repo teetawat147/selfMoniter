@@ -24,7 +24,7 @@
       include "./header.php";
   ?>
     
-    <div class="container">
+    <div class="container mt-3">
         <h3>แก้ไขระดับ น้ำตาลในเลือด</h3>
         <form action="ajaxDmUpdate.php" method="POST">
             <div class="form-row">
@@ -62,8 +62,8 @@
             </div>
 
             <input type="hidden" name="bloodSugarId" id="bloodSugarId" value="<?php echo htmlentities($rowsBloodSugar['bloodSugarId']); ?>">
-            <button class="btn btn-warning" type="reset">ยกเลิก</button>
-            <button class="btn btn-success" type="submit">บันทึก</button>
+            <center><button class="btn btn-warning mr-3" type="reset">ยกเลิก</button>
+            <button class="btn btn-success" type="submit">บันทึก</button></center>
         </form>
     </div>
     <!-- <script> -->

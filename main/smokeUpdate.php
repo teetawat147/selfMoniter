@@ -23,7 +23,7 @@
 <?php
     include "./header.php";
 ?>
-    <div class="container">
+    <div class="container mt-3">
         <h3>แก้ไข ระดับการสูบบุหรี่</h3>
         <form action="ajaxSmokeUpdate.php" method="POST">
             <div class="form-row">
@@ -53,8 +53,8 @@
                 </div>
             </div>
             <input type="hidden" name="smokeId" id="smokeId" value="<?php echo htmlentities($rowsSmoke['smokeId']); ?>">
-            <button class="btn btn-warning " style="text-align: center;"  type="reset">ยกเลิก</button>
-            <button class="btn btn-success " style="text-align: center;" type="submit">บันทึก</button>
+            <center><button class="btn btn-warning mr-3" style="text-align: center;"  type="reset">ยกเลิก</button>
+            <button class="btn btn-success " style="text-align: center;" type="submit">บันทึก</button></center>
         </form>
     </div>
     <!-- <script> -->

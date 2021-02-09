@@ -42,8 +42,8 @@
   <?php
       include "./header.php";
     ?>
-    <div class="container-fluid">
-      <h3>ระดับ รอบเอว</h3>
+    <div class="container-fluid mt-2">
+      <h3>ระดับรอบเอว</h3>
       <table class="table" id="myTable" style="width: 100%;">
         <thead>
           <tr>

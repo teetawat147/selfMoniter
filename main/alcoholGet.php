@@ -30,10 +30,9 @@
         text-align: center;
       }
 
-      /* tbody tr td:nth-child(1),
-      tbody tr td:nth-child(3) {
-          text-align: center;
-      } */
+      tbody tr td:nth-child(1) {
+        text-align: center;
+      }
 
       @media screen and (max-width: 768px) {
           .table {
@@ -46,7 +45,7 @@
     <?php
       include "./header.php";
     ?>
-    <div class="container-fluid">
+    <div class="container-fluid mt-2">
       <h3>ระดับ แอลกอฮอล์</h3>
       <table class="table" id="myTable">
         <thead>

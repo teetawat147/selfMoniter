@@ -30,10 +30,11 @@
         text-align: center;
       }
 
-      /* tbody tr td:nth-child(1),
-      tbody tr td:nth-child(3) {
+      tbody tr td:nth-child(1),
+      tbody tr td:nth-child(5),
+      tbody tr td:nth-child(6) {
           text-align: center;
-      } */
+      }
 
       @media screen and (max-width: 768px) {
           .table {
@@ -46,17 +47,17 @@
     <?php
       include "./header.php";
     ?>
-    <div class="container-fluid">
-      <h3>ระดับ ความดัน</h3>
+    <div class="container-fluid mt-2">
+      <h3>ระดับความดัน</h3>
       <table class="table" id="myTable">
         <thead>
           <tr>
-            <th>ลำดับ</th>
-            <th>รายการ</th>
-            <th>สรุป</th>
-            <th>คำแนะนำ</th>
-            <th>ความดันค่าล่าง</th>
-            <th>ความดันค่าบน</th>
+            <th style="height: 70px; text-align: center; vertical-align: top;">ลำดับ</th>
+            <th style="height: 70px; text-align: center; vertical-align: top;">รายการ</th>
+            <th style="height: 70px; text-align: center; vertical-align: top;">สรุป</th>
+            <th style="height: 70px; text-align: center; vertical-align: top;">คำแนะนำ</th>
+            <th style="height: 70px; text-align: center; vertical-align: top;">ความดันค่าล่าง</th>
+            <th style="height: 70px; text-align: center; vertical-align: top;">ความดันค่าบน</th>
             <th data-card-footer></th>
           </tr>
         </thead>
