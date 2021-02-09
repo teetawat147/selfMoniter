@@ -4,6 +4,16 @@
 if (!$_SESSION['fname']){
   header("Location: ../main/login.php");
 }
+  if (!(isset($_GET['helpRecordId']))){
+    $sql="select * from health_data_record h where h.personId=".$_SESSION['personId']." order by helpRecordId desc limit 1";
+    $result = $conn -> prepare($sql);
+    $result -> execute();
+    $myRecords = $result -> fetchAll(PDO::FETCH_ASSOC);
+    $helpRecordId=$myRecords[0]['helpRecordId'];
+  }else{
+    $helpRecordId=$_GET['helpRecordId'];    
+  }
+
 
   $sql = "SELECT h.*,p.birthdate,
     b.*,
@@ -14,7 +24,7 @@ if (!$_SESSION['fname']){
   left join person p on h.personId=p.personId
   LEFT JOIN bmi b ON h.healthWeight/((h.healthHeight/100)*(h.healthHeight/100)) >= IF(p.sexId = 1,b.sex1min,b.sex2min)
     AND h.healthWeight/((h.healthHeight/100)*(h.healthHeight/100)) < IF(p.sexId = 1,b.sex1max,b.sex2max)
-  WHERE h.helpRecordId = '".$_GET['helpRecordId']."'
+  WHERE h.helpRecordId = '".$helpRecordId."'
   order by h.inputDatetime";
 
 
@@ -169,7 +179,8 @@ $str_history_cvd_score_data=implode(", ",$history_cvd_score_data);
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous"> -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 
     <title>ผลการคัดกรองด้วยตนเอง</title>
     <style>
@@ -274,7 +285,7 @@ $str_history_cvd_score_data=implode(", ",$history_cvd_score_data);
     include("../main/header.php");   
   ?>
 
-<main role="main" style="margin-top:90px;">
+<main role="main">
 
 <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
 
