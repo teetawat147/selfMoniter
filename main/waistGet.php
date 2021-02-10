@@ -31,6 +31,11 @@
         margin: 0 auto;
       }
 
+      #delete-btn {
+        margin-top: 5px;
+        width: 120px;
+      }
+
       @media screen and (max-width: 768px) {
           .table {
               margin-top: 50px;
@@ -71,7 +76,10 @@
             <td><?php echo html_entity_decode($rowWaist['sex2max']); ?></td>
             <td><?php echo html_entity_decode($rowWaist['waistAdvice']); ?></td>
             <td>
-                <center><a href="../main/waistUpdate.php?waistId=<?php echo html_entity_decode($rowWaist['waistId']); ?>" class="btn btn-warning">แก้ไขข้อความ</a></center>
+                <center>
+                  <a href="../main/waistUpdate.php?waistId=<?php echo html_entity_decode($rowWaist['waistId']); ?>" class="btn btn-warning">แก้ไขข้อความ</a>
+                  <button id="delete-btn" class="btn btn-danger" onclick="document.getElementById('confirm-delete').style.display='block'">ลบ</button>
+                </center>
             </td>
           </tr>
           <?php 
@@ -79,6 +87,35 @@
           ?>
         </tbody>
       </table>
+
+      <div id="confirm-delete" class="modal">
+        <span onclick="document.getElementById('confirm-delete').style.display='none'" class="close" title="Close Modal">×</span>
+        <form class="modal-content" action="../main/waistDelete.php">
+          <center>
+            <div class="container mt-3 mb-3 w-25">
+              <h1>ลบข้อมูล <?php echo $rowsWaist['waistName']; ?></h1>
+              <p>คุณแน่ใจหรือไม่ว่าต้องการจะลบข้อมูล <?php echo $rowsWaist['waistName']; ?></p>
+            
+              <div class="clearfix">
+                <button class="btn btn-warning" type="button" onclick="document.getElementById('confirm-delete').style.display='none'" class="cancelbtn">ยกเลิก</button>
+                <button class="btn btn-primary" type="button" onclick="document.getElementById('confirm-delete').style.display='none'" class="deletebtn">ยืนยัน</button>
+              </div>
+            </div>
+          </center>
+        </form>
     </div>
+
+    <script>
+      let modal = document.getElementById('confirm-delete');
+      let bodyElem = document.getElementsByTagName("body");
+
+      // When the user clicks anywhere outside of the modal, close it
+      window.onclick = function(event) {
+        if (event.target == modal) {
+          modal.style.display = "none";
+          bodyElem.innerHtml = "";
+        }
+      }
+    </script>
   </body>
 </html>

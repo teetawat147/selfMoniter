@@ -10,7 +10,7 @@ include("../include/connection.php");
 </head>
     <body>
         <br>
-        <center><h1>AdminHealthAmpru<h1></center>
+        <center><h1>AdminHealthAmpur<h1></center>
 
         <!-- Optional JavaScript -->
         <!-- jQuery first, then Popper.js, then Bootstrap JS -->

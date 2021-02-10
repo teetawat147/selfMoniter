@@ -361,27 +361,26 @@ $cvdScore = $result -> fetch(PDO::FETCH_ASSOC);
       </div>
     </div>
 
+    <?php
+      $sql="select * from waist";
+      $result = $conn -> prepare($sql);
+      $result -> execute();
+      $rowsWaist = $result -> fetchAll(PDO::FETCH_ASSOC);
+      $thisWaistKey=0;
+      foreach ($rowsWaist as $key => $value) {
+        $ex1='$ex3='.$now_row['waist'].$value['sex'.$now_row['sexId'].'max'].";";
+        eval($ex1);
+        if ($ex3){
+          $thisWaistKey=$key;
+          break;
+        }
+      }
+    ?>
 
     <div class="content">
       <div class="content-title">
-        <p><b>รอบเอวของคุณอยู่ในเกณฑ์
-        <?php 
-          $sql="select * from waist";
-          $result = $conn -> prepare($sql);
-          $result -> execute();
-          $rowsWaist = $result -> fetchAll(PDO::FETCH_ASSOC);
-          $thisWaistKey=0;
-          foreach ($rowsWaist as $key => $value) {
-            $ex1='$ex3='.$now_row['waist'].$value['sex'.$now_row['sexId'].'max'].";";
-            eval($ex1);
-            if ($ex3){
-              $thisWaistKey=$key;
-              break;
-            }
-          }
-          echo $rowsWaist[$thisWaistKey]['waistName'];
-          ?>
-        </b> <br>(<?php echo $rowsWaist[$thisWaistKey]['waistDetail']; ?>)</p>
+        <p><b>รอบเอวของคุณอยู่ในเกณฑ์ <?php echo $rowsWaist[$thisWaistKey]['waistName']; ?>
+        </b><br>(<?php echo $rowsWaist[$thisWaistKey]['waistDetail']; ?>)</p>
       </div>
       <div class="content-body waist">
         <p class="advice"><?php echo html_entity_decode($rowsWaist[$thisWaistKey]['waistAdvice']); ?></p>
