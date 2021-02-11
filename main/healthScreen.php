@@ -260,6 +260,7 @@ $str_history_cvd_score_data=implode(", ",$history_cvd_score_data);
         color: #000;
         border: 1px solid #000;
         transform: scale(1.05);
+        cursor: pointer;
       }
 
       @media screen and (max-width: 423px)
@@ -889,96 +890,6 @@ $cvdScore = $result -> fetch(PDO::FETCH_ASSOC);
         }
       }
     });
-
-
-
-
-    
-    
-   
-
-
-  // function chartTestBar() {
-  //   let options = {
-  //     series: [{
-  //     name: 'BMI',
-  //     data: [31, 40, 28, 51, 42, 109, 100]
-  //     // data: [<?php echo $str_history_bmi_data; ?>]
-  //   }],
-  //     chart: {
-  //     height: 400,
-  //     type: 'area'
-  //   },
-  //   dataLabels: {
-  //     enabled: false
-  //   },
-  //   stroke: {
-  //     curve: 'smooth'
-  //   },
-  //   xaxis: {
-  //     categories: ['ม.ค.','มี.ค.','พ.ค.','ก.ค.','ก.ย.','พ.ค.']
-  //   },
-  //   yaxis: {
-  //     tickAmount: 7,
-  //     min: 0,
-  //     max: 140
-  //   }
-  // };
-
-  //   let chart = new ApexCharts(document.getElementById('chart-line-test'), options);
-  //   chart.render();
-  // }
-
-  // function chartTestLine(typeChart, nameChart, categories, tickAmount, minValue, maxValue) {
-  //   let options = {
-  //     chart: {
-  //       type: typeChart
-  //     },
-  //     series: [{
-  //       name: nameChart,
-  //       data: [5, 10, 2, 15, 12, 10]
-  //     }],
-  //     xaxis: {
-  //       categories: categories
-  //     }, 
-  //     yaxis: {
-  //       tickAmount: tickAmount,
-  //       min: minValue,
-  //       max: maxValue
-  //     },
-  //     // colors: ['#008FFB']
-  //   }
-
-  //   let chart = new ApexCharts(document.getElementById('chart-bar-test'), options);
-  //   chart.render();
-  // }
-
-  // function chartTestPie() {
-  //   let options = {
-  //     series: [100, 55, 13, 43, 22], // data
-  //     chart: {
-  //       width: 500,
-  //       type: 'pie',
-  //   },
-  //   labels: ['BMI1', 'BMI2', 'BMI3', 'BMI4', 'BMI5'],
-  //   responsive: [{
-  //     breakpoint: 480,
-  //     options: {
-  //       chart: {
-  //         width: 200
-  //       },
-  //       legend: {
-  //         position: 'bottom'
-  //       }
-  //     }
-  //   }]
-  //   };
-
-  //   let chart = new ApexCharts(document.getElementById('chart-pie-test'), options);
-  //   chart.render();
-  // }
-
-
   </script>
   </body>
 </html>

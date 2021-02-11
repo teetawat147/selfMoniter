@@ -1,8 +1,8 @@
 <?php
     include('../include/connection.php');
 
-    $sqlDelete = "DELETE FROM `waist` WHERE waistId=".$_GET['waistId'];
+    $sqlDelete = "DELETE FROM `bmi` WHERE id=".$_GET['id'];
     $result = $conn -> prepare($sqlDelete);
     $result -> execute();
-    header("location: ../main/waistGet.php");
+    header("location: ../main/bmiGet.php");
 ?>

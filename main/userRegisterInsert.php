@@ -42,7 +42,7 @@ $sql ="INSERT into person (
         '".$_POST['lineId']."',
         md5('".$_POST['password']."') 
     )";
-echo $sql ; 
+echo $sql;
 $result = $conn->prepare($sql);
 $result->execute();
 $personId = $conn->lastInsertId();
