@@ -35,22 +35,36 @@
 
             <div class="form-row">
                 <div class="form-group col-md-12">
-                    <label for="sex1min">ค่าต่ำสุด(ผู้ชาย)</label>
-                    <input id="sex1min" name="sex1min"  type="text" class="form-control">
+                    <label for="conclude">สรุป</label>
+                    <textarea name="conclude" id="conclude" class="form-control" cols="80" rows="10"></textarea>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col-md-12">
+                    <label for="advice">คำแนะนำ</label>
+                    <textarea name="advice" id="advice" class="form-control" cols="80" rows="10"></textarea>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col-md-12">
+                    <label for="sex1min">ค่าต่ำสุด(ผู้ชาย</label>
+                    <input id="sex1min" class="form-control" name="sex1min" class="ckeditor" type="text">
                 </div>
             </div>
 
             <div class="form-row">
                 <div class="form-group col-md-12">
                     <label for="sex1max">ค่าสูงสุด(ผู้ชาย)</label>
-                    <input id="sex1max" name="sex1max"  type="text" class="form-control">
+                    <input id="sex1max" class="form-control" name="sex1max" class="ckeditor" type="text">
                 </div>
             </div>
 
             <div class="form-row">
                 <div class="form-group col-md-12">
                     <label for="sex2min">ค่าต่ำสุด(ผู้หญิง)</label>
-                    <input id="riskBmi" class="form-control" name="riskBmi" class="ckeditor" type="text">
+                    <input id="sex2min" class="form-control" name="sex2min" class="ckeditor" type="text">
                 </div>
             </div>
 
@@ -61,23 +75,11 @@
                 </div>
             </div>
 
-            <div class="form-row">
-                <div class="form-group col-md-12">
-                    <label for="conclude">สรุป</label>
-                    <textarea name="conclude" id="conclude" class="ckeditor" cols="80" rows="10"></textarea>
-                </div>
-            </div>
-
-            <div class="form-row">
-                <div class="form-group col-md-12">
-                    <label for="advice">คำแนะนำ</label>
-                    <textarea name="advice" id="advice" class="ckeditor" cols="80" rows="10"></textarea>
-                </div>
-            </div>
-
             <!-- <input type="hidden" name="waistId" id="waistId"> -->
-            <center><button class="btn btn-warning mr-3" type="reset">ยกเลิก</button>
-            <button class="btn btn-success" type="submit">บันทึก</button></center>
+            <center>
+                <button class="btn btn-warning mr-3" type="reset">ยกเลิก</button>
+                <button class="btn btn-success" type="submit">บันทึก</button>
+            </center>
         </form>
     </div>
 

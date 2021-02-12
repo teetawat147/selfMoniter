@@ -21,7 +21,6 @@
     <script src="https://cdn.ckeditor.com/ckeditor5/25.0.0/classic/ckeditor.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
     <script src="../js/tableToCards.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.5.2/bootbox.min.js"></script>
 
     <title>รอบเอว</title>
 
@@ -34,8 +33,20 @@
 
       center a,
       center button {
-        margin-top: 5px;
+        margin-top: 7px;
         width: 12ch;
+      }
+
+      .btn-edit,
+      .btn-delete {
+        width: 7ch;
+        margin-right: 10px;
+      }
+
+      .img-add-data {
+        width: 50px;
+        height: 50px;
+        margin-bottom: 10px;
       }
 
       #close-modal {
@@ -50,9 +61,9 @@
     </style>
   </head>
   <body>
-  <?php
-      include "./header.php";
-  ?>
+    <?php
+        include "./header.php";
+    ?>
     <div class="container-fluid mt-2">
       <h3>ระดับรอบเอว</h3>
       <table class="table" id="myTable" style="width: 100%;">
@@ -84,8 +95,8 @@
 
             <td>
               <center>
-                <a href="../main/waistUpdate.php?waistId=<?php echo html_entity_decode($rowWaist['waistId']); ?>" class="btn btn-warning">แก้ไขข้อมูล</a>
-                <button class="btn btn-danger" data-href="../main/waistDelete.php?waistId=<?php echo $rowWaist['waistId']; ?>" data-toggle="modal" data-target="#confirm-delete">ลบข้อมูล</button>
+                <a href="../main/waistUpdate.php?waistId=<?php echo html_entity_decode($rowWaist['waistId']); ?>" class="btn btn-warning btn-edit"><i class="fas fa-edit"></i></a>
+                <button class="btn btn-danger btn-delete" data-href="../main/waistDelete.php?waistId=<?php echo $rowWaist['waistId']; ?>" data-toggle="modal" data-target="#confirm-delete"><i class="fas fa-trash-alt"></i></button>
               </center>
             </td>
           </tr>
@@ -94,47 +105,39 @@
           ?>
         </tbody>
       </table>
+      <hr>
 
 
       <!-- ปุ่มเพิ่มข้อมูล (Insert data) -->
-      <center><a href="../main/waistInsert.php?waistId=<?php echo html_entity_decode($rowWaist['waistId']); ?>" class="btn btn-primary mb-2">เพิ่มข้อมูล</a></center>
+      <center><a href="../main/waistInsert.php?waistId=<?php echo html_entity_decode($rowWaist['waistId']); ?>" class="btn-add-data mb-2"><img src="../images/icon-addData.svg" alt="" class="img-add-data"></a></center>
 
 
-    <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
-            <div class="modal-content">
-            
-              <div class="modal-header">
-                <h4 class="modal-title w-100 text-center">ยืนยันการลบ</h4>
-                <button type="button" id="close-modal" class="close" data-dismiss="modal" aria-label="Close"><i class="fas fa-window-close"></i></button>
-              </div>
+          <div class="modal-content">
           
-              <div class="modal-body text-center">
-                  <p>คุณต้องการจะดำเนินการลบหรือไม่</p>
-                  <p class="debug-url"></p>
-              </div>
-              
-              <div class="modal-footer d-flex justify-content-center">
-                  <button type="button" class="btn btn-secondary" data-dismiss="modal">ยกเลิก</button>
-                  <a class="btn btn-success btn-confirm-delete">ยืนยัน</a>
-              </div>
+            <div class="modal-header">
+              <h4 class="modal-title w-100 text-center">ยืนยันการลบ</h4>
+              <button type="button" id="close-modal" class="close" data-dismiss="modal" aria-label="Close"><i class="fas fa-window-close"></i></button>
             </div>
+        
+            <div class="modal-body text-center">
+                <p>คุณต้องการจะดำเนินการลบข้อมูลหรือไม่</p>
+            </div>
+            
+            <div class="modal-footer d-flex justify-content-center">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">ยกเลิก</button>
+                <a class="btn btn-success btn-confirm-delete">ยืนยัน</a>
+            </div>
+          </div>
         </div>
+      </div>
     </div>
 
     <script>
-      // let modal = document.getElementById('confirm-delete');
-
-      // // When the user clicks anywhere outside of the modal, close it
-      // window.onclick = function(event) {
-      //   if (event.target == modal) {
-      //     modal.style.display = "none";
-      //   }
-      // }
 
       $('#confirm-delete').on('show.bs.modal', function(event) {
             $(this).find('.btn-confirm-delete').attr('href', $(event.relatedTarget).data('href'));
-            // $('.debug-url').html('Delete URL: <strong>' + $(this).find('.btn-confirm-delete').attr('href') + '</strong>');
         });
     </script>
   </body>

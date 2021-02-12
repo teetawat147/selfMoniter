@@ -16,10 +16,12 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <link href='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css'>
     <link href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.3/css/font-awesome.css'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
     <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
     <script src='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js'></script>
     <script src="https://cdn.ckeditor.com/ckeditor5/25.0.0/classic/ckeditor.js"></script>
     <script src="../js/tableToCards.js"></script>
+    
   
     <title>ค่า BMI</title>
 
@@ -35,7 +37,7 @@
 
     button,
     center a {
-      margin-top: 5px;
+      margin-top: 7px;
       width: 12ch;
     }
 
@@ -44,9 +46,18 @@
       height: 180px;
     }
 
-    #btn-insert {
-      margin-bottom: 15px;
+    .img-add-data {
+      width: 50px;
+      height: 50px;
+      margin-bottom: 10px;
     }
+
+    .btn-edit,
+    .btn-delete {
+      width: 7ch;
+      margin-right: 10px;
+    }
+
     </style>
   </head>
   <body>
@@ -56,8 +67,8 @@
 
     <div class="container-fluid mt-2">
       <h3>ระดับ BMI</h3>
-        <table class="table" id="myTable" style="width: 100%;">
-          <thead>
+      <table class="table" id="myTable" style="width: 100%;">
+        <thead>
           <tr>
               <th style="height: 70px; text-align: center; vertical-align: top;">ลำดับ</th>
               <th style="height: 70px; text-align: center; vertical-align: top;">ระดับ</th>
@@ -70,13 +81,12 @@
               <th style="height: 70px; text-align: center; vertical-align: top;">ค่าสูงสุด(ผู้หญิง)</th>
               <th data-card-footer></th>
             </tr>
-          </thead>
-          <tbody>
-            <?php
-              foreach ($rowsBmi as $key => $rowBmi) {
-            ?>
-
-            <tr>
+        </thead>
+        <tbody>
+          <?php
+            foreach ($rowsBmi as $key => $rowBmi) {
+          ?>
+              <tr>
                 <td><?php echo html_entity_decode($rowBmi['id']); ?></td>
                 <td><?php echo html_entity_decode($rowBmi['nameBmi']); ?></td>
                 <td><?php echo html_entity_decode($rowBmi['riskBmi']); ?></td>
@@ -87,41 +97,50 @@
                 <td><?php echo html_entity_decode($rowBmi['sex2min']); ?></td>
                 <td><?php echo html_entity_decode($rowBmi['sex2max']); ?></td>
                 <td>
-                <center>
-                  <a href="../main/bmiUpdate.php?id=<?php echo html_entity_decode($rowBmi['id']); ?>" class="btn btn-warning">แก้ไขข้อมูล</a>
-                  <button id="delete-btn" class="btn btn-danger" onclick="document.getElementById('confirm-delete').style.display='block'">ลบข้อมูล</button>
-                </center>
-              </td>
-            </tr>
+                  <center class="button">
+                    <a href="../main/bmiUpdate.php?id=<?php echo html_entity_decode($rowBmi['id']); ?>" class="btn btn-warning btn-edit"><i class="fas fa-edit"></i></a>
+                    <button class="btn btn-danger btn-delete" data-href="../main/bmiDelete.php?id=<?php echo $rowBmi['id']; ?>" data-toggle="modal" data-target="#confirm-delete"><i class="fas fa-trash-alt"></i></button>
+                  </center>
+                </td>
+              </tr>
             <?php 
               }
             ?>
-          </tbody>
-        </table>
+        </tbody>
+      </table>
+      <hr>
 
         <!-- ปุ่มเพิ่มข้อมูล (Insert data) -->
-        <center><a href="../main/bmiInsert.php?id=<?php echo html_entity_decode($rowBmi['id']); ?>" class="btn btn-primary">เพื่มข้อมูล</a></center>
+      <center><a href="../main/bmiInsert.php?id=<?php echo html_entity_decode($rowBmi['id']); ?>" class="mb-3"><img src="../images/icon-addData.svg" alt="" class="img-add-data"></a></center>
 
-        <div id="confirm-delete" class="modal">
-          <div class="modal-dialog modal-dialog-centered" role="document">
-            <form class="modal-content" action="../main/bmiGet.php">
-              <center>
-                <span onclick="document.getElementById('confirm-delete').style.display='none'" class="close" title="Close Modal"><i id="btn-close" class="fas fa-window-close"></i></span>
-                <div class="container mt-3 mb-3">
-                  <h1 style="font-size: 20px; font-weight: 900;">ลบข้อมูล"<?php echo $rowBmi['nameBmi']; ?>"</h1>
-                  <p>คุณแน่ใจหรือไม่ว่าต้องการจะลบข้อมูล "<?php echo $rowBmi['nameBmi']; ?>"</p>
-                
-                  <div class="clearfix">
-                    <a class="btn btn-warning" type="button" onclick="document.getElementById('confirm-delete').style.display='none'" class="cancel-btn">ยกเลิก</a>
-                    <a href="../main/bmiDelete.php?id=<?php echo $rowBmi['id']; ?>" class="btn btn-primary" type="button" onclick="document.getElementById('confirm-delete').style.display='none'" class="delete-btn">ยืนยัน</a>
-                  </div>
-                </div>
-              </center>
-            </form>
+      <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+          
+            <div class="modal-header">
+              <h4 class="modal-title w-100 text-center">ยืนยันการลบ</h4>
+              <button type="button" id="close-modal" class="close" data-dismiss="modal" aria-label="Close"><i class="fas fa-window-close"></i></button>
+            </div>
+        
+            <div class="modal-body text-center">
+                <p>คุณต้องการจะดำเนินการลบข้อมูลหรือไม่</p>
+            </div>
+            
+            <div class="modal-footer d-flex justify-content-center">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">ยกเลิก</button>
+                <a class="btn btn-success btn-confirm-delete">ยืนยัน</a>
+            </div>
           </div>
         </div>
       </div>
+
     </div>
+
+    <script>
+      $('#confirm-delete').on('show.bs.modal', function(event) {
+        $(this).find('.btn-confirm-delete').attr('href', $(event.relateTarget).data('href'));
+      });
+    </script>
 
   </body>
 </html>
