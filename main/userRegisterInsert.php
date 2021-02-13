@@ -15,7 +15,7 @@ $sql = "INSERT into person (
         districtCode,
         subdistrictCode,
         officeId,
-        departmentId,
+        -- departmentId,
         personWeight,
         personHeight,
         email,
@@ -34,7 +34,7 @@ $sql = "INSERT into person (
         '" . $_POST['districtCode'] . "',
         '" . $_POST['subdistrictCode'] . "',
         '" . $_POST['officeId'] . "',
-        '" . $_POST['departmentId'] . "',
+        /*'" . $_POST['departmentId'] . "',*/
         '" . $_POST['personWeight'] . "',
         '" . $_POST['personHeight'] . "',
         '" . $_POST['email'] . "',
@@ -51,9 +51,9 @@ $_SESSION['fname']=$_POST['fname'];
 $_SESSION['lname']=$_POST['lname'];
 $_SESSION['personWeight']=$_POST['personWeight'];
 $_SESSION['personHeight']=$_POST['personHeight'];
-// header("Location: ../main/consent.php");
+header("Location: ../main/consent.php");
 
-print_r($result);
+// print_r($result);
 
 function adjustDate($date){
     $_yyyy=substr($date,0,4);
