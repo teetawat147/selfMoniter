@@ -16,7 +16,6 @@ $sql = "INSERT into health_data_record (
         inputDatetime,
         personId
         )
-
         values (
             '" . $_POST['diabetesId'] . "',
             '" . $_POST['bloodId'] . "',
@@ -37,6 +36,5 @@ $result = $conn->prepare($sql);
 $result->execute();
 $lastId = $conn->lastInsertId();
 header("Location: ../main/healthScreen.php?helpRecordId=" . $lastId);
-// header("location: ../main/healthScreen.php");
 
 ?>

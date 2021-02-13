@@ -54,7 +54,7 @@ if (!$_SESSION['fname']){
     LEFT JOIN person p ON h.personId = p.personId
     LEFT JOIN bmi b ON h.healthWeight/((h.healthHeight/100)*(h.healthHeight/100)) >= IF(p.sexId = 1,b.sex1min,b.sex2min)
     AND h.healthWeight/((h.healthHeight/100)*(h.healthHeight/100)) < IF(p.sexId = 1,b.sex1max,b.sex2max)
-  where h.personId=".$_SESSION['personId']."
+  WHERE h.personId='".$_SESSION['personId']."'
   ORDER BY h.inputDatetime";
 // echo "<br>sqlBmi=".$sqlBmi;
   $resultBmi = $conn -> prepare($sqlBmi);
@@ -119,6 +119,7 @@ cvd_level";
 $result = $conn -> prepare($sql);
 $result -> execute();
 $rows_cvd_level = $result -> fetchAll(PDO::FETCH_ASSOC);
+// echo "cvd level<br>";
 // print_r($rows_cvd_level);
 
 
@@ -179,7 +180,6 @@ $str_history_cvd_score_data=implode(", ",$history_cvd_score_data);
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous"> -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 
     <title>ผลการคัดกรองด้วยตนเอง</title>
@@ -287,11 +287,6 @@ $str_history_cvd_score_data=implode(", ",$history_cvd_score_data);
   ?>
 
 <main role="main">
-
-<!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
-
-<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script> -->
-
   <div class="container">
     <div class="title-main">
       <p>ผลการคัดกรองด้วยตนเอง <br> (<?php echo thaiShortDate($now_row['inputDatetime']); ?>)</p>
@@ -336,10 +331,11 @@ $str_history_cvd_score_data=implode(", ",$history_cvd_score_data);
     </div>
 
 <?php 
-$sql = "select * FROM cvdScore where ".$now_row['cvd_score']." >= cvdMin and ".$now_row['cvd_score']." <= cvdMax";
-$result = $conn -> prepare($sql);
-$result -> execute();
-$cvdScore = $result -> fetch(PDO::FETCH_ASSOC);
+  $sql = "SELECT * FROM cvdScore WHERE ".$now_row['cvd_score']." >= cvdMin and ".$now_row['cvd_score']." <= cvdMax";
+  $result = $conn -> prepare($sql);
+  $result -> execute();
+  $cvdScore = $result -> fetch(PDO::FETCH_ASSOC);
+  // print_r($cvdScore);
 ?>
 
     <div class="content">
@@ -428,6 +424,7 @@ $cvdScore = $result -> fetch(PDO::FETCH_ASSOC);
       $result = $conn -> prepare($sql);
       $result -> execute();
       $rowBloodSugar = $result -> fetch(PDO::FETCH_ASSOC);
+      // print_r($rowBloodSugar);
     ?>
 
     <div class="content">

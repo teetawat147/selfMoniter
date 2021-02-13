@@ -1,15 +1,45 @@
 <?php
-    include('../include/connection.php');
-    
-    try {
-        $sql = "SELECT * FROM health_data_record";
+  include('../include/connection.php');
+  include('../include/function.php');
+if (!$_SESSION['fname']){
+  header("Location: ../main/login.php");
+}
+  if (!(isset($_GET['helpRecordId']))){
+    $sql="select * from health_data_record h where h.personId=".$_SESSION['personId']." order by helpRecordId desc limit 1";
+    $result = $conn -> prepare($sql);
+    $result -> execute();
+    $myRecords = $result -> fetchAll(PDO::FETCH_ASSOC);
+    $helpRecordId=$myRecords[0]['helpRecordId'];
+  }else{
+    $helpRecordId=$_GET['helpRecordId'];    
+  }
+
+
+  $sql = "SELECT h.*,
+                b.*,
+                h.healthWeight/((h.healthHeight/100)*(h.healthHeight/100)) AS bmi,
+                p.sexId,
+                d.*,
+                bd.*,
+                s.*,
+                a.*,
+                c.*,
+                (1-power(0.978296,exp(((0.079*(YEAR(curdate())-YEAR(p.birthdate)-(DATE_FORMAT(curdate(), '%m%d') < DATE_FORMAT(p.birthdate, '%m%d'))))+(0.128*p.sexId)+(0.019350987*h.bpUpper)+(0.58454*h.diabetesId)+(3.512566*((h.waist)/h.healthHeight))+(0.459*h.smokeId))-7.720484)))*100 AS cvd_score
+        FROM health_data_record h
+        LEFT JOIN person p ON h.personId=p.personId
+        LEFT JOIN diabetes d ON h.diabetesId=d.diabetesId
+        LEFT JOIN smoke s ON h.smokeId=s.smokeId
+        LEFT JOIN blood bd ON h.bloodId=bd.bloodId
+        LEFT JOIN alcohol a ON h.alcoholId=a.alcoholId
+        LEFT JOIN cvdScore c ON (1-power(0.978296,exp(((0.079*(YEAR(curdate())-YEAR(p.birthdate)-(DATE_FORMAT(curdate(), '%m%d') < DATE_FORMAT(p.birthdate, '%m%d'))))+(0.128*p.sexId)+(0.019350987*h.bpUpper)+(0.58454*h.diabetesId)+(3.512566*((h.waist)/h.healthHeight))+(0.459*h.smokeId))-7.720484)))*100
+        LEFT JOIN bmi b ON h.healthWeight/((h.healthHeight/100)*(h.healthHeight/100)) >= IF(p.sexId = 1,b.sex1min,b.sex2min)
+        AND h.healthWeight/((h.healthHeight/100)*(h.healthHeight/100)) < IF(p.sexId = 1,b.sex1max,b.sex2max)
+        WHERE h.helpRecordId = '".$helpRecordId."'
+        ORDER BY h.inputDatetime";
+
         $result = $conn -> prepare($sql);
         $result -> execute();
-        $rows = $result -> fetchAll(PDO:: FETCH_ASSOC);
-    }
-    catch(PDOException $e) {
-        die("Could not connect to database $db_name : " .$e -> getMessage());
-    }
+        $rows = $result -> fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <!DOCTYPE html>
@@ -112,55 +142,142 @@
                     <th scope="col">ธ.ค.</th>
                 </tr>
             </thead>
-                <tbody>
-                    <tr>
-                        <th scope="row">โรคเบาหวาน</th>
-                    </tr>
-                    <tr>
-                        <th scope="row">โรคความดัน</th>
-                    </tr>
-                    <tr>
-                        <th scope="row">ส่วนสูง</th>
-                    </tr>
-                    <tr>
-                        <th scope="row">น้ำหนัก</th>
-                    </tr>
-                    <tr>
-                        <th scope="row">รอบเอว</th>
-                    </tr>
-                    <tr>
-                        <th scope="row">ความดันโลหิต (ค่าบน) </th>
-                    </tr>
-                    <tr>
-                        <th scope="row">ความดันโลหิต (ความดันค่าล่าง)</th>
-                    </tr>
-                    <tr>
-                        <th scope="row">น้ำตาลในเลือด</th>
-                    </tr>
-                    <tr>
-                        <th scope="row">สูบบุหรี่</th>
-                    </tr>
-                    <tr>
-                        <th scope="row">ดื่มสุรา</th>
-                    </tr>
+            <tbody>
+                <tr>
+                    <th scope="row">โรคเบาหวาน</th>
                     <?php
                     // print_r($rows);
                         foreach($rows as $key => $row) {
                     ?>
-                            <!-- <td><?php echo $row['diabetesId'] ?></td>
-                            <td><?php echo $row['bloodId'] ?></td>
-                            <td><?php echo $row['healthHeight'] ?></td>
-                            <td><?php echo $row['healthWeight'] ?></td>
-                            <td><?php echo $row['waist'] ?></td>
-                            <td><?php echo $row['bpUpper'] ?></td>
-                            <td><?php echo $row['bpLower'] ?></td>
-                            <td><?php echo $row['bloodSugar'] ?></td>
-                            <td><?php echo $row['smokeId'] ?></td>
-                            <td><?php echo $row['alcoholId'] ?></td> -->
+                        <td><?php echo $row['diabetesName']; ?></td>
                     <?php
                         }
                     ?>
-                </tbody>
+                </tr>
+
+                <tr>
+                    <th scope="row">โรคความดัน</th>
+                    <?php
+                    // print_r($rows);
+                        foreach($rows as $key => $row) {
+                    ?>
+                        <td><?php echo $row['bloodName']; ?></td>
+                    <?php
+                        }
+                    ?>
+                </tr>
+
+                <tr>
+                    <th scope="row">ส่วนสูง</th>
+                    <?php
+                    // print_r($rows);
+                        foreach($rows as $key => $row) {
+                    ?>
+                        <td><?php echo $row['healthHeight']; ?></td>
+                    <?php
+                        }
+                    ?>
+                </tr>
+
+                <tr>
+                    <th scope="row">น้ำหนัก</th>
+                    <?php
+                    // print_r($rows);
+                        foreach($rows as $key => $row) {
+                    ?>
+                        <td><?php echo $row['healthWeight']; ?></td>
+                    <?php
+                        }
+                    ?>
+                </tr>
+
+                <tr>
+                    <th scope="row">รอบเอว</th>
+                    <?php
+                    // print_r($rows);
+                        foreach($rows as $key => $row) {
+                    ?>
+                        <td><?php echo $row['waist']; ?></td>
+                    <?php
+                        }
+                    ?>
+                </tr>
+
+                <tr>
+                    <th scope="row">ความดันโลหิต (ค่าบน) </th>
+                    <?php
+                    // print_r($rows);
+                        foreach($rows as $key => $row) {
+                    ?>
+                        <td><?php echo $row['bpUpper']; ?></td>
+                    <?php
+                        }
+                    ?>
+                </tr>
+
+                <tr>
+                    <th scope="row">ความดันโลหิต (ความดันค่าล่าง)</th>
+                    <?php
+                    // print_r($rows);
+                        foreach($rows as $key => $row) {
+                    ?>
+                        <td><?php echo $row['bpLower']; ?></td>
+                    <?php
+                        }
+                    ?>
+                </tr>
+
+                <tr>
+                    <th scope="row">น้ำตาลในเลือด</th>
+                    <?php
+                    // print_r($rows);
+                        foreach($rows as $key => $row) {
+                    ?>
+                        <td><?php echo $row['bloodSugar']; ?></td>
+                    <?php
+                        }
+                    ?>
+                </tr>
+
+                <tr>
+                    <th scope="row">BMI</th>
+                    <?php
+                    // print_r($rows);
+                        foreach($rows as $key => $row) {
+                    ?>
+                        <td><?php echo $row['nameBmi']; ?></td>
+                    <?php
+                        }
+                    ?>
+                </tr>
+
+                <tr>
+                    <th scope="row">สูบบุหรี่</th>
+                    <?php
+                    // print_r($rows);
+                        foreach($rows as $key => $row) {
+                    ?>
+                        <td><?php echo $row['smokeName']; ?></td>
+                    <?php
+                        }
+                    ?>
+                </tr>
+                
+                <tr>
+                    <th scope="row">ดื่มสุรา</th>
+                    <?php
+                    // print_r($rows);
+                        foreach($rows as $key => $row) {
+                    ?>
+                        <td><?php echo $row['alcoholName']; ?></td>
+                    <?php
+                        }
+                    ?>
+                </tr>
+            </tbody>
+
+            <!-- cvd_score -->
+            
         </table>
     </div>
     

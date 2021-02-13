@@ -1,48 +1,47 @@
 <?php
-print_r($_POST);
-include("../include/connection.php");
+// print_r($_POST);
+include "../include/connection.php";
 $datetime = date("Y-m-d H:i:s");
 
-$sql ="INSERT into person (
-        cid, 
-        fname, 
-        lname, 
+$sql = "INSERT into person (
+        cid,
+        fname,
+        lname,
+        sexId,
         birthdate,
-        sexId, 
-        phone, 
-        address, 
-        provinceCode, 
-        districtCode, 
-        subdistrictCode, 
-        officeId, 
-        departmentId, 
-        personWeight, 
-        personHeight, 
-        email, 
+        phone,
+        address,
+        provinceCode,
+        districtCode,
+        subdistrictCode,
+        officeId,
+        departmentId,
+        personWeight,
+        personHeight,
+        email,
         lineId,
         password
-    )
-    
-    value (
-        '".$_POST['cid']."', 
-        '".$_POST['fname']."', 
-        '".$_POST['lname']."', 
+        )
+        VALUE (
+        '" . $_POST['cid'] . "',
+        '" . $_POST['fname'] . "',
+        '" . $_POST['lname'] . "',
+        '" . $_POST['sexId'] . "',
         '".adjustDate($_POST['birthdate'])."',
-        '".$_POST['sexId']."',
-        '".$_POST['phone']."',
-        '".$_POST['address']."',
-        '".$_POST['provinceCode']."', 
-        '".$_POST['districtCode']."', 
-        '".$_POST['subdistrictCode']."', 
-        '".$_POST['officeId']."',
-        '".$_POST['departmentId']."', 
-        '".$_POST['personWeight']."', 
-        '".$_POST['personHeight']."', 
-        '".$_POST['email']."', 
-        '".$_POST['lineId']."',
-        md5('".$_POST['password']."') 
-    )";
-echo $sql;
+        '" . $_POST['phone'] . "',
+        '" . $_POST['address'] . "',
+        '" . $_POST['provinceCode'] . "',
+        '" . $_POST['districtCode'] . "',
+        '" . $_POST['subdistrictCode'] . "',
+        '" . $_POST['officeId'] . "',
+        '" . $_POST['departmentId'] . "',
+        '" . $_POST['personWeight'] . "',
+        '" . $_POST['personHeight'] . "',
+        '" . $_POST['email'] . "',
+        '" . $_POST['lineId'] . "',
+        md5('".$_POST['password']."')
+        )";
+
 $result = $conn->prepare($sql);
 $result->execute();
 $personId = $conn->lastInsertId();
@@ -52,8 +51,9 @@ $_SESSION['fname']=$_POST['fname'];
 $_SESSION['lname']=$_POST['lname'];
 $_SESSION['personWeight']=$_POST['personWeight'];
 $_SESSION['personHeight']=$_POST['personHeight'];
-header("Location: ../main/consent.php");
+// header("Location: ../main/consent.php");
 
+print_r($result);
 
 function adjustDate($date){
     $_yyyy=substr($date,0,4);
@@ -62,5 +62,4 @@ function adjustDate($date){
     }
     return $_yyyy.substr($date,4,6);
 }
-
 ?>
