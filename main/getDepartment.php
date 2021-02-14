@@ -10,7 +10,7 @@ $result->execute();?>
     <?php
     while($row = $result->fetch()) {
         ?>        
-        <option value="<?php echo $row['departmentId'];?>"><?php echo $row['departmentName'];?></option>
+        <option value="<?php echo $row['departmentId']; ?>"><?php echo $row['departmentName'];?></option>
         <?php
     }
     ?>

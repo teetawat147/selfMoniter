@@ -314,21 +314,18 @@ include("../include/connection.php");
         });
 
         $(function(){
-            $("#officeId").change(function(){               
-                    let officeId = $(this).val();                 
-                    $.ajax({
-                        method: "POST",
-                        url: "getDepartment.php",
-                        data: { officeId: officeId}
-                    }).done(function( msg ) {
-                        // alert(msg);
-                        $("#departmentId").html(msg);                                  
-                    });
-                })
-
-            });
-    </script>   
-   
-
+            $("#officeId").change(function() {               
+                let officeId = $(this).val();                 
+                $.ajax({
+                    method: "POST",
+                    url: "getDepartment.php",
+                    data: { officeId: officeId}
+                }).done(function(msg) {
+                    // alert(msg);
+                    $("#departmentId").html(msg);                                  
+                });
+            })
+        });
+    </script>
   </body>
 </html>

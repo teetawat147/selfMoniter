@@ -15,7 +15,7 @@ $sql = "INSERT into person (
         districtCode,
         subdistrictCode,
         officeId,
-        -- departmentId,
+        departmentId,
         personWeight,
         personHeight,
         email,
@@ -34,7 +34,7 @@ $sql = "INSERT into person (
         '" . $_POST['districtCode'] . "',
         '" . $_POST['subdistrictCode'] . "',
         '" . $_POST['officeId'] . "',
-        /*'" . $_POST['departmentId'] . "',*/
+        '" . $_POST['departmentId'] . "',
         '" . $_POST['personWeight'] . "',
         '" . $_POST['personHeight'] . "',
         '" . $_POST['email'] . "',

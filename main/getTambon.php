@@ -11,7 +11,8 @@ $result->execute();?>
     while($row = $result->fetch()) {
         ?>        
         <option value="<?php echo $row['tambon_code'];?>"><?php echo $row['tambon_name'];?></option>
-        <?php
+                
+    <?php
     }
     ?>
 </select>
