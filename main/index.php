@@ -181,11 +181,11 @@ if (!$_SESSION['fname']){
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous"> -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-    <title>Dasboaed</title>
+    <title>Dashboard</title>
     <style>
       .title-main
       {
-        position: flex;
+        text-align: center;
         margin-top: 20px;
         padding: 5px;
         background-color: #D3D3D3;
