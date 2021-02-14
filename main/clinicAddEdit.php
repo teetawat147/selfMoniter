@@ -36,6 +36,24 @@
         font-weight: 600;
       }
 
+      @media screen and (max-width: 600px) {
+        .wrapper-content {
+          font-size: 16px;
+        }
+        
+        .title {
+          width: 30ch;
+          height: 30px;
+          text-align: center;
+          border-radius: 20px;
+          background-color: rgb(255,153,0);
+        }
+
+        h3 {
+          font-size: 18px;
+        }
+      }
+
     </style>
 
   </head>
@@ -49,14 +67,14 @@
       include("../main/header.php");
     ?>
 
-    <div class="container wrapper-content mt-3 border border-dark">
+    <div class="container mt-3 border border-dark wrapper-content">
       <center>
         <div class="title m-3">
           <h3>บริการข้อมูลงานสถานพยาบาล</h3>
         </div>
       </center>
 
-      <div class="form-row d-flex justify-content-center wrapper-search media-body">
+      <div class="form-row d-flex justify-content-center wrapper-search">
         <input type="text" class="form-control col-md-11 mr-4 w-50" id="input-search" name="input-search">
         <input type="button" class="btn btn-secondary" id="btn-search" value="ค้นหา">
       </div>
