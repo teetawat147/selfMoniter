@@ -1,9 +1,9 @@
 <?php 
-    // include('../include/connection.php');
+    include('../include/connection.php');
 
-    // if($_SESSION['fname']) {
-    //     header("location: ../main/login.php");
-    // }
+    if($_SESSION['fname']) {
+        header("location: ../main/login.php");
+    }
 ?>
 
 <!doctype html>
