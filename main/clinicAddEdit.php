@@ -1,9 +1,9 @@
 <?php 
-    include('../include/connection.php');
+    // include('../include/connection.php');
 
-    if($_SESSION['fname']) {
-        header("location: ../main/login.php");
-    }
+    // if($_SESSION['fname']) {
+    //     header("location: ../main/login.php");
+    // }
 ?>
 
 <!doctype html>
@@ -49,9 +49,9 @@
       include("../main/header.php");
     ?>
 
-    <div class="container wrapper-content mt-3">
+    <div class="container wrapper-content mt-3 border border-dark">
       <center>
-        <div class="title mb-3">
+        <div class="title m-3">
           <h3>บริการข้อมูลงานสถานพยาบาล</h3>
         </div>
       </center>
@@ -62,7 +62,7 @@
       </div>
 
       <div class="form-row mt-3 d-flex justify-content-center">
-        <span>กฏหมายกรมสนับสนุนบริการสุขภาพ</span>
+        <span class="mb-3">กฏหมายกรมสนับสนุนบริการสุขภาพ</span>
       </div>
     </div>
 
