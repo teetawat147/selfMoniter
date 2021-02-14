@@ -64,6 +64,8 @@
       <div class="form-row mt-3 d-flex justify-content-center">
         <span class="mb-3">กฏหมายกรมสนับสนุนบริการสุขภาพ</span>
       </div>
+
+      <center><button type="button" class="btn btn-warning mt-5 mb-3">ย้อนกลับ</button></center>
     </div>
 
   </body>
