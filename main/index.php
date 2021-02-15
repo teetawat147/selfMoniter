@@ -504,16 +504,16 @@ if (!$_SESSION['fname']){
           options:{
             legend:{display:false},
             annotation: {
-        annotations: [{
-            type: 'line',
-            mode: 'horizontal',
-            scaleID: 'y-axis-0',
-            value: '26',
-            borderColor: 'tomato',
-            borderWidth: 1
-        }],
-        drawTime: "afterDraw" // (default)
-    },
+              annotations: [{
+              type: 'line',
+              mode: 'horizontal',
+              scaleID: 'y-axis-0',
+              value: '26',
+              borderColor: 'tomato',
+              borderWidth: 1
+              }],
+              drawTime: "afterDraw" // (default)
+            },
 
             scales:{
               yAxes:[{

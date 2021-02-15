@@ -14,7 +14,6 @@ if (!$_SESSION['fname']){
     $helpRecordId=$_GET['helpRecordId'];    
   }
 
-
   $sql = "SELECT h.*,p.birthdate,
     b.*,
     h.healthWeight/((h.healthHeight/100)*(h.healthHeight/100)) as bmi,
@@ -27,20 +26,20 @@ if (!$_SESSION['fname']){
   WHERE h.helpRecordId = '".$helpRecordId."'
   order by h.inputDatetime";
 
-
 // echo "<br>sql=".$sql;
   $result = $conn -> prepare($sql);
   $result -> execute();
   $rows = $result -> fetchAll(PDO::FETCH_ASSOC);
   $now_row=$rows[0];
 // echo "<br>now_row=";
-// // print_r($now_row);
+// print_r($now_row);
 
   $sqlBmi = "SELECT p.personId,
     p.sexId,
     h.healthWeight,
     h.healthHeight,
-    h.healthWeight/((h.healthHeight/100)*(h.healthHeight/100)) AS bmi,b.nameBmi, 
+    h.healthWeight/((h.healthHeight/100)*(h.healthHeight/100)) AS bmi,
+    b.nameBmi, 
     h.waist,
     h.bpUpper,
     h.bpLower,
@@ -60,7 +59,7 @@ if (!$_SESSION['fname']){
   $resultBmi = $conn -> prepare($sqlBmi);
   $resultBmi -> execute();
   $history_rows = $resultBmi -> fetchAll(PDO::FETCH_ASSOC);
-// echo "<br>history_rows=";
+// echo "<br>history_rows=<br>";
 // print_r($history_rows);
 
 $sql="select * from bmi where id=2";

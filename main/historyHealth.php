@@ -5,14 +5,13 @@ if (!$_SESSION['fname']){
   header("Location: ../main/login.php");
 }
   if (!(isset($_GET['helpRecordId']))){
-    // $sql="select * from health_data_record h where h.personId=".$_SESSION['personId']."ORDER BY helpRecordId DESC LIMIT 1";
-    $sql="select * from health_data_record h where h.personId='".$_SESSION['personId']."'";
+    $sql="select * from health_data_record h where h.personId=".$_SESSION['personId']."ORDER BY helpRecordId DESC LIMIT 1";
     $result = $conn -> prepare($sql);
     $result -> execute();
     $myRecords = $result -> fetchAll(PDO::FETCH_ASSOC);
     $helpRecordId=$myRecords[0]['helpRecordId'];
   }else{
-    $helpRecordId=$_GET['helpRecordId'];    
+    $helpRecordId=$_GET['helpRecordId'];
   }
 
 
@@ -35,7 +34,7 @@ if (!$_SESSION['fname']){
          LEFT JOIN cvdScore c ON (1-power(0.978296,exp(((0.079*(YEAR(curdate())-YEAR(p.birthdate)-(DATE_FORMAT(curdate(), '%m%d') < DATE_FORMAT(p.birthdate, '%m%d'))))+(0.128*p.sexId)+(0.019350987*h.bpUpper)+(0.58454*h.diabetesId)+(3.512566*((h.waist)/h.healthHeight))+(0.459*h.smokeId))-7.720484)))*100
          LEFT JOIN bmi b ON h.healthWeight/((h.healthHeight/100)*(h.healthHeight/100)) >= IF(p.sexId = 1,b.sex1min,b.sex2min)
          AND h.healthWeight/((h.healthHeight/100)*(h.healthHeight/100)) < IF(p.sexId = 1,b.sex1max,b.sex2max)
-         WHERE h.personId=1
+         WHERE h.personId='".$_SESSION['personId']."'
          ORDER BY h.inputDatetime";
 
         $result = $conn -> prepare($sql);
@@ -43,15 +42,15 @@ if (!$_SESSION['fname']){
         $rows = $result -> fetchAll(PDO::FETCH_ASSOC);
 ?>
 
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ประวัติการบันทึกสุขภาพ</title>
-    
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 
+    <title>ผลการคัดกรองด้วยตนเอง</title>
+    
     <style>
 
         thead tr th {
@@ -113,14 +112,18 @@ if (!$_SESSION['fname']){
 
     </style>
 
-</head>
-<body>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    <link href='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css'>
+    <link href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.3/css/font-awesome.css'>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
+    <script src='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js'></script>
+    <script src="https://cdn.ckeditor.com/ckeditor5/25.0.0/classic/ckeditor.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+
+  </head>
+  <body>
 
   <?php
-      include "./header.php";
+    include("../main/header.php");   
   ?>
 
 <div class="container" style="margin-top: 30px;">
@@ -283,9 +286,8 @@ if (!$_SESSION['fname']){
     </div>
     
     <div class="text-center">
-            <button type="button" class="btn btn-secondary">ปิด</button>
+            <button type="button" class="btn btn-secondary" onclick="location.href='../main/index.php'">ปิด</button>
     </div>
 </div>
-
-</body>
+  </body>
 </html>
