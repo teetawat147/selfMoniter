@@ -22,50 +22,50 @@
     <title>ภาพรวมจังหวัดสกลนคร</title>
 
     <style>
-    .header {
-      position: absolute;
-      width: 222px;
-      height: 35px;
-      left: 150px;
-      top: 44px;
-
-      background: #FFB800;
-      color: #FFB800;
-    }
-
-    .wrapper-content {
-      border: 2px solid #000000;
-      margin-top: 25px;
-      padding: 18px 25px;
-    }
-
-    .progress-bar {
-      background: #F1F1F1;
-      color: #000000;
-    }
-
-    .chart-bar {
-      background-color: #54FB50;
-    }
-
-    @media only screen and (max-width: 768px) {
       .header {
         position: absolute;
-        width: 222px;
+        width: 300px;
         height: 35px;
-        left: 45px;
+        left: 170px;
         top: 44px;
 
         background: #FFB800;
         color: #FFB800;
       }
-    }
+
+      .wrapper-content {
+        border: 2px solid #000000;
+        margin-top: 25px;
+        padding: 18px 25px;
+      }
+
+      .progress-bar {
+        background: #F1F1F1;
+        color: #000000;
+      }
+
+      .chart-bar {
+        background-color: #54FB50;
+      }
+
+      @media only screen and (max-width: 768px) {
+        .header {
+          position: absolute;
+          width: 222px;
+          height: 35px;
+          left: 45px;
+          top: 44px;
+
+          background: #FFB800;
+          color: #FFB800;
+        }
+      }
 
     </style>
 
   </head>
   <body>
-    <div class="container">
+    <div class="container body">
       <h3>ภาพรวมจังหวัดสกลนคร</h3>
       <div class="header">.</div>
       <div class="wrapper-content">
