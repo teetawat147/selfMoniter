@@ -16,5 +16,5 @@
     $result = $conn->prepare($sql);
     $result->execute();
     header('location: ../main/bmiGet.php');
-    //print_r($result);
+    print_r($result);
 ?>

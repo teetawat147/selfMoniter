@@ -62,8 +62,10 @@
             </div>
 
             <input type="hidden" name="bloodPressureId" id="bloodPressureId" value="<?php echo htmlentities($rowsbloodPressure['bloodPressureId']); ?>">
-            <center><button class="btn btn-warning mr-3" type="reset">ยกเลิก</button>
-            <button class="btn btn-success" type="submit">บันทึก</button></center>
+            <center>
+                <button class="btn btn-warning mr-3" type="reset">ยกเลิก</button>
+                <button class="btn btn-success" type="submit">บันทึก</button>
+            </center>
         </form>
     </div>
     <!-- <script> -->
@@ -84,11 +86,8 @@
                 } );
             }
 
-            //createCkeditor("cvdName");
              createCkeditor("conclude");
              createCkeditor("advice");
-            // createCkeditor("cvdMin");
-            // createCkeditor("cvdMax");
     </script>
 
 

@@ -83,8 +83,10 @@
             </div>
 
             <input type="hidden" name="id" id="id" value="<?php echo htmlentities($rowsBmi['id']); ?>">
-            <center><button class="btn btn-warning mr-3" type="reset">ยกเลิก</button>
-            <button class="btn btn-success" type="submit">บันทึก</button></center>
+            <center>
+                <button class="btn btn-warning mr-3" type="reset">ยกเลิก</button>
+                <button class="btn btn-success" type="submit">บันทึก</button>
+            </center>
         </form>
     </div>
     <!-- <script> -->

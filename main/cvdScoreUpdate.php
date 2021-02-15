@@ -24,7 +24,7 @@
       include "./header.php";
   ?>
     
-    <div class="container mt-3>
+    <div class="container mt-3">
         <h3>แก้ไขระดับ CVD risk</h3>
         <form action="ajaxCvdScoreUpdate.php" method="POST">
             <div class="form-row">
