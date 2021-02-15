@@ -22,6 +22,22 @@
     <title>ภาพรวมจังหวัดสกลนคร</title>
 
     <style>
+    .header {
+      position: absolute;
+      width: 222px;
+      height: 35px;
+      left: 150px;
+      top: 44px;
+
+      background: #FFB800;
+      color: #FFB800;
+    }
+
+    .wrapper-content {
+      border: 2px solid #000000;
+      margin-top: 25px;
+      padding: 18px 25px;
+    }
 
     .progress-bar {
       background: #F1F1F1;
@@ -32,12 +48,27 @@
       background-color: #54FB50;
     }
 
+    @media only screen and (max-width: 768px) {
+      .header {
+        position: absolute;
+        width: 222px;
+        height: 35px;
+        left: 45px;
+        top: 44px;
+
+        background: #FFB800;
+        color: #FFB800;
+      }
+    }
+
     </style>
 
   </head>
   <body>
     <div class="container">
-        <h3>ภาพรวมจังหวัดสกลนคร</h3>
+      <h3>ภาพรวมจังหวัดสกลนคร</h3>
+      <div class="header">.</div>
+      <div class="wrapper-content">
         <?php
           foreach ($rows as $key => $row) {
             // totalPerson = จำนวนทั้งหมดของแต่ละอำเภอ, countPerson = จำนวนคนที่ลงทะเบียน ณ ปัจจุบันของแต่ละอำเภอ
@@ -46,14 +77,12 @@
         ?>
           <div class="progress-bar" style="width: <?php echo $totalPerson ?>%; ">
             <div class="w3-container d-flex align-items-center chart-bar" style="width:<?php echo $row['countPerson']; ?>%; height:30px;">
-              <?php
-                echo $percent;
-              ?>%
             </div>
           </div><br>
         <?php
           }
         ?>
+      </div>
     </div>
 
 
