@@ -17,25 +17,24 @@ if (!$_SESSION['fname']){
 
   $sql = "SELECT p.personId,
             p.sexId,
-            h.*,
+                h.*,
             h.healthWeight/((h.healthHeight/100)*(h.healthHeight/100)) AS bmi,
             b.*, 
-            d.diabetesName,
-            s.smokeName,
-            a.alcoholName,
-            bd.bloodName,
+                d.diabetesName,
+                s.smokeName,
+                a.alcoholName,
+                bd.bloodName,
             (1-power(0.978296,exp(((0.079*(YEAR(curdate())-YEAR(p.birthdate)-(DATE_FORMAT(curdate(), '%m%d') < DATE_FORMAT(p.birthdate, '%m%d'))))+(0.128*p.sexId)+(0.019350987*h.bpUpper)+(0.58454*h.diabetesId)+(3.512566*((h.waist)/h.healthHeight))+(0.459*h.smokeId))-7.720484)))*100 as cvd_score
-         FROM health_data_record h
-         LEFT JOIN person p ON h.personId=p.personId
-         LEFT JOIN diabetes d ON h.diabetesId=d.diabetesId
-         LEFT JOIN smoke s ON h.smokeId=s.smokeId
-         LEFT JOIN blood bd ON h.bloodId=bd.bloodId
-         LEFT JOIN alcohol a ON h.alcoholId=a.alcoholId
-         LEFT JOIN cvdScore c ON (1-power(0.978296,exp(((0.079*(YEAR(curdate())-YEAR(p.birthdate)-(DATE_FORMAT(curdate(), '%m%d') < DATE_FORMAT(p.birthdate, '%m%d'))))+(0.128*p.sexId)+(0.019350987*h.bpUpper)+(0.58454*h.diabetesId)+(3.512566*((h.waist)/h.healthHeight))+(0.459*h.smokeId))-7.720484)))*100
-         LEFT JOIN bmi b ON h.healthWeight/((h.healthHeight/100)*(h.healthHeight/100)) >= IF(p.sexId = 1,b.sex1min,b.sex2min)
-         AND h.healthWeight/((h.healthHeight/100)*(h.healthHeight/100)) < IF(p.sexId = 1,b.sex1max,b.sex2max)
-         WHERE h.personId='".$_SESSION['personId']."'
-         ORDER BY h.inputDatetime";
+        FROM health_data_record h
+        LEFT JOIN person p ON h.personId=p.personId
+        LEFT JOIN diabetes d ON h.diabetesId=d.diabetesId
+        LEFT JOIN smoke s ON h.smokeId=s.smokeId
+        LEFT JOIN blood bd ON h.bloodId=bd.bloodId
+        LEFT JOIN alcohol a ON h.alcoholId=a.alcoholId
+        LEFT JOIN bmi b ON h.healthWeight/((h.healthHeight/100)*(h.healthHeight/100)) >= IF(p.sexId = 1,b.sex1min,b.sex2min)
+        AND h.healthWeight/((h.healthHeight/100)*(h.healthHeight/100)) < IF(p.sexId = 1,b.sex1max,b.sex2max)
+        WHERE h.personId='".$_SESSION['personId']."'
+        ORDER BY h.inputDatetime";
 
         $result = $conn -> prepare($sql);
         $result -> execute();
