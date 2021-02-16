@@ -138,7 +138,7 @@
 
       $('#confirm-delete').on('show.bs.modal', function(event) {
             $(this).find('.btn-confirm-delete').attr('href', $(event.relatedTarget).data('href'));
-        });
+      });
     </script>
   </body>
 </html>
