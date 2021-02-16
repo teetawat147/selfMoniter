@@ -48,8 +48,10 @@
             </div>
 
             <input type="hidden" name="alcoholId" id="alcoholId" value="<?php echo htmlentities($rowsAlcohol['alcoholId']); ?>">
-            <center><button class="btn btn-warning mr-3" type="reset">ยกเลิก</button>
-            <button class="btn btn-success" type="submit">บันทึก</button></center>
+            <center>
+                <button class="btn btn-warning mr-3" type="reset">ยกเลิก</button>
+                <button class="btn btn-success" type="submit">บันทึก</button>
+            </center>
         </form>
     </div>
     <!-- <script> -->

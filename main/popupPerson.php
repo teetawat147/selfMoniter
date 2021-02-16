@@ -4,6 +4,8 @@
     if(!$_SESSION['fname']) {
         header('location: ../main/login.php');
     }
+    
+    print_r($_SESSION);
 ?>
 
 <!doctype html>
@@ -20,8 +22,13 @@
     
   </head>
   <body>
-  <!-- <button class="btn btn-danger" data-href="../main/waistDelete.php?waistId=<?php echo $rowWaist['waistId']; ?>" data-toggle="modal" data-target="#confirm-delete"> -->
-  <button data-toggle="modal" data-target="#confirm-number-emp">Modal</button>
+
+  <?php 
+    include('../main/header.php');
+  ?>
+
+  <button class="btn btn-success" data-toggle="modal" data-target="#confirm-number-emp">Modal</button>
+
     <div class="container">
         <div class="modal fade" id="confirm-number-emp" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-dialog">
@@ -38,31 +45,17 @@
                                 <label for="count_person">จำนวนเจ้าหน้าที่ในสถานบริการ &nbsp</label>
                                 <input type="number" id="count_person" name="count_person">&nbsp&nbsp คน
                             </div>
+                            
+                            <div class="modal-footer d-flex justify-content-center">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">ยกเลิก</button>
+                                <button type="submit" class="btn btn-success btn-confirm-count_person">ตกลง</button>
+                            </div>
                         </form>
-                    </div>
-                    
-                    <div class="modal-footer d-flex justify-content-center">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">ยกเลิก</button>
-                        <button type="submit" class="btn btn-success btn-confirm-count_person">ตกลง</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
-    <script>
-        $('#confirm-number-emp').on('show.bs.modal', function(event) {
-            $(this).find('.btn-confirm-count_person').attr('href', $(event.relatedTarget).data('href'));
-        });
-    </script>
-
-
-
-
-
-
-
-
 
 
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

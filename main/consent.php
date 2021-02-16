@@ -92,84 +92,74 @@ if (!$_SESSION['fname']){
     </style>
   </head>
   <body>
-        <div class = "container">
-        <center>
+    <div class = "container">
+      <center>
         <div class="container progressive" style="margin-left: 0px;">
-            <ul class="progressbar">
-                <li class="active">ลงทะเบียน</li>
-                <li class="active">ข้อตกลง</li>
-            </ul>
+          <ul class="progressbar">
+            <li class="active">ลงทะเบียน</li>
+            <li class="active">ข้อตกลง</li>
+          </ul>
         </div>
-        </center>
+      </center><br>
+      <center><h5>ข้อตกลงการใช้งาน</h5></center><br>
 
-        <br>
-        <center><h5>ข้อตกลงการใช้งาน</h5></center>
-        <br>
-
-        <center>
-            <label>
-                1.ข้อมูลภายใน Web Application นี้ และ ประชาชนหรือผู้ป่วยที่ปรากฎชื่อภายใน<br>
-                 Web Application ซึ่งถือว่าเป็นเจ้าของข้อมูล ได้รับความคุ้มครองตาม<br>
-                 `พระราชบัญญัติคุ้มครองข้อมูลส่วนบุคคล พ.ศ. ๒๕๖๒`<br>
-                 <br>
-            </label>
-        </center>
-
-        <center>
-            <label>
-                2.ผู้ใช้งาน Web Application ทุกระดับ และ ผู้ดูแลระบบทุกระดับ ที่กระทำการเปิดเผยข้อมูลอันปรากฏภายใน <br>
-                Web Application หรือกระทำการอื่นใดอันเป็นการฝ่าฝืน <br>
-                `พระราชบัญญัติคุ้มครองข้อมูลส่วนบุคคล พ.ศ. ๒๕๖๒` ต้องระวางโทษหรือปรับตามมาตราที่กระทำผิด<br>
-                <br>
-            </label>
-        </center>
+      <center>
+        <label>
+          1.ข้อมูลภายใน Web Application นี้ และ ประชาชนหรือผู้ป่วยที่ปรากฎชื่อภายใน<br>
+            Web Application ซึ่งถือว่าเป็นเจ้าของข้อมูล ได้รับความคุ้มครองตาม<br>
+            `พระราชบัญญัติคุ้มครองข้อมูลส่วนบุคคล พ.ศ. ๒๕๖๒`<br><br>
+        </label>
+      </center>
+  
+      <center>
+        <label>
+          2.ผู้ใช้งาน Web Application ทุกระดับ และ ผู้ดูแลระบบทุกระดับ ที่กระทำการเปิดเผยข้อมูลอันปรากฏภายใน <br>
+          Web Application หรือกระทำการอื่นใดอันเป็นการฝ่าฝืน <br>
+          `พระราชบัญญัติคุ้มครองข้อมูลส่วนบุคคล พ.ศ. ๒๕๖๒` ต้องระวางโทษหรือปรับตามมาตราที่กระทำผิด<br><br>
+        </label>
+      </center>
        
-       <center>
-            <button type="back" class="btn btn-primary">ย้อนกลับ</button>
-            <button type="cancel" class="btn btn-primary">ยกเลิก</button>
+      <center>
+        <button type="back" class="btn btn-primary">ย้อนกลับ</button>
+        <button type="cancel" class="btn btn-primary">ยกเลิก</button>
                        
         <!-- Button trigger modal -->
-            <button type="confirm" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalLong">
-            ยืนยันข้อตกลง</button>
-        </center>
+        <button type="confirm" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalLong">
+        ยืนยันข้อตกลง</button>
+      </center>
 
-<!-- Modal -->
-<div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">ยืนยันน้ำหนักและส่วนสูง</h5>
-        </button>
+      <!-- Modal -->
+      <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLongTitle">ยืนยันน้ำหนักและส่วนสูง</h5>
+            </div>
+
+            <div class="modal-body">
+              <form class="form" action="consentUpdate.php" method="POST">
+                <div class="form-group col-md-6">
+                  <label for="personWeight">น้ำหนัก</label>
+                  <input type="text" class="form-control" name="personWeight" id="personWeight" placeholder="น้ำหนัก" value="<?php echo $_SESSION['personWeight']; ?>">
+                  <label for="personWeight">กิโลกรัม</label>              
+                </div>
+
+                <div class="form-group col-md-6">
+                  <label for="personHeight">ส่วนสูง</label>
+                  <input type="text" class="form-control" name="personHeight" id="personHeight" placeholder="ส่วนสูง" value="<?php echo $_SESSION['personHeight']; ?>">
+                  <label for="personHeight">เซนติเมตร</label>
+                </div>  
+
+                <center>
+                  <button type="submit" class="btn btn-primary">ตกลง</button>
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">ยกเลิก</button> 
+                </center>
+              </form>
+            </div>
+          </div>
         </div>
-        <div class="modal-body">
-
-  <form class="form" action="consentUpdate.php" method="POST">
-          <div class="form-group col-md-6">
-              <label for="personWeight">น้ำหนัก</label>
-              <input type="text" class="form-control" name="personWeight" id="personWeight" placeholder="น้ำหนัก" value="<?php echo $_SESSION['personWeight']; ?>">
-              <label for="personWeight">กิโลกรัม</label>              
-          </div>
-
-          <div class="form-group col-md-6">
-              <label for="personHeight">ส่วนสูง</label>
-              <input type="text" class="form-control " name="personHeight" id="personHeight" placeholder="ส่วนสูง" value="<?php echo $_SESSION['personHeight']; ?>">
-              <label for="personHeight">เซนติเมตร</label>
-          </div>  
-
-      
-          
-          <!-- <div class="modal-footer"> -->
-          <center>
-              <button type="submit" class="btn btn-primary">ตกลง</button>
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">ยกเลิก</button> 
-          </center>
-          </div>
-      
-      </div> 
-    </div>    
-  </div>
-</div>
-</form>
+      </div>
+    </div>
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->

@@ -1,11 +1,13 @@
 <?php 
     include('../include/connection.php');
 
-    $sql = "INSERT INTO office(count_person) VALUE ('".$_POST['count_person']."')";
+    $sql = "UPDATE office
+            SET count_person = '".$_POST[count_person]."'
+            WHERE office_id = '".$_SESSION['officeId']."' ";
 
     $result = $conn -> prepare($sql);
     $result -> execute();
-    // header("location: ../main/")
+    header("location: ../main/adminHealthAmpur.php");
 
-    print_r($result);
+    // print_r($result);
 ?>
