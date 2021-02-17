@@ -5,7 +5,7 @@
         header('location: ../main/login.php');
     }
     
-    print_r($_SESSION);
+    // print_r($_SESSION);
 ?>
 
 <!doctype html>
