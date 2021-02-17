@@ -53,6 +53,14 @@
         background-color: #54FB50;
       }
 
+      p {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        margin-left: 180%;
+        margin-top: 15px;
+      }
+
       @media only screen and (max-width: 768px) {
         .header {
           position: absolute;
@@ -71,25 +79,17 @@
   </head>
   <body>
 
-      <?php 
-        function percent($number){
-          return $number * 100 . '%';
-        }
-      ?>
-
     <div class="container mb-4">
       <h3>ภาพรวมจังหวัดสกลนคร</h3>
       <div class="header">.</div>
       <div class="wrapper-content">
         <?php
           foreach ($rows as $key => $row) {
-            echo $row['ampur_name'];
-        ?>
-          <div class="progress-bar" style="width: <?php echo $row['sumPerson']; ?>%;">
+            ?>
+            <?php echo $row['ampur_name']; ?>
+          <div class="progress-bar">
             <div class="w3-container d-flex align-items-center chart-bar" style="width: <?php echo $row['countPerson']; ?>%; height:30px;">
-              <?php
-                percent($row['countPerson']);
-              ?>
+              <p><?php echo round(($row['countPerson']/$row['sumPerson'])*100); ?>%</p>
             </div>
           </div><br>
         <?php
