@@ -1,5 +1,5 @@
 <?php
-print_r($_POST);
+// print_r($_POST);
 include("../include/connection.php");
 $datetime = date("Y-m-d H:i:s");
 //  $sql ="INSERT into office (officeName, personId, inputDatetime) value ('รพ.สว่างแดนดิน', 1, '$datetime')";
@@ -11,7 +11,7 @@ $sql ="UPDATE person
             personHeight = '".$_POST['personHeight']."'
         WHERE personId='".$_SESSION['personId']."' ";
 
-echo $sql ; 
+// echo $sql ; 
 $result = $conn->prepare($sql);
 $result->execute();
 $lastId = $conn->lastInsertId();

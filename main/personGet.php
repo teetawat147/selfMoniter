@@ -1,9 +1,31 @@
 <?php
   include('../include/connection.php');
+  if (!($_SESSION['groupId']=="1" or $_SESSION['groupId']=="2" or $_SESSION['groupId']=="3" )){
+    header("Location: ../main/");
+  }
 
-  $sql = "SELECT CONCAT(p.fname, ' ', p.lname) AS name, o.office_name, p.personId
-            FROM person p
-            LEFT JOIN office o ON p.officeId = o.office_id";
+  $where="";
+  switch ($_SESSION['groupId']) {
+    case "1":
+      $where="";
+      break;
+    case "2":
+      $where=" where districtCode='".$_SESSION['districtCode']."' ";
+      break;
+    case "3":
+      $where=" where officeId='".$_SESSION['officeId']."' ";
+      break;
+  
+    default:
+      # code...
+      break;
+  }
+  $sql = "SELECT CONCAT(p.fname, ' ', p.lname) AS name, o.office_name, p.personId, g.groupName
+            FROM person p 
+            LEFT JOIN office o ON p.officeId = o.office_id
+            left join `group` g on p.groupId = g.groupId 
+            ".$where."";
+  // echo $sql;
   $result = $conn -> prepare($sql);
   $result -> execute();
   $rowsPerson = $result -> fetchAll(PDO::FETCH_ASSOC);
@@ -81,7 +103,9 @@
           <tr>
               <th style="height: 70px; text-align: center; vertical-align: top;">รูปภาพ</th>
               <th style="height: 70px; text-align: center; vertical-align: top;">รายชื่อ</th>
-              <th style="height: 70px; text-align: center; vertical-align: top;">หน่วยงาน</th>        
+              <th style="height: 70px; text-align: center; vertical-align: top;">หน่วยงาน</th>
+              <th style="height: 70px; text-align: center; vertical-align: top;">สิทธิ์การใช้งาน</th>        
+        
               <th data-card-footer></th>
             </tr>
         </thead>
@@ -93,6 +117,7 @@
                 <td><?php echo $rowPerson['personId']; ?></td>
                 <td><?php echo $rowPerson['name']; ?></td>
                 <td><?php echo $rowPerson['office_name']; ?></td>
+                <td><?php echo $rowPerson['groupName']; ?></td>
                 <td>
                   <center class="button">
                     <a href="../main/editPersonUpdate.php?personId=<?php echo $rowPerson['personId']; ?>" class="btn btn-warning"><i class="fas fa-edit"></i></a>

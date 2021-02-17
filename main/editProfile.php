@@ -4,6 +4,11 @@ include("../include/connection.php");
 if (!$_SESSION['personId']){
     header("Location: ../main/login.php");
 }
+
+$sql ="select * from person WHERE personId = '".$_GET['personId']."' ";
+$result = $conn->prepare($sql);
+$result->execute();
+$rowEdit = $result->fetch();
 ?>
 <!doctype html>
 <html lang="en">
@@ -72,8 +77,20 @@ if (!$_SESSION['personId']){
         
        
             <div class="form-group col-md-6">
-                <label for="province">จังหวัด</label>
-                <input type="province" class="form-control" name="province" id="province" placeholder="จังหวัด" value="<?php echo $row['provinceCode']; ?>">
+            <label for="provinceCode">จังหวัด</label>
+                <select name='provinceCode' id='provinceCode' class='form-control' required data-error-msg="กรุณาเลือกชื่อจังหวัด" >
+                    <option selected disabled>Choose...</option>
+                    <?php 
+                    $sql ="select * from changwat order by changwat_name";
+                    $result = $conn->prepare($sql);
+                    $result->execute();
+                    while($row = $result->fetch()) { 
+                        ?>
+                         <option value="<?php echo $row['changwat_code'];?>" <?php echo ($rowEdit['provinceCode']==$row['changwat_code'])?"selected":"";?>><?php echo $row['changwat_name'];?></option>
+                        <?php   
+                    }
+                    ?>
+                </select>
             </div>
         </div>
 
@@ -97,7 +114,7 @@ if (!$_SESSION['personId']){
 
             <div class="text-center col-12" style="display: inline-block;" >
                 <button type="submit" class="btn btn-primary" >ตกลง</button>
-                <button type="cancel" class="btn btn-primary" >ยกเลิก</button>
+                <a href="../main/Healthdatarecord.php" class="btn btn-primary" role="button" aria-pressed="true">ยกเลิก</a>
             </div>
 
         </fieldset>          
@@ -111,11 +128,57 @@ if (!$_SESSION['personId']){
      <script src ="https://www.jquery-az.com/boots/js/validate-bootstrap/validate-bootstrap.jquery.min.js" ></script>
     
         <script>
-        function showConsent() 
-        {
-        document.getElementById("consent").style.display = "block";
-        document.getElementById("userRegister").style.display = "none";
-        }
+            function showConsent() 
+            {
+                document.getElementById("consent").style.display = "block";
+                document.getElementById("userRegister").style.display = "none";
+            }
+
+            function getAmpur(provinceCode, districtCode){
+                $.ajax({
+                        method: "POST",
+                        url: "getAmpur.php",
+                        data: { provinceCode: provinceCode ,districtCode: districtCode }
+                    }).done(function( msg ) {
+                        $("#div-districtCode").html(msg);
+                        let tambonmsg= '<label for="subdistrictCode">ตำบล</label>';
+                            tambonmsg+='<select name="subdistrictCode" id="subdistrictCode" class="form-control" required data-error-msg="กรุณากรอกชื่อตำบล">';
+                            tambonmsg+='<option selected disabled>Choose...</option>';
+                            tambonmsg+='</select>';            
+                        $("#div-subdistrictCode").html(tambonmsg);                   
+                    });
+            }
+
+            function getTambon(provinceCode,districtCode,subdistrictCode){
+                $.ajax({
+                        method: "POST",
+                        url: "getTambon.php",
+                        data: { provinceCode: provinceCode, districtCode:districtCode , subdistrictCode: subdistrictCode }
+                    }).done(function( msg ) {
+                        $("#div-subdistrictCode").html(msg);
+                        
+                    });
+
+            }
+            $(function(){
+
+                $("#provinceCode").val("<?php echo $rowEdit['provinceCode'];?>");
+                getAmpur($("#provinceCode").val(),"<?php echo $rowEdit['districtCode'];?>");
+
+                $("#districtCode").val("<?php echo $rowEdit['districtCode'];?>");
+                getTambon($("#provinceCode").val(),"<?php echo $rowEdit['districtCode'];?>","<?php echo $rowEdit['subdistrictCode'];?>");
+
+                $("#provinceCode").change(function(){
+                    let provinceCode = $(this).val();
+                    // alert(provinceCode);
+                    getAmpur(provinceCode);
+                })
+                $("#div-districtCode").on("change","#districtCode",function(){              
+                    let districtCode = $(this).val();
+                    let provinceCode = $("#provinceCode").val();
+                    getTambon(provinceCode,districtCode);
+                })
+            });
 
     </script>
     

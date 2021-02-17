@@ -105,7 +105,7 @@ include("../include/connection.php");
  $sql ="select * from person WHERE personId = '".$_GET['personId']."' ";
  $result = $conn->prepare($sql);
  $result->execute();
- $rowEdit = $result->fetch() 
+ $rowEdit = $result->fetch(); 
 ?>
 <body>
     <fieldset id="personUpdate" style="display:block;">
@@ -147,15 +147,14 @@ include("../include/connection.php");
         <div class="form-row">
             <div class="form-group col-md-6">
                 <label for="sexId">เพศ</label>
-                <select name='sexId' id='sexId' class='form-control' required data-error-msg="กรุณาเลือกเพศ" placeholder="เพศ" value="<?php echo $rowEdit['sexId']; ?>">
-                    <option selected disabled>Choose...</option>
+                <select name='sexId' id='sexId' class='form-control' required data-error-msg="กรุณาเลือกเพศ" >
                     <?php 
                     $sql ="select * from sex";
                     $result = $conn->prepare($sql);
                     $result->execute();
                     while($row = $result->fetch()) {
                         ?>
-                         <option value="<?php echo $row['sexId'];?>"><?php echo $row['sexName'];?></option>
+                         <option value="<?php echo $row['sexId'];?>" <?php echo ($rowEdit['sexId']==$row['sexId'])?"selected":"";?>><?php echo $row['sexName'];?></option>
                         <?php   
                     }
                     ?>
@@ -178,15 +177,15 @@ include("../include/connection.php");
               
             <div class="form-group col-md-6">
                 <label for="provinceCode">จังหวัด</label>
-                <select name='provinceCode' id='provinceCode' class='form-control' required data-error-msg="กรุณาเลือกชื่อจังหวัด" placeholder="จังหวัด" value="<?php echo $rowEdit['provinceCode']; ?>">
+                <select name='provinceCode' id='provinceCode' class='form-control' required data-error-msg="กรุณาเลือกชื่อจังหวัด" >
                     <option selected disabled>Choose...</option>
                     <?php 
                     $sql ="select * from changwat order by changwat_name";
                     $result = $conn->prepare($sql);
                     $result->execute();
-                    while($row = $result->fetch()) {
+                    while($row = $result->fetch()) { 
                         ?>
-                         <option value="<?php echo $row['changwat_code'];?>"><?php echo $row['changwat_name'];?></option>
+                         <option value="<?php echo $row['changwat_code'];?>" <?php echo ($rowEdit['provinceCode']==$row['changwat_code'])?"selected":"";?>><?php echo $row['changwat_name'];?></option>
                         <?php   
                     }
                     ?>
@@ -197,7 +196,7 @@ include("../include/connection.php");
         <div class="form-row">
             <div id="div-districtCode" class="form-group col-md-6">
                 <label for="districtCode">อำเภอ</label>
-                <select name='districtCode' id='districtCode' class='form-control' required data-error-msg="กรุณาเลือกชื่ออำเภอ" placeholder="อำเภอ" value="<?php echo $rowEdit['districtCode']; ?>">
+                <select name='districtCode' id='districtCode' class='form-control' required data-error-msg="กรุณาเลือกชื่ออำเภอ" >
                     <option selected disabled>Choose...</option>
                 </select>              
             </div>
@@ -205,7 +204,7 @@ include("../include/connection.php");
             
             <div id="div-subdistrictCode" class="form-group col-md-6">
                 <label for="subdistrictCode">ตำบล</label>
-                <select name='subdistrictCode' id='subdistrictCode' class='form-control' required data-error-msg="กรุณาเลือกชื่อตำบล" placeholder="ตำบล" value="<?php echo $rowEdit['subdistrictCode']; ?>">
+                <select name='subdistrictCode' id='subdistrictCode' class='form-control' required data-error-msg="กรุณาเลือกชื่อตำบล" >
                     <option selected disabled>Choose...</option>
                 </select>              
                
@@ -215,15 +214,14 @@ include("../include/connection.php");
         <div class="form-row">   
             <div  class="form-group col-md-12">
                 <label for="officeId">ชื่อหน่วยงาน</label>
-                <select name='officeId' id='officeId' class='form-control' required data-error-msg="กรุณาเลือกชื่อหน่วยงาน" placeholder="หน่วยงาน" value="<?php echo $rowEdit['officeId']; ?>">
-                    <option selected disabled>Choose...</option>
+                <select name='officeId' id='officeId' class='form-control' required data-error-msg="กรุณาเลือกชื่อหน่วยงาน" >
                     <?php 
                     $sql ="select * from office";
                     $result = $conn->prepare($sql);
                     $result->execute();
                     while($row = $result->fetch()) {
                         ?>
-                         <option value="<?php echo $row['office_id'];?>"><?php echo $row['office_name'];?></option>
+                         <option value="<?php echo $row['office_id'];?>" <?php echo ($rowEdit['officeId']==$row['office_id'])?"selected":"";?>><?php echo $row['office_name'];?></option>
                         <?php   
                     }
                     ?>
@@ -235,7 +233,16 @@ include("../include/connection.php");
             <div  class="form-group col-md-12">
                 <label for="departmentId">ชื่อแผนก</label>
                 <select name='departmentId' id='departmentId' class='form-control' required data-error-msg="กรุณาเลือกชื่อแผนก" placeholder="แผนก" value="<?php echo $rowEdit['departmentId']; ?>">
-                    <option selected disabled>Choose...</option>
+                    <?php 
+                    $sql ="select * from department where officeId = '".$rowEdit['officeId']."' ";
+                    $result = $conn->prepare($sql);
+                    $result->execute();
+                    while($row = $result->fetch()) {
+                        ?>
+                         <option value="<?php echo $row['departmentId'];?>" <?php echo ($rowEdit['departmentId']==$row['departmentId'])?"selected":"";?>><?php echo $row['departmentName'];?></option>
+                        <?php   
+                    }
+                    ?>
                 </select>
             </div>
         </div>
@@ -264,14 +271,13 @@ include("../include/connection.php");
             <div  class="form-group col-md-12">
                 <label for="groupId">สิทธิ์การใช้งาน</label>
                 <select name='groupId' id='groupId' class='form-control' required data-error-msg="กรุณาเลือกสิทธิ์การใช้งาน" >
-                    <option selected disabled value="<?php echo $rowEdit['groupId']; ?>"><?php echo $row['groupName']; ?></option>
                     <?php 
                     $sql ="select * from `group`";
                     $result = $conn->prepare($sql);
                     $result->execute();
                     while($row = $result->fetch()) {
                         ?>
-                         <option value="<?php echo $row['groupId'];?>"><?php echo $row['groupName'];?></option>
+                         <option value="<?php echo $row['groupId'];?>" <?php echo ($rowEdit['groupId']==$row['groupId'])?"selected":"";?>><?php echo $row['groupName'];?></option>
                         <?php   
                     }
                     ?>
@@ -297,14 +303,11 @@ include("../include/connection.php");
     <script src ="https://www.jquery-az.com/boots/js/validate-bootstrap/validate-bootstrap.jquery.min.js" ></script>
 
     <script>
-        $(function(){
-            $("#provinceCode").change(function(){
-                let provinceCode = $(this).val();
-                // alert(provinceCode);
-                $.ajax({
+        function getAmpur(provinceCode, districtCode){
+            $.ajax({
                     method: "POST",
                     url: "getAmpur.php",
-                    data: { provinceCode: provinceCode}
+                    data: { provinceCode: provinceCode ,districtCode: districtCode }
                 }).done(function( msg ) {
                     $("#div-districtCode").html(msg);
                     let tambonmsg= '<label for="subdistrictCode">ตำบล</label>';
@@ -313,18 +316,36 @@ include("../include/connection.php");
                         tambonmsg+='</select>';            
                     $("#div-subdistrictCode").html(tambonmsg);                   
                 });
-            })
-            $("#div-districtCode").on("change","#districtCode",function(){              
-                let districtCode = $(this).val();
-                let provinceCode = $("#provinceCode").val();
-                $.ajax({
+        }
+
+        function getTambon(provinceCode,districtCode,subdistrictCode){
+            $.ajax({
                     method: "POST",
                     url: "getTambon.php",
-                    data: { provinceCode: provinceCode, districtCode:districtCode }
+                    data: { provinceCode: provinceCode, districtCode:districtCode , subdistrictCode: subdistrictCode }
                 }).done(function( msg ) {
                     $("#div-subdistrictCode").html(msg);
                     
                 });
+
+        }
+        $(function(){
+
+            $("#provinceCode").val("<?php echo $rowEdit['provinceCode'];?>");
+            getAmpur($("#provinceCode").val(),"<?php echo $rowEdit['districtCode'];?>");
+
+            $("#districtCode").val("<?php echo $rowEdit['districtCode'];?>");
+            getTambon($("#provinceCode").val(),"<?php echo $rowEdit['districtCode'];?>","<?php echo $rowEdit['subdistrictCode'];?>");
+
+            $("#provinceCode").change(function(){
+                let provinceCode = $(this).val();
+                // alert(provinceCode);
+                getAmpur(provinceCode);
+            })
+            $("#div-districtCode").on("change","#districtCode",function(){              
+                let districtCode = $(this).val();
+                let provinceCode = $("#provinceCode").val();
+                getTambon(provinceCode,districtCode);
             })
         });
 
@@ -337,7 +358,7 @@ include("../include/connection.php");
                     data: { officeId: officeId}
                 }).done(function(msg) {
                     // alert(msg);
-                    $("#departmentId").html(msg);                                  
+                    $("#departmentId").html(msg);
                 });
             })
         });

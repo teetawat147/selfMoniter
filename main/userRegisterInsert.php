@@ -20,7 +20,6 @@ $sql = "INSERT into person (
         personHeight,
         email,
         lineId,
-        groupId,
         password
         )
         VALUE (
@@ -40,9 +39,9 @@ $sql = "INSERT into person (
         '" . $_POST['personHeight'] . "',
         '" . $_POST['email'] . "',
         '" . $_POST['lineId'] . "',
-        '" . $_POST['groupId'] . "',
-        md5('".$_POST['password']."'),
+        md5('".$_POST['password']."')
         )";
+    
 
 $result = $conn->prepare($sql);
 $result->execute();

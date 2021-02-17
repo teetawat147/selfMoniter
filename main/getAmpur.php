@@ -10,7 +10,7 @@ $result->execute();?>
     <?php
     while($row = $result->fetch()) {
         ?>        
-        <option value="<?php echo $row['ampur_code'];?>"><?php echo $row['ampur_name'];?></option>
+        <option value="<?php echo $row['ampur_code'];?>" <?php echo (isset($_POST['districtCode']) and $_POST['districtCode']==$row['ampur_code'])?"selected":"";?>><?php echo $row['ampur_name'];?></option>
         <?php
     }
     ?>
