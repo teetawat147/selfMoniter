@@ -29,7 +29,7 @@ if (!$_SESSION['personId']){
  $sql ="select * from person WHERE personId = '".$_SESSION['personId']."' ";
  $result = $conn->prepare($sql);
  $result->execute();
- $row = $result->fetch() 
+ $row = $result->fetch();
 ?>
 <body>
 <div class = "container">

@@ -4,7 +4,7 @@ include("../include/connection.php");
 <!doctype html>
 <html lang="en">
 <head>
-    <title>ลงทะเบียน</title>
+    <title>แก้ไขข้อมูล</title>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -101,46 +101,45 @@ include("../include/connection.php");
 }
 </style>
 </head>
+<?php
+ $sql ="select * from person WHERE personId = '".$_GET['personId']."' ";
+ $result = $conn->prepare($sql);
+ $result->execute();
+ $rowEdit = $result->fetch() 
+?>
 <body>
-    <fieldset id="userRegister" style="display:block;">
+    <fieldset id="personUpdate" style="display:block;">
         <div class = "container">
-        <center>
-        <div class="container progressive">
-            <ul class="progressbar">
-                <li class="active">ลงทะเบียน</li>
-                <li >ข้อตกลง</li>
-            </ul>
-        </div>
-        </center>
-          <h3>ลงทะเบียน</h3>
-    <form class="form" action="userRegisterInsert.php" method="POST">
+          <center><h3>แก้ไขข้อมูล</h3></center>
+          <br>
+    <form action="editSavePersonUpdate.php" method="POST">
         <input type="hidden" name="lineId" id="lineId" value="<?php echo (isset($_GET['lineId']))?$_GET['lineId']:"";?>" >
         
         <div class="form-row">
             <div class="form-group col-md-12">
                 <label for="cid">เลขบัตรประจำตัวประชาชน</label>
-                <input name="cid" id="cid" class="form-control" min="3" required type="text" data-error-msg="กรุณากรอกเลขบัตรประจำตัวประชาชน">
+                <input name="cid" id="cid" class="form-control" min="3" required type="text" data-error-msg="กรุณากรอกเลขบัตรประจำตัวประชาชน" placeholder="เลขบัตรประจำตัวประชาชน" value="<?php echo $rowEdit['cid']; ?>">
             </div>
         </div>
 
         <div class="form-row">
             <div class="form-group col-md-6">
                 <label for="fname">ชื่อ</label>
-                <input name="fname" id="fname" class="form-control" min="3" required type="text" data-error-msg="กรุณากรอกชื่อ">
+                <input name="fname" id="fname" class="form-control" min="3" required type="text" data-error-msg="กรุณากรอกชื่อ" placeholder="ชื่อ" value="<?php echo $rowEdit['fname']; ?>">
             </div>
         
 
         
             <div class="form-group col-md-6">
                 <label for="lname">นามสกุล</label>
-                <input name="lname" id="lname" class="form-control" min="3"  type="text" data-error-msg="กรุณากรอกนามสกุล">
+                <input name="lname" id="lname" class="form-control" min="3"  type="text" data-error-msg="กรุณากรอกนามสกุล" placeholder="นามสกุล" value="<?php echo $rowEdit['lname']; ?>">
             </div>
         </div>
 
         <div class="form-row">
             <div class="form-group col-md-12">
                 <label for="birthdate">วันเกิด</label>
-                <input name="birthdate" id="birthdate" class="form-control" min="3" required type="date" data-error-msg="กรุณากรอกวันเกิด">
+                <input name="birthdate" id="birthdate" class="form-control" min="3" required type="date" data-error-msg="กรุณากรอกวันเกิด" placeholder="วันเกิด" value="<?php echo $rowEdit['birthdate']; ?>">
             </div>
         </div>
         
@@ -148,7 +147,7 @@ include("../include/connection.php");
         <div class="form-row">
             <div class="form-group col-md-6">
                 <label for="sexId">เพศ</label>
-                <select name='sexId' id='sexId' class='form-control' required data-error-msg="กรุณาเลือกเพศ">
+                <select name='sexId' id='sexId' class='form-control' required data-error-msg="กรุณาเลือกเพศ" placeholder="เพศ" value="<?php echo $rowEdit['sexId']; ?>">
                     <option selected disabled>Choose...</option>
                     <?php 
                     $sql ="select * from sex";
@@ -165,7 +164,7 @@ include("../include/connection.php");
                  
             <div class="form-group col-md-6">
                 <label for="phone">เบอร์โทรศัพท์</label>
-                <input name="phone" id="phone" class="form-control" min="3" required type="text" data-error-msg="กรุณากรอกเบอร์โทรศัพท์">
+                <input name="phone" id="phone" class="form-control" min="3" required type="text" data-error-msg="กรุณากรอกเบอร์โทรศัพท์" placeholder="เบอร์โทรศัพท์" value="<?php echo $rowEdit['phone']; ?>">
                 
             </div>
         </div>
@@ -173,13 +172,13 @@ include("../include/connection.php");
         <div class="form-row">
             <div class="form-group col-md-6">
                 <label for="address">ที่อยู่</label>
-                <input name="address" id="address" class="form-control" min="3" required type="text" data-error-msg="กรุณากรอกที่อยู่">
+                <input type="address" class="form-control" name="address" id="address" placeholder="ที่อยู่" value="<?php echo $rowEdit['address']; ?>">
                 
             </div>
               
             <div class="form-group col-md-6">
                 <label for="provinceCode">จังหวัด</label>
-                <select name='provinceCode' id='provinceCode' class='form-control' required data-error-msg="กรุณากรอกชื่อจังหวัด">
+                <select name='provinceCode' id='provinceCode' class='form-control' required data-error-msg="กรุณาเลือกชื่อจังหวัด" placeholder="จังหวัด" value="<?php echo $rowEdit['provinceCode']; ?>">
                     <option selected disabled>Choose...</option>
                     <?php 
                     $sql ="select * from changwat order by changwat_name";
@@ -198,7 +197,7 @@ include("../include/connection.php");
         <div class="form-row">
             <div id="div-districtCode" class="form-group col-md-6">
                 <label for="districtCode">อำเภอ</label>
-                <select name='districtCode' id='districtCode' class='form-control' required data-error-msg="กรุณากรอกชื่ออำเภอ">
+                <select name='districtCode' id='districtCode' class='form-control' required data-error-msg="กรุณาเลือกชื่ออำเภอ" placeholder="อำเภอ" value="<?php echo $rowEdit['districtCode']; ?>">
                     <option selected disabled>Choose...</option>
                 </select>              
             </div>
@@ -206,7 +205,7 @@ include("../include/connection.php");
             
             <div id="div-subdistrictCode" class="form-group col-md-6">
                 <label for="subdistrictCode">ตำบล</label>
-                <select name='subdistrictCode' id='subdistrictCode' class='form-control' required data-error-msg="กรุณากรอกชื่อตำบล">
+                <select name='subdistrictCode' id='subdistrictCode' class='form-control' required data-error-msg="กรุณาเลือกชื่อตำบล" placeholder="ตำบล" value="<?php echo $rowEdit['subdistrictCode']; ?>">
                     <option selected disabled>Choose...</option>
                 </select>              
                
@@ -216,7 +215,7 @@ include("../include/connection.php");
         <div class="form-row">   
             <div  class="form-group col-md-12">
                 <label for="officeId">ชื่อหน่วยงาน</label>
-                <select name='officeId' id='officeId' class='form-control' required data-error-msg="กรุณากรอกชื่อหน่วยงาน">
+                <select name='officeId' id='officeId' class='form-control' required data-error-msg="กรุณาเลือกชื่อหน่วยงาน" placeholder="หน่วยงาน" value="<?php echo $rowEdit['officeId']; ?>">
                     <option selected disabled>Choose...</option>
                     <?php 
                     $sql ="select * from office";
@@ -235,7 +234,7 @@ include("../include/connection.php");
         <div class="form-row">   
             <div  class="form-group col-md-12">
                 <label for="departmentId">ชื่อแผนก</label>
-                <select name='departmentId' id='departmentId' class='form-control' required data-error-msg="กรุณากรอกชื่อแผนก">
+                <select name='departmentId' id='departmentId' class='form-control' required data-error-msg="กรุณาเลือกชื่อแผนก" placeholder="แผนก" value="<?php echo $rowEdit['departmentId']; ?>">
                     <option selected disabled>Choose...</option>
                 </select>
             </div>
@@ -244,12 +243,12 @@ include("../include/connection.php");
         <div class="form-row">
             <div class="form-group col-md-6">
                 <label for="personWeight">น้ำหนัก</label>
-                <input name="personWeight" id="personWeight" class="form-control" min="3" required type="text" data-error-msg="กรุณากรอกน้ำหนัก">
+                <input name="personWeight" id="personWeight" class="form-control" min="3" required type="text" data-error-msg="กรุณากรอกน้ำหนัก" placeholder="น้ำหนัก" value="<?php echo $rowEdit['personWeight']; ?>">
             </div>
         
             <div class="form-group col-md-6">
                 <label for="personHeight">ส่วนสูง</label>
-                <input name="personHeight" id="personHeight" class="form-control" min="3" required type="text" data-error-msg="กรุณากรอกส่วนสูง">
+                <input name="personHeight" id="personHeight" class="form-control" min="3" required type="text" data-error-msg="กรุณากรอกส่วนสูง" placeholder="ส่วนสูง" value="<?php echo $rowEdit['personHeight']; ?>">
                 
             </div>
         </div>
@@ -257,23 +256,39 @@ include("../include/connection.php");
         <div class="form-row">
             <div class="form-group col-md-12">
                 <label for="email">Email</label>
-                <input name="email" id="email" class="form-control" min="3" required type="text" data-error-msg="กรุณากรอก Email">
-            </div>
-         
-            <div class="form-group col-md-12">
-                <label for="password">Password</label>
-                <input name="password" id="password" class="form-control" min="3" required type="password" data-error-msg="กรุณากรอก Password">
-            </div>
+                <input name="email" id="email" class="form-control" min="3" required type="text" data-error-msg="กรุณากรอก Email" groupName="Email" value="<?php echo $rowEdit['email']; ?>">
+            </div>  
         </div>
 
-            <center>
-                <button type="submit" class="btn btn-primary">สมัครใช้งาน</button> 
-                <button type="button" class="btn btn-primary">ยกเลิก</button>              
-            </center> 
+        <div class="form-row">   
+            <div  class="form-group col-md-12">
+                <label for="groupId">สิทธิ์การใช้งาน</label>
+                <select name='groupId' id='groupId' class='form-control' required data-error-msg="กรุณาเลือกสิทธิ์การใช้งาน" >
+                    <option selected disabled value="<?php echo $rowEdit['groupId']; ?>"><?php echo $row['groupName']; ?></option>
+                    <?php 
+                    $sql ="select * from `group`";
+                    $result = $conn->prepare($sql);
+                    $result->execute();
+                    while($row = $result->fetch()) {
+                        ?>
+                         <option value="<?php echo $row['groupId'];?>"><?php echo $row['groupName'];?></option>
+                        <?php   
+                    }
+                    ?>
+                </select>
+            </div>
+        </div>    
 
+            <center>
+                <input type="hidden" name="personId" id="personId" value="<?php echo $rowEdit['personId']; ?>">
+                <button type="submit" class="btn btn-primary">ยืนยัน</button>
+                <button type="button" class="btn btn-primary">ยกเลิก</button>
+            </center> 
     </fieldset>          
     </form>
 </div>
+
+
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
