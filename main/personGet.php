@@ -53,36 +53,28 @@
 
     <style>
 
-    /* tbody tr td:nth-child(2),
-    tbody tr td:nth-child(6),
-    tbody tr td:nth-child(7),
-    tbody tr td:nth-child(8),
-    tbody tr td:nth-child(2) {
-      text-align: center;
-    } */
+      button,
+      center a {
+        margin-top: 7px;
+        width: 12ch;
+      }
 
-    button,
-    center a {
-      margin-top: 7px;
-      width: 12ch;
-    }
+      center div {
+        width: 120px;
+        height: 180px;
+      }
 
-    center div {
-      width: 120px;
-      height: 180px;
-    }
+      .img-add-data {
+        width: 50px;
+        height: 50px;
+        margin-bottom: 10px;
+      }
 
-    .img-add-data {
-      width: 50px;
-      height: 50px;
-      margin-bottom: 10px;
-    }
-
-    .btn-edit,
-    .btn-delete {
-      width: 7ch;
-      margin-right: 10px;
-    }
+      .btn-edit,
+      .btn-delete {
+        width: 7ch;
+        margin-right: 10px;
+      }
 
     </style>
 
