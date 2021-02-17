@@ -40,12 +40,13 @@
         border: 2px solid #000000;
         margin-top: 25px;
         padding: 18px 25px;
-        z-index: 1 !important;
       }
 
       .progress-bar {
+        position: relative;
         background: #FFFFFF;
         color: #000000;
+        z-index: -1;
       }
 
       .chart-bar {
@@ -76,7 +77,7 @@
         }
       ?>
 
-    <div class="container">
+    <div class="container mb-4">
       <h3>ภาพรวมจังหวัดสกลนคร</h3>
       <div class="header">.</div>
       <div class="wrapper-content">
