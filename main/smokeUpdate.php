@@ -53,8 +53,10 @@
                 </div>
             </div>
             <input type="hidden" name="smokeId" id="smokeId" value="<?php echo htmlentities($rowsSmoke['smokeId']); ?>">
-            <center><button class="btn btn-warning mr-3" style="text-align: center;"  type="reset">ยกเลิก</button>
-            <button class="btn btn-success " style="text-align: center;" type="submit">บันทึก</button></center>
+            <center>
+                <button class="btn btn-warning mr-3" style="text-align: center;"  type="reset">ยกเลิก</button>
+                <button class="btn btn-success " style="text-align: center;" type="submit">บันทึก</button>
+            </center>
         </form>
     </div>
     <!-- <script> -->

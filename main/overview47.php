@@ -1,10 +1,12 @@
 <?php 
     include('../include/connection.php');
 
-    $sql = "SELECT COUNT(ampur_name) AS countPerson, a.ampur_name AS ampurName
-            FROM person p
-            LEFT JOIN ampur47 a ON p.districtCode = a.ampur_code
-            GROUP BY ampur_name DESC";
+    $sql = "SELECT a.ampur_name, SUM(o.count_person) AS sumPerson, COUNT(p.officeId) AS countPerson
+            FROM office o
+            LEFT JOIN ampur47 a ON a.ampur_code = o.ampur_code
+            LEFT JOIN person p ON p.officeId = o.office_id
+            GROUP BY a.ampur_name
+            ORDER BY countPerson DESC, ampur_name DESC";
 
     $result = $conn -> prepare($sql);
     $result -> execute();
@@ -22,6 +24,7 @@
     <title>ภาพรวมจังหวัดสกลนคร</title>
 
     <style>
+
       .header {
         position: absolute;
         width: 300px;
@@ -37,10 +40,11 @@
         border: 2px solid #000000;
         margin-top: 25px;
         padding: 18px 25px;
+        z-index: 1 !important;
       }
 
       .progress-bar {
-        background: #F1F1F1;
+        background: #FFFFFF;
         color: #000000;
       }
 
@@ -65,18 +69,26 @@
 
   </head>
   <body>
-    <div class="container body">
+
+      <?php 
+        function percent($number){
+          return $number * 100 . '%';
+        }
+      ?>
+
+    <div class="container">
       <h3>ภาพรวมจังหวัดสกลนคร</h3>
       <div class="header">.</div>
       <div class="wrapper-content">
         <?php
           foreach ($rows as $key => $row) {
-            // totalPerson = จำนวนทั้งหมดของแต่ละอำเภอ, countPerson = จำนวนคนที่ลงทะเบียน ณ ปัจจุบันของแต่ละอำเภอ
-            // $percent = $row['countPerson']/100*$row['totalPerson'];
-            echo $row['ampurName'];
+            echo $row['ampur_name'];
         ?>
-          <div class="progress-bar" style="width: <?php echo $totalPerson ?>%; ">
-            <div class="w3-container d-flex align-items-center chart-bar" style="width:<?php echo $row['countPerson']; ?>%; height:30px;">
+          <div class="progress-bar" style="width: <?php echo $row['sumPerson']; ?>%;">
+            <div class="w3-container d-flex align-items-center chart-bar" style="width: <?php echo $row['countPerson']; ?>%; height:30px;">
+              <?php
+                percent($row['countPerson']);
+              ?>
             </div>
           </div><br>
         <?php

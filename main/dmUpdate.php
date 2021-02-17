@@ -62,8 +62,10 @@
             </div>
 
             <input type="hidden" name="bloodSugarId" id="bloodSugarId" value="<?php echo htmlentities($rowsBloodSugar['bloodSugarId']); ?>">
-            <center><button class="btn btn-warning mr-3" type="reset">ยกเลิก</button>
-            <button class="btn btn-success" type="submit">บันทึก</button></center>
+            <center>
+                <button class="btn btn-warning mr-3" type="reset">ยกเลิก</button>
+                <button class="btn btn-success" type="submit">บันทึก</button>
+            </center>
         </form>
     </div>
     <!-- <script> -->

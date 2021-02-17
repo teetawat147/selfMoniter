@@ -62,8 +62,10 @@
             </div>
 
             <input type="hidden" name="cvdScoreId" id="cvdScoreId" value="<?php echo htmlentities($rowsCvdScore['cvdScoreId']); ?>">
-            <center><button class="btn btn-warning mr-3" type="reset">ยกเลิก</button>
-            <button class="btn btn-success" type="submit">บันทึก</button></center>
+            <center>
+                <button class="btn btn-warning mr-3" type="reset">ยกเลิก</button>
+                <button class="btn btn-success" type="submit">บันทึก</button>
+            </center>
         </form>
     </div>
     <!-- <script> -->
