@@ -49,7 +49,7 @@
     <script src="https://unpkg.com/bootstrap-table@1.18.2/dist/bootstrap-table.min.js"></script>
     
   
-    <title>personGet</title>
+    <title>Admin Health</title>
 
     <style>
 
@@ -91,7 +91,6 @@
       <center><h3>Admin Health</h3></center>
       <table class="table" id="myTable" style="width: 100%;" data-toggle="table" data-search="true">
         <thead>
-          
           <tr>
               <th style="height: 70px; text-align: center; vertical-align: top;">รูปภาพ</th>
               <th style="height: 70px; text-align: center; vertical-align: top;">รายชื่อ</th>

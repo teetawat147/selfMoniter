@@ -51,7 +51,6 @@
     <?php
     if ($_SESSION['fname']){
       
-    
     ?>
     <span class="navbar-text">
     <ul class="navbar-nav mr-auto">
@@ -61,7 +60,7 @@
       echo $_SESSION['fname'].' '.$_SESSION['lname'];
       ?>
         </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
           <a class="dropdown-item" href="../main/editProfile.php">Edit Profile</a>
           <a class="dropdown-item" href="../main/changePassword.php">Edit Password</a>
           <div class="dropdown-divider"></div>

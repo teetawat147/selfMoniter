@@ -29,108 +29,19 @@ $rowEdit = $result->fetch();
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
 
-
-    
-     <style>
-        .container {
-            width: 100%;
-        }
-
-        .progressbar {
-            counter-reset: step;
-        }
-
-        .progressbar li {
-            list-style: none;
-            display: inline-block;
-            width: 30.33%;
-            position: relative;
-            text-align: center;
-            cursor: pointer;
-        }
-
-        .progressbar li:before {
-            content: counter(step);
-            counter-increment: step;
-            width: 30px;
-            height: 30px;
-            line-height : 30px;
-            border: 1px solid #ddd;
-            border-radius: 1%;
-            display: block;
-            text-align: center;
-            margin: 0 auto 10px auto;
-            background-color: #fff;
-        }
-
-        .progressbar li:after {
-            content: "";
-            position: absolute;
-            width: 100%;
-            height: 1px;
-            background-color: #ddd;
-            top: 15px;
-            left: -50%;
-            z-index : -1;
-        }
-
-        .progressbar li:first-child:after {
-            content: none;
-        }
-
-        .progressbar li.active {
-            color: green;
-        }
-
-        .progressbar li.active:before {
-            border-color: green;
-        }
-
-        .progressbar li.active + li:after {
-            background-color: green;
-        }
-
-        .progressive {
-            padding-top: 20px;
-        }
-
-        .body {
-            margin-top: 15px;
-        }
-
-        .button {
-            display: flex;
-            justify-content: center;
-        }
-
-        .btn-cancel,
-        .btn-next
-        {
-            border-radius: 5px;
-            padding: 10px 30px;
-            background: #C4C4C4;
-            margin: 0px 50px;
-        }
-
-        .has-error .help-block{
-            color: red;
-        }
-
-</style>
-
 </head>
 
 <body>
     <?php
         include "./header.php";
-        ?>
+    ?>
 
     <fieldset id="personUpdate" style="display:block;">
         <div class = "container">
             <center><h3>แก้ไขข้อมูล</h3></center><br>
             <form action="editSavePersonUpdate.php" method="POST">
                 <input type="hidden" name="lineId" id="lineId" value="<?php echo (isset($_GET['lineId']))?$_GET['lineId']:"";?>" >
-        
+
                     <div class="form-row">
                         <div class="form-group col-md-12">
                             <label for="cid">เลขบัตรประจำตัวประชาชน</label>
@@ -143,8 +54,6 @@ $rowEdit = $result->fetch();
                             <label for="fname">ชื่อ</label>
                             <input name="fname" id="fname" class="form-control" min="3" required type="text" data-error-msg="กรุณากรอกชื่อ" placeholder="ชื่อ" value="<?php echo $rowEdit['fname']; ?>">
                         </div>
-                    
-
                     
                         <div class="form-group col-md-6">
                             <label for="lname">นามสกุล</label>
@@ -188,20 +97,20 @@ $rowEdit = $result->fetch();
                             <label for="address">ที่อยู่</label>
                             <input type="address" class="form-control" name="address" id="address" placeholder="ที่อยู่" value="<?php echo $rowEdit['address']; ?>">
                         </div>
-                        
+
                         <div class="form-group col-md-6">
                             <label for="provinceCode">จังหวัด</label>
                             <select name='provinceCode' id='provinceCode' class='form-control' required data-error-msg="กรุณาเลือกชื่อจังหวัด" >
                                 <option selected disabled>Choose...</option>
                                 <?php 
-                                $sql ="select * from changwat order by changwat_name";
-                                $result = $conn->prepare($sql);
-                                $result->execute();
-                                while($row = $result->fetch()) { 
-                                    ?>
-                                    <option value="<?php echo $row['changwat_code'];?>" <?php echo ($rowEdit['provinceCode']==$row['changwat_code'])?"selected":"";?>><?php echo $row['changwat_name'];?></option>
-                                    <?php   
-                                }
+                                    $sql ="select * from changwat order by changwat_name";
+                                    $result = $conn->prepare($sql);
+                                    $result->execute();
+                                    while($row = $result->fetch()) { 
+                                        ?>
+                                        <option value="<?php echo $row['changwat_code'];?>" <?php echo ($rowEdit['provinceCode']==$row['changwat_code'])?"selected":"";?>><?php echo $row['changwat_name'];?></option>
+                                        <?php   
+                                    }
                                 ?>
                             </select>
                         </div>
@@ -214,7 +123,7 @@ $rowEdit = $result->fetch();
                                 <option selected disabled>Choose...</option>
                             </select>              
                         </div>
-                    
+
                         <div id="div-subdistrictCode" class="form-group col-md-6">
                             <label for="subdistrictCode">ตำบล</label>
                             <select name='subdistrictCode' id='subdistrictCode' class='form-control' required data-error-msg="กรุณาเลือกชื่อตำบล" >
@@ -244,7 +153,7 @@ $rowEdit = $result->fetch();
                     <div class="form-row">   
                         <div  class="form-group col-md-12">
                             <label for="departmentId">ชื่อแผนก</label>
-                            <select name='departmentId' id='departmentId' class='form-control' required data-error-msg="กรุณาเลือกชื่อแผนก" >
+                            <select name='departmentId' id='departmentId' class='form-control' required data-error-msg="กรุณาเลือกชื่อแผนก" placeholder="แผนก" value="<?php echo $rowEdit['departmentId']; ?>">
                                 <?php 
                                 $sql ="select * from department where officeId = '".$rowEdit['officeId']."' ";
                                 $result = $conn->prepare($sql);
@@ -254,7 +163,7 @@ $rowEdit = $result->fetch();
                                     <option value="<?php echo $row['departmentId'];?>" <?php echo ($rowEdit['departmentId']==$row['departmentId'])?"selected":"";?>><?php echo $row['departmentName'];?></option>
                                     <?php   
                                 }
-                                ?>
+                                    ?>
                             </select>
                         </div>
                     </div>
@@ -264,46 +173,46 @@ $rowEdit = $result->fetch();
                             <label for="personWeight">น้ำหนัก</label>
                             <input name="personWeight" id="personWeight" class="form-control" min="3" required type="text" data-error-msg="กรุณากรอกน้ำหนัก" placeholder="น้ำหนัก" value="<?php echo $rowEdit['personWeight']; ?>">
                         </div>
-                    
+
                         <div class="form-group col-md-6">
                             <label for="personHeight">ส่วนสูง</label>
                             <input name="personHeight" id="personHeight" class="form-control" min="3" required type="text" data-error-msg="กรุณากรอกส่วนสูง" placeholder="ส่วนสูง" value="<?php echo $rowEdit['personHeight']; ?>">
                         </div>
                     </div>
-  
+
                     <div class="form-row">
                         <div class="form-group col-md-12">
                             <label for="email">Email</label>
                             <input name="email" id="email" class="form-control" min="3" required type="text" data-error-msg="กรุณากรอก Email" groupName="Email" value="<?php echo $rowEdit['email']; ?>">
                         </div>  
                     </div>
-                                                                                        <div class="form-row">   
-                    <div  class="form-group col-md-12">
-                        <label for="groupId">สิทธิ์การใช้งาน</label>
-                        <select name='groupId' id='groupId' class='form-control' required data-error-msg="กรุณาเลือกสิทธิ์การใช้งาน" >
-                            <?php 
-                            $sql ="select * from `group`";
-                            $result = $conn->prepare($sql);
-                            $result->execute();
-                            while($row = $result->fetch()) {
+
+                    <div class="form-row">   
+                        <div  class="form-group col-md-12">
+                            <label for="groupId">สิทธิ์การใช้งาน</label>
+                            <select name='groupId' id='groupId' class='form-control' required data-error-msg="กรุณาเลือกสิทธิ์การใช้งาน" >
+                                <?php 
+                                $sql ="select * from `group`";
+                                $result = $conn->prepare($sql);
+                                $result->execute();
+                                while($row = $result->fetch()) {
+                                    ?>
+                                    <option value="<?php echo $row['groupId'];?>" <?php echo ($rowEdit['groupId']==$row['groupId'])?"selected":"";?>><?php echo $row['groupName'];?></option>
+                                    <?php   
+                                }
                                 ?>
-                                <option value="<?php echo $row['groupId'];?>" <?php echo ($rowEdit['groupId']==$row['groupId'])?"selected":"";?>><?php echo $row['groupName'];?></option>
-                                <?php   
-                            }
-                            ?>
-                        </select>
-                    </div>
-                </div>    
+                            </select>
+                        </div>
+                    </div>    
 
-            <center>
-                <input type="hidden" name="personId" id="personId" value="<?php echo $rowEdit['personId']; ?>">
-                <button type="submit" class="btn btn-primary">ยืนยัน</button>
-                <a href="../main/personGet.php" class="btn btn-primary" role="button" aria-pressed="true">ยกเลิก</a>
-
-            </center> 
-    </fieldset>          
-    </form>
-</div>
+                    <center>
+                        <input type="hidden" name="personId" id="personId" value="<?php echo $rowEdit['personId']; ?>">
+                        <button type="submit" class="btn btn-primary">ยืนยัน</button>
+                        <button type="button" class="btn btn-primary">ยกเลิก</button>
+                    </center>
+            </form>
+        </div>
+    </fieldset>
                   
 
     <!-- Optional JavaScript -->

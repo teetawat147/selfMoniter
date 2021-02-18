@@ -1,9 +1,9 @@
 <?php
   include('../include/connection.php');
 
-  $sql = "SELECT o.office_name, a.ampur_name, o.office_type
-            FROM office o
-            LEFT JOIN ampur47 a ON o.ampur_code = a.ampur_code";
+  $sql = "SELECT o.office_id, o.office_name, a.ampur_name, o.office_type
+          FROM office o
+          LEFT JOIN ampur47 a ON o.ampur_code = a.ampur_code";
   $result = $conn -> prepare($sql);
   $result -> execute();
   $rowsOffice = $result -> fetchAll(PDO::FETCH_ASSOC);
@@ -30,14 +30,6 @@
     <title>officeGet</title>
 
     <style>
-
-    /* tbody tr td:nth-child(2),
-    tbody tr td:nth-child(6),
-    tbody tr td:nth-child(7),
-    tbody tr td:nth-child(8),
-    tbody tr td:nth-child(2) {
-      text-align: center;
-    } */
 
     button,
     center a {
@@ -73,7 +65,7 @@
       <br>
       <center><h3>Office Admin Health</h3></center>
       <br>
-      <center><a href="../main/officeGetInsert.php?id=<?php echo html_entity_decode($rowBmi['id']); ?>" class="mb-3"><img src="../images/icon-addData.svg" alt="" class="img-add-data"></a></center>
+      <center><a href="../main/officeGetInsert.php?office_id=<?php echo $rowsOffice['office_id']; ?>" class="mb-3"><img src="../images/icon-addData.svg" alt="" class="img-add-data"></a></center>
       
       <table class="table" id="myTable" style="width: 100%;" data-toggle="table" data-search="true">
         <thead>
@@ -94,7 +86,7 @@
                 <td><?php echo $rowOffice['ampur_name']; ?></td>
                 <td>
                   <center class="button">
-                  <a href="../main/officeGetUpdate.php?office_id=<?php echo $rowsOffice['office_id']; ?>" class="btn btn-warning"><i class="fas fa-edit"></i></a>
+                    <a href="../main/officeGetUpdate.php?office_id=<?php echo $rowOffice['office_id']; ?>" class="btn btn-warning"><i class="fas fa-edit"></i></a>
                   </center>
                 </td>
               </tr>
