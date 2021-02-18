@@ -277,7 +277,8 @@ $rowEdit = $result->fetch();
                             <input name="email" id="email" class="form-control" min="3" required type="text" data-error-msg="กรุณากรอก Email" groupName="Email" value="<?php echo $rowEdit['email']; ?>">
                         </div>  
                     </div>
-                                                                                        <div class="form-row">   
+                    
+                    <div class="form-row">   
                     <div  class="form-group col-md-12">
                         <label for="groupId">สิทธิ์การใช้งาน</label>
                         <select name='groupId' id='groupId' class='form-control' required data-error-msg="กรุณาเลือกสิทธิ์การใช้งาน" >
