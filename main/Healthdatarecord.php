@@ -117,7 +117,7 @@ if (!$_SESSION['fname']){
             <div class="form-group col-md-12">
                 <label for="smokeId">สูบบุหรี่</label>
                 <select name="smokeId" id="smokeId" class="form-control" required>
-                <option selected></option>
+                <option selected disabled>เลือก...</option>
                 <?php 
                     $sql ="select * from smoke";
                     $result = $conn->prepare($sql);
@@ -136,7 +136,7 @@ if (!$_SESSION['fname']){
             <div class="form-group col-md-12">
                 <label for="alcoholId">ดื่มสุรา</label>
                 <select name="alcoholId" id="alcoholId" class="form-control" required>
-                <option selected></option>
+                <option selected disabled>เลือก...</option>
                 <?php 
                     $sql ="select * from alcohol";
                     $result = $conn->prepare($sql);
@@ -153,7 +153,7 @@ if (!$_SESSION['fname']){
   
             <center>
                 <button type="submit" class="btn btn-primary">บันทึก</button>
-                <button type="cancel" class="btn btn-primary">ยกเลิก</button>
+                <button type="cancel" class="btn btn-secondary">ยกเลิก</button>
             </center>
     </form>
 </div>
