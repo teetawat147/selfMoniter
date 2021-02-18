@@ -1,3 +1,12 @@
+<?php 
+    include("../include/connection.php");
+
+    $sql = "SELECT personId, password FROM person WHERE personId = ".$_SESSION['personId'];
+    $result = $conn -> prepare($sql);
+    $result -> execute();
+    $rows = $result -> fetch(PDO::FETCH_ASSOC);
+?>
+
 <!doctype html>
 <html lang="en">
   <head>
@@ -9,14 +18,36 @@
   </head>
   <body>
     <div class="container">
-        <h3>แก้ไขรหัสผ่าน</h3>
-        <form action="changPasswordUpdate.php">
+        <h3 class="mt-3">แก้ไขรหัสผ่าน</h3>
+        <form action="changePasswordUpdate.php" method="POST">
+
             <div class="form-row">
                 <div class="form-group col-md-12">
-                    <label for="password-old">รหัสผ่านเก่า</label>
-                    <input type="password" name="password-old" class="form-control" id="password-old">
+                    <label for="oldPassword">รหัสผ่านเดิม</label>
+                    <input type="password" name="oldPassword" class="form-control" id="oldPassword">
                 </div>
             </div>
+
+            <div class="form-row">
+                <div class="form-group col-md-12">
+                    <label for="newPassword">รหัสผ่านใหม่</label>
+                    <input type="password" name="newPassword" id="newPassword" class="form-control">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col-md-12">
+                    <label for="confirmPassword">ยืนยันรหัสผ่าน</label>
+                    <input type="password" name="confirmPassword" id="confirmPassword" class="form-control">
+                </div>
+            </div>
+
+            <center>
+                <input type="hidden" name="personId" id="personId" value="<?php echo $rows['personId']; ?>">
+                <input type="hidden" name="password" id="password" value="<?php echo $rows['password']; ?>">
+                <button type="submit" class="btn btn-success">ตกลง</button>
+                <button type="button" class="btn btn-secondary">ยกเลิก</button>
+            </center>
             
         </form>
     </div>

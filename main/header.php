@@ -61,6 +61,7 @@
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
           <a class="dropdown-item" href="../main/editProfile.php">Edit Profile</a>
+          <a class="dropdown-item" href="../main/changePassword.php">Edit Password</a>
           <div class="dropdown-divider"></div>
           <a class="dropdown-item" onclick="remove()" href="../main/logout.php">Logout</a>
         </div>
