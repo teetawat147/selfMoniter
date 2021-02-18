@@ -19,10 +19,12 @@
     <link href='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css'>
     <link href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.3/css/font-awesome.css'>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
+    <link href="https://unpkg.com/bootstrap-table@1.18.2/dist/bootstrap-table.min.css" rel="stylesheet">
     <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
     <script src='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js'></script>
     <script src="https://cdn.ckeditor.com/ckeditor5/25.0.0/classic/ckeditor.js"></script>
     <script src="../js/tableToCards.js"></script>
+    <script src="https://unpkg.com/bootstrap-table@1.18.2/dist/bootstrap-table.min.js"></script>
     
   
     <title>officeGet</title>
@@ -68,8 +70,12 @@
     ?>
 
     <div class="container-fluid mt-2">
-      <h3>Office Admin Health</h3>
-      <table class="table" id="myTable" style="width: 100%;">
+      <br>
+      <center><h3>Office Admin Health</h3></center>
+      <br>
+      <center><a href="../main/officeGetInsert.php?id=<?php echo html_entity_decode($rowBmi['id']); ?>" class="mb-3"><img src="../images/icon-addData.svg" alt="" class="img-add-data"></a></center>
+      
+      <table class="table" id="myTable" style="width: 100%;" data-toggle="table" data-search="true">
         <thead>
           <tr>
               <th style="height: 70px; text-align: center; vertical-align: top;">รูปภาพ</th>
@@ -87,10 +93,9 @@
                 <td><?php echo $rowOffice['office_name']; ?></td>
                 <td><?php echo $rowOffice['ampur_name']; ?></td>
                 <td>
-                  <!-- <center class="button">
-                    <a href="../main/bmiUpdate.php?id=<?php echo html_entity_decode($rowBmi['id']); ?>" class="btn btn-warning btn-edit"><i class="fas fa-edit"></i></a>
-                    <button class="btn btn-danger btn-delete" data-href="../main/bmiDelete.php?id=<?php echo $rowBmi['id']; ?>" data-toggle="modal" data-target="#confirm-delete"><i class="fas fa-trash-alt"></i></button>
-                  </center> -->
+                  <center class="button">
+                  <a href="../main/officeGetUpdate.php?office_id=<?php echo $rowsOffice['office_id']; ?>" class="btn btn-warning"><i class="fas fa-edit"></i></a>
+                  </center>
                 </td>
               </tr>
             <?php 
@@ -99,38 +104,9 @@
         </tbody>
       </table>
       <hr>
-
-        <!-- ปุ่มเพิ่มข้อมูล (Insert data) -->
-      <!-- <center><a href="../main/bmiInsert.php?id=<?php echo html_entity_decode($rowBmi['id']); ?>" class="mb-3"><img src="../images/icon-addData.svg" alt="" class="img-add-data"></a></center>
-
-      <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-          <div class="modal-content">
-          
-            <div class="modal-header">
-              <h4 class="modal-title w-100 text-center">ยืนยันการลบ</h4>
-              <button type="button" id="close-modal" class="close" data-dismiss="modal" aria-label="Close"><i class="fas fa-window-close"></i></button>
-            </div>
-        
-            <div class="modal-body text-center">
-                <p>คุณต้องการจะดำเนินการลบข้อมูลหรือไม่</p>
-            </div>
-            
-            <div class="modal-footer d-flex justify-content-center">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">ยกเลิก</button>
-                <a class="btn btn-success btn-confirm-delete">ยืนยัน</a>
-            </div> -->
-          </div>
-        </div>
-      </div>
-
-    </div>
-
-    <!-- <script>
-      $('#confirm-delete').on('show.bs.modal', function(event) {
-        $(this).find('.btn-confirm-delete').attr('href', $(event.relateTarget).data('href'));
-      });
-    </script> -->
+    <script>
+    
+    </script>
 
   </body>
 </html>

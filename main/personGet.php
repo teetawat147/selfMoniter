@@ -96,8 +96,7 @@
               <th style="height: 70px; text-align: center; vertical-align: top;">รูปภาพ</th>
               <th style="height: 70px; text-align: center; vertical-align: top;">รายชื่อ</th>
               <th style="height: 70px; text-align: center; vertical-align: top;">หน่วยงาน</th>
-              <th style="height: 70px; text-align: center; vertical-align: top;">สิทธิ์การใช้งาน</th>        
-        
+              <th style="height: 70px; text-align: center; vertical-align: top;">สิทธิ์การใช้งาน</th>               
               <th data-card-footer></th>
             </tr>
         </thead>
