@@ -18,6 +18,7 @@
     $result -> execute();
     $rowsPerson = $result -> fetchAll(PDO::FETCH_ASSOC);
 
+    // print_r($rowsPerson);
     // echo "<br>session:";
     // print_r($rowsPerson);
 ?>
@@ -62,7 +63,7 @@
         background-color: #54FB50;
       }
 
-      p {
+      .chart-bar p {
         display: flex;
         align-items: center;
         justify-content: flex-end;
@@ -154,21 +155,35 @@
     <div class="container mb-4 mt-3">
       <h3>ร้อยละของบุคลากร ระดับอำเภอ</h3>
       <div class="header">.</div>
-      <div class="wrapper-content">
-        <?php
-          foreach ($rowsPerson as $key => $rowPerson) {
-            ?>
-            <?php echo $rowPerson['office_name']; ?>
-            <div class="progress-bar" style="width: <?php echo $rowPerson['totalPerson']; ?>%">
-              <div class="d-flex align-items-center chart-bar" style="width: <?php echo $rowPerson['percent']; ?>%; height:30px;">
-                <p><?php echo $rowPerson['percent']; ?>%</p>
-              </div>
-            </div><br>
-        <?php
-          }
-        ?>
+        <div class="wrapper-content">
+          <?php
+            foreach ($rowsPerson as $key => $rowPerson) {
+              ?>
+              <?php echo $rowPerson['office_name']; ?>
+              <div class="progress-bar" style="width: <?php echo $rowPerson['totalPerson']; ?>%">
+                <div class="d-flex align-items-center chart-bar" style="width: <?php echo $rowPerson['percent']; ?>%; height:30px;">
+                  <p><?php echo $rowPerson['percent']; ?>%</p>
+                </div>
+              </div><br>
+          <?php
+            }
+          ?>
+        </div>
       </div>
     </div>
+
+    <?php 
+      $sql = "SELECT a.ampur_name, SUM(o.count_person) AS totalPerson
+              FROM ampur47 a
+              LEFT JOIN office o ON a.ampur_code = o.ampur_code
+              WHERE a.ampur_code =" .$_SESSION['districtCode'];
+
+      $result = $conn -> prepare($sql);
+      $result -> execute();
+      $rowAmpur = $result -> fetch();
+    ?>
+
+    <p class="text-center">จำนวนการลงทะเบียนของบุคลากรในอำเภอ<?php echo $rowAmpur['ampur_name']; echo " ".$rowAmpur['totalPerson']; ?> คน</p>
 
 
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
