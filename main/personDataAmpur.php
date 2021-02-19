@@ -1,16 +1,25 @@
 <?php 
     include('../include/connection.php');
 
-    $sql = "SELECT o.office_name, COUNT(p.officeId) AS amountPerson, (COUNT(p.officeId)/o.count_person)*100 AS percent, o.count_person AS totalPerson
-            FROM person p
-            LEFT JOIN office o ON p.officeId = o.office_id
-            WHERE p.districtCode = '".$_SESSION['districtCode']."'
-            GROUP BY p.officeId
-            ORDER BY amountPerson DESC";
+    $sqlPerson = "SELECT DISTINCT o.ampur_code,
+                    a.ampur_name,
+                    o.count_person AS totalPerson,
+                    o.office_name,
+                    COUNT(p.officeId) AS countPerson,
+                    ROUND((COUNT(p.officeId)/o.count_person)*100, 2) AS percent
+                  FROM office o
+                  LEFT JOIN ampur47 a ON o.ampur_code = a.ampur_code
+                  LEFT JOIN person p ON o.office_id = p.officeId
+                  WHERE o.ampur_code = '".$_SESSION['districtCode']."'
+                  GROUP BY p.officeId
+                  ORDER BY o.ampur_code";
 
-    $result = $conn -> prepare($sql);
+    $result = $conn -> prepare($sqlPerson)                  ;
     $result -> execute();
-    $rows = $result -> fetchAll(PDO::FETCH_ASSOC);
+    $rowsPerson = $result -> fetchAll(PDO::FETCH_ASSOC);
+
+    // echo "<br>session:";
+    // print_r($rowsPerson);
 ?>
 
 <!doctype html>
@@ -19,7 +28,6 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 
     <title>ร้อยละของบุคลากร ระดับอำเภอ</title>
 
@@ -30,16 +38,17 @@
         width: 300px;
         height: 35px;
         left: 170px;
-        top: 44px;
+        top: 60px;
 
         background: #FFB800;
         color: #FFB800;
+        font-size: 1px;
       }
 
       .wrapper-content {
         border: 2px solid #000000;
         margin-top: 25px;
-        padding: 18px 25px;
+        padding: 40px 25px 25px 25px;
       }
 
       .progress-bar {
@@ -67,7 +76,7 @@
           width: 222px;
           height: 35px;
           left: 45px;
-          top: 44px;
+          top: 60px;
 
           background: #FFB800;
           color: #FFB800;
@@ -79,19 +88,19 @@
   </head>
   <body>
 
-    <div class="container mb-4">
+    <div class="container mb-4 mt-3">
       <h3>ร้อยละของบุคลากร ระดับอำเภอ</h3>
       <div class="header">.</div>
       <div class="wrapper-content">
         <?php
-          foreach ($rows as $key => $row) {
+          foreach ($rowsPerson as $key => $rowPerson) {
             ?>
-            <?php echo $row['office_name']; ?>
-          <div class="progress-bar" style="width: <?php echo $row['totalPerson']; ?>%">
-            <div class="w3-container d-flex align-items-center chart-bar" style="width: <?php echo $row['percent']; ?>%; height:30px;">
-              <p><?php echo round($row['percent']); ?>%</p>
-            </div>
-          </div><br>
+            <?php echo $rowPerson['office_name']; ?>
+            <div class="progress-bar" style="width: <?php echo $rowPerson['totalPerson']; ?>%">
+              <div class="d-flex align-items-center chart-bar" style="width: <?php echo $rowPerson['percent']; ?>%; height:30px;">
+                <p><?php echo $rowPerson['percent']; ?>%</p>
+              </div>
+            </div><br>
         <?php
           }
         ?>
@@ -99,9 +108,8 @@
     </div>
 
 
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
   </body>
 </html>
