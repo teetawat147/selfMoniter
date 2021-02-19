@@ -70,16 +70,79 @@
         margin-top: 15px;
       }
 
-      @media only screen and (max-width: 768px) {
+      @media only screen and (max-width: 360px) {
+        h3 {
+          font-size: 24px;
+        }
+
         .header {
           position: absolute;
           width: 222px;
           height: 35px;
-          left: 45px;
-          top: 60px;
+          left: 60px;
+          top: 55px;
 
           background: #FFB800;
           color: #FFB800;
+        }
+      }
+
+      @media only screen and (max-width: 414px) {
+        .header {
+          position: absolute;
+          width: 222px;
+          height: 35px;
+          left: 50px;
+
+          background: #FFB800;
+          color: #FFB800;
+        }
+      }
+
+      @media only screen and (max-width: 320px) {
+        h3 {
+          font-size: 20px;
+        }
+      }
+
+      @media only screen and (max-width: 375px) {
+        h3 {
+          font-size: 20px;
+        }
+
+        .header {
+          position: absolute;
+          width: 222px;
+          height: 35px;
+          left: 50px;
+          top: 50px;
+
+          background: #FFB800;
+          color: #FFB800;
+        }
+      }
+
+      @media only screen and (max-width: 1024px) {
+        h3 {
+          font-size: 20px;
+        }
+
+        .header {
+          position: absolute;
+          width: 222px;
+          height: 35px;
+          left: 120px;
+          top: 48px;
+
+          background: #FFB800;
+          color: #FFB800;
+        }
+
+        .wrapper-content {
+          border: 2px solid #000000;
+          margin-top: 25px;
+          margin-right: 250px;
+          padding: 40px 25px 25px 25px;
         }
       }
 
