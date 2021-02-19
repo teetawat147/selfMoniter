@@ -1,5 +1,5 @@
 <?php
-print_r($_POST);
+// print_r($_POST);
 include "../include/connection.php";
 $datetime = date("Y-m-d H:i:s");
 $sql = "INSERT into health_data_record (

@@ -101,22 +101,18 @@ include("../include/connection.php");
  $sql ="select * from person WHERE personId = '".$_GET['personId']."' ";
  $result = $conn->prepare($sql);
  $result->execute();
- $row = $result->fetch(); 
+ $row = $result->fetch();
 ?>
 <body>
     <?php
-        include "./header.php";
-        ?>
-
+        include "./header.php"; 
+    ?>
     <fieldset id="officeGetInsert" style="display:block;">
         <div class = "container">
         <br>
           <center><h3>เพิ่มหน่วยงาน</h3></center>
           <br>
     <form action="officeGetInsertSave.php" method="POST">
-        <input type="hidden" name="lineId" id="lineId" value="<?php echo (isset($_GET['lineId']))?$_GET['lineId']:"";?>" >
-
-
         <div class="form-row">
             <div class="form-group col-md-12">
                 <label for="office_name">ชื่อหน่วยงาน</label>
@@ -128,7 +124,7 @@ include("../include/connection.php");
             <div class="form-group col-md-6">
                 <label for="office_code">รหัสหน่วยงาน</label>
                 <input name="office_code" id="office_code" class="form-control" min="3" required type="text" data-error-msg="กรุณากรอกรหัสหน่วยงาน" >
-            </div>  
+            </div>
              
             
             <div class="form-group col-md-6">
@@ -179,12 +175,12 @@ include("../include/connection.php");
         <div class="form-row">
             <div class="form-group col-md-12">
                 <label for="count_person">จำนวนพนักงาน</label>
-                <input name="count_person" id="count_person" class="form-control" min="3" required type="text" data-error-msg="กรุณากรอก จำนวนพนักงาน" groupName="count_person" value="<?php echo $rowEdit['count_person']; ?>">
+                <input name="count_person" id="count_person" class="form-control" min="3" required type="text" data-error-msg="กรุณากรอก จำนวนพนักงาน" groupName="count_person" value="<?php echo $row['count_person']; ?>">
             </div>  
         </div>
 
             <center>
-                <!-- <input type="hidden" name="personId" id="personId" value="<?php echo $rowEdit['personId']; ?>"> -->
+                <input type="hidden" name="office_id" id="office_id" value="<?php echo $row['office_id']; ?>">
                 <button type="submit" class="btn btn-primary">ยืนยัน</button>
                 <a href="../main/officeGet.php" class="btn btn-primary" role="button" aria-pressed="true">ยกเลิก</a>
             </center> 
