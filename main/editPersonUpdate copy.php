@@ -205,6 +205,24 @@ $rowEdit = $result->fetch();
                         </div>
                     </div>    
 
+                    <div class="form-row">   
+                        <div  class="form-group col-md-12">
+                            <label for="groupId">สิทธิ์การใช้งาน</label>
+                            <select name='groupId' id='groupId' class='form-control' required data-error-msg="กรุณาเลือกสิทธิ์การใช้งาน" >
+                                <?php 
+                                $sql ="select * from `group`";
+                                $result = $conn->prepare($sql);
+                                $result->execute();
+                                while($row = $result->fetch()) {
+                                    ?>
+                                    <option value="<?php echo $row['groupId'];?>" <?php echo ($rowEdit['groupId']==$row['groupId'])?"selected":"";?>><?php echo $row['groupName'];?></option>
+                                    <?php   
+                                }
+                                ?>
+                            </select>
+                        </div>
+                    </div>    
+
                     <center>
                         <input type="hidden" name="personId" id="personId" value="<?php echo $rowEdit['personId']; ?>">
                         <button type="submit" class="btn btn-primary">ยืนยัน</button>
