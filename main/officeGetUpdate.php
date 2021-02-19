@@ -135,7 +135,6 @@ $rowEdit = $result->fetch();
 
             $("#provinceCode").change(function() {
                 let provinceCode = $(this).val();
-                // alert(provinceCode);
                 getAmpur(provinceCode);
             })
         });

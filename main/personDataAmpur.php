@@ -1,12 +1,12 @@
 <?php 
     include('../include/connection.php');
 
-    $sql = "SELECT a.ampur_name, SUM(o.count_person) AS sumPerson, COUNT(p.officeId) AS countPerson
-            FROM office o
-            LEFT JOIN ampur47 a ON a.ampur_code = o.ampur_code
-            LEFT JOIN person p ON p.officeId = o.office_id
-            GROUP BY a.ampur_name
-            ORDER BY countPerson DESC, ampur_name DESC";
+    $sql = "SELECT o.office_name, COUNT(p.officeId) AS amountPerson, (COUNT(p.officeId)/o.count_person)*100 AS percent, o.count_person AS totalPerson
+            FROM person p
+            LEFT JOIN office o ON p.officeId = o.office_id
+            WHERE p.districtCode = '".$_SESSION['districtCode']."'
+            GROUP BY p.officeId
+            ORDER BY amountPerson DESC";
 
     $result = $conn -> prepare($sql);
     $result -> execute();
@@ -21,7 +21,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 
-    <title>ภาพรวมจังหวัดสกลนคร</title>
+    <title>ร้อยละของบุคลากร ระดับอำเภอ</title>
 
     <style>
 
@@ -57,7 +57,7 @@
         display: flex;
         align-items: center;
         justify-content: flex-end;
-        padding-left: 180%;
+        padding-left: 110%;
         margin-top: 15px;
       }
 
@@ -80,16 +80,16 @@
   <body>
 
     <div class="container mb-4">
-      <h3>ภาพรวมจังหวัดสกลนคร</h3>
+      <h3>ร้อยละของบุคลากร ระดับอำเภอ</h3>
       <div class="header">.</div>
       <div class="wrapper-content">
         <?php
           foreach ($rows as $key => $row) {
             ?>
-            <?php echo $row['ampur_name']; ?>
-          <div class="progress-bar">
-            <div class="w3-container d-flex align-items-center chart-bar" style="width: <?php echo $row['countPerson']; ?>%; height:30px;">
-              <p><?php echo round(($row['countPerson']/$row['sumPerson'])*100); ?>%</p>
+            <?php echo $row['office_name']; ?>
+          <div class="progress-bar" style="width: <?php echo $row['totalPerson']; ?>%">
+            <div class="w3-container d-flex align-items-center chart-bar" style="width: <?php echo $row['percent']; ?>%; height:30px;">
+              <p><?php echo round($row['percent']); ?>%</p>
             </div>
           </div><br>
         <?php
