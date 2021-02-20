@@ -35,8 +35,8 @@
                 <div class="modal-content">
                 
                     <div class="modal-header">
-                    <h4 class="modal-title w-100 text-center">ยืนยันจำนวนเจ้าหน้าที่</h4>
-                    <button type="button" id="close-modal" class="close" data-dismiss="modal" aria-label="close"><i class="fas fa-window-close"></i></button>
+                        <h4 class="modal-title w-100 text-center">ยืนยันจำนวนเจ้าหน้าที่</h4>
+                        <button type="button" id="close-modal" class="close" data-dismiss="modal" aria-label="close"><i class="fas fa-window-close"></i></button>
                     </div>
                 
                     <div class="modal-body text-center">
