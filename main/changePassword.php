@@ -46,15 +46,11 @@
                 <input type="hidden" name="personId" id="personId" value="<?php echo $rows['personId']; ?>">
                 <input type="hidden" name="password" id="password" value="<?php echo $rows['password']; ?>">
                 <button type="submit" class="btn btn-success">ตกลง</button>
-                <button type="button" class="btn btn-secondary">ยกเลิก</button>
+                <button type="button" class="btn btn-secondary" onclick="history.go(-1);">ยกเลิก</button>
             </center>
             
         </form>
     </div>
-
-
-
-
 
 
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>

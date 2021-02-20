@@ -16,10 +16,10 @@ if (!$_SESSION['fname']){
 
 
   $sql = "SELECT p.personId,
-            p.sexId,
+                p.sexId,
                 h.*,
-            h.healthWeight/((h.healthHeight/100)*(h.healthHeight/100)) AS bmi,
-            b.*, 
+                h.healthWeight/((h.healthHeight/100)*(h.healthHeight/100)) AS bmi,
+                b.*, 
                 d.diabetesName,
                 s.smokeName,
                 a.alcoholName,
@@ -131,7 +131,7 @@ if (!$_SESSION['fname']){
             <thead>
                 <tr>
                     <th class="title-month" scope="col">หัวข้อ/เดือน</th>
-                    <th scope="col">ม.ค.</th>
+                    <!-- <th scope="col">ม.ค.</th>
                     <th scope="col">ก.พ.</th>
                     <th scope="col">มี.ค.</th>
                     <th scope="col">เม.ย.</th>
@@ -142,7 +142,14 @@ if (!$_SESSION['fname']){
                     <th scope="col">ก.ย.</th>
                     <th scope="col">ต.ค.</th>
                     <th scope="col">พ.ย.</th>
-                    <th scope="col">ธ.ค.</th>
+                    <th scope="col">ธ.ค.</th> -->
+                    <?php 
+                        foreach ($rows as $key => $row) {
+                        ?>
+                            <th scope="col"><?php echo dateThai($row['inputDatetime']); ?></th>
+                        <?php
+                        }
+                    ?>
                 </tr>
             </thead>
             <tbody>
@@ -151,6 +158,7 @@ if (!$_SESSION['fname']){
                     <?php
                     // print_r($rows);
                         foreach($rows as $key => $row) {
+                            
                     ?>
                         <td><?php echo $row['diabetesName']; ?></td>
                     <?php
@@ -285,7 +293,7 @@ if (!$_SESSION['fname']){
     </div>
     
     <div class="text-center">
-            <button type="button" class="btn btn-secondary" onclick="location.href='../main/index.php'">ปิด</button>
+            <button type="button" class="btn btn-secondary" onclick="history.go(-1);">ปิด</button>
     </div>
 </div>
   </body>
