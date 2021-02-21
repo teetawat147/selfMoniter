@@ -1,26 +1,33 @@
 <?php 
-    include('../include/connection.php');
+  include('../include/connection.php');
 
-    $sqlPerson = "SELECT DISTINCT o.ampur_code,
-                    a.ampur_name,
-                    o.count_person AS totalPerson,
-                    o.office_name,
-                    COUNT(p.officeId) AS countPerson,
-                    ROUND((COUNT(p.officeId)/o.count_person)*100, 2) AS percent
-                  FROM office o
-                  LEFT JOIN ampur47 a ON o.ampur_code = a.ampur_code
-                  LEFT JOIN person p ON o.office_id = p.officeId
-                  WHERE o.ampur_code = '".$_SESSION['districtCode']."'
-                  GROUP BY p.officeId
-                  ORDER BY o.ampur_code";
+  $sqlPerson = "SELECT o.office_name,
+                  COUNT(p.officeId) AS countPerson,
+                  IF(ROUND(COUNT(p.officeId)/SUM(o.count_person)*100, 2) IS NOT NULL, ROUND(COUNT(p.officeId)/SUM(o.count_person)*100, 2), 0) AS percent
+                FROM office o
+                LEFT JOIN ampur47 a ON o.ampur_code = a.ampur_code
+                LEFT JOIN person p ON p.officeId = o.office_id
+                WHERE a.ampur_code = 01
+                GROUP BY o.office_name
+                ORDER BY o.office_id";
 
-    $result = $conn -> prepare($sqlPerson)                  ;
-    $result -> execute();
-    $rowsPerson = $result -> fetchAll(PDO::FETCH_ASSOC);
+  $result = $conn -> prepare($sqlPerson);
+  $result -> execute();
+  $rowsPerson = $result -> fetchAll(PDO::FETCH_ASSOC);
 
-    // print_r($rowsPerson);
-    // echo "<br>session:";
-    // print_r($rowsPerson);
+  // print_r($rowsPerson);
+  // echo "<br>session:";
+  // print_r($rowsPerson);
+
+  
+  $sql = "SELECT a.ampur_name, SUM(o.count_person) AS totalPerson
+          FROM ampur47 a
+          LEFT JOIN office o ON a.ampur_code = o.ampur_code
+          WHERE a.ampur_code =" .$_SESSION['districtCode'];
+
+  $result = $conn -> prepare($sql);
+  $result -> execute();
+  $rowAmpur = $result -> fetch();
 ?>
 
 <!doctype html>
@@ -171,17 +178,6 @@
         </div>
       </div>
     </div>
-
-    <?php 
-      $sql = "SELECT a.ampur_name, SUM(o.count_person) AS totalPerson
-              FROM ampur47 a
-              LEFT JOIN office o ON a.ampur_code = o.ampur_code
-              WHERE a.ampur_code =" .$_SESSION['districtCode'];
-
-      $result = $conn -> prepare($sql);
-      $result -> execute();
-      $rowAmpur = $result -> fetch();
-    ?>
 
     <p class="text-center">จำนวนการลงทะเบียนของบุคลากรในอำเภอ<?php echo $rowAmpur['ampur_name']; echo " ".$rowAmpur['totalPerson']; ?> คน</p>
 
