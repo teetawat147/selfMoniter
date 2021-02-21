@@ -150,8 +150,8 @@
               $percent = round($rowPerson['countPerson']/$rowPerson['totalPerson']*100, 2);
               ?>
               <?php echo $rowPerson['ampur_name']; ?>
-              <div class="progress-bar" style="width: <?php echo $rowPerson['totalPerson']; ?>%">
-                <div class="d-flex align-items-center chart-bar" style="width: <?php echo $percent; ?>%; height:30px;">
+              <div class="progress-bar" style="width: <?php echo ($rowPerson['totalPerson']/10); ?>%">
+              <div class="d-flex align-items-center chart-bar" style="width: <?php echo $percent/10; ?>%; height:30px;">
                   <p><?php echo $percent; ?>%</p>
                 </div>
               </div><br>
