@@ -1,22 +1,14 @@
 <?php 
   include('../include/connection.php');
 
-  $sqlAmpur = "SELECT a.ampur_name, SUM(o.count_person) AS totalPerson
-                FROM ampur47 a
-                LEFT JOIN office o ON a.ampur_code = o.ampur_code
-                GROUP BY a.ampur_name DESC";
-
-  $result = $conn -> prepare($sqlAmpur);
-  $result -> execute();
-  $rowsAmpur = $result -> fetchAll(PDO::FETCH_ASSOC);
-
-  $sqlPerson = "SELECT a.ampur_name, COUNT(p.districtCode) AS countPerson
-                FROM person p
-                RIGHT JOIN ampur47 a ON p.districtCode = a.ampur_code
-                GROUP BY a.ampur_name DESC";
+  $sql = "SELECT a.ampur_name,
+          (SELECT COUNT(p.districtCode) FROM person p WHERE p.districtCode = a.ampur_code) AS countPerson, 
+          (SELECT SUM(o.count_person) FROM office o WHERE o.ampur_code = a.ampur_code) AS totalPerson
+          FROM ampur47 a
+          GROUP BY a.ampur_name DESC";
   
-  $stmt = $conn -> prepare($sqlPerson);
-  $stmt -> execute();
+  $result = $conn -> prepare($sql);
+  $result -> execute();
   $rowsPerson = $result -> fetchAll(PDO::FETCH_ASSOC);
 ?>
 
@@ -149,40 +141,35 @@
 </head>
 <body>
 
-  <div class="container mb-4 mt-3">
-    <h3>ภาพรวมจังหวัดสกลนคร</h3>
-    <div class="header">.</div>
-      <div class="wrapper-content">
-        <?php
-          foreach ($rowsAmpur as $key => $rowAmpur) {
-            // foreach ($rowsPerson as $key => $rowPerson) {
-                ?>
-            <?php echo $rowAmpur['ampur_name']; ?>
-            <div class="progress-bar" style="width: <?php echo $rowAmpur['totalPerson']; ?>%">
-              <div class="d-flex align-items-center chart-bar" style="width: <?php echo $rowPerson['countPerson']; ?>%-50%; height:30px;">
-                <p>50
-                  <?php
-                    // foreach ($rowsPerson as $key => $rowPerson) {
-                      print_r($rowsPerson['countPerson']/$rowAmpur['totalPerson']*100);
-                    ?>%</p>
-              </div>
-            </div><br>
-        <?php
-            // }
-          }
-        ?>
+    <div class="container mb-4 mt-3">
+      <h3>ภาพรวมจังหวัดสกลนคร</h3>
+      <div class="header">.</div>
+        <div class="wrapper-content">
+          <?php
+            foreach ($rowsPerson as $key => $rowPerson) {
+              $percent = round($rowPerson['countPerson']/$rowPerson['totalPerson']*100, 2);
+              ?>
+              <?php echo $rowPerson['ampur_name']; ?>
+              <div class="progress-bar" style="width: <?php echo $rowPerson['totalPerson']; ?>%">
+                <div class="d-flex align-items-center chart-bar" style="width: <?php echo $percent; ?>%; height:30px;">
+                  <p><?php echo $percent; ?>%</p>
+                </div>
+              </div><br>
+          <?php
+            }
+          ?>
+        </div>
       </div>
     </div>
-  </div>
 
     <?php 
       $sql = "SELECT SUM(count_person) AS totalPerson47 FROM office";
       $result = $conn -> prepare($sql);
       $result -> execute();
-      $rows = $result -> fetch(PDO::FETCH_ASSOC);
+      $rowsOffice = $result -> fetch(PDO::FETCH_ASSOC);
     ?>
 
-    <center><p>จำนวนการลงทะเบียนของบุคลากรในจังหวัดสกลนคร <?php echo $rows['totalPerson47']; ?> คน</p></center>
+    <center><p>จำนวนการลงทะเบียนของบุคลากรในจังหวัดสกลนคร <?php echo $rowsOffice['totalPerson47']; ?> คน</p></center>
 
 
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
