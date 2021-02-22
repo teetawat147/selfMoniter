@@ -27,8 +27,8 @@
         position: absolute;
         width: 300px;
         height: 35px;
-        left: 170px;
-        top: 60px;
+        left: 150px;
+        top: 110px;
 
         background: #FFB800;
         color: #FFB800;
@@ -60,55 +60,24 @@
         margin-top: 15px;
       }
 
-      @media only screen and (max-width: 360px) {
-        h3 {
-          font-size: 24px;
-        }
-
+      @media only screen and (max-width: 768px) {
         .header {
           position: absolute;
-          width: 222px;
+          width: 100%;
           height: 35px;
-          left: 60px;
-          top: 55px;
+          left: 80px;
+          top: 110px;
 
           background: #FFB800;
           color: #FFB800;
         }
-      }
 
-      @media only screen and (max-width: 414px) {
-        .header {
-          position: absolute;
-          width: 222px;
-          height: 35px;
-          left: 50px;
-
-          background: #FFB800;
-          color: #FFB800;
-        }
-      }
-
-      @media only screen and (max-width: 320px) {
-        h3 {
-          font-size: 20px;
-        }
-      }
-
-      @media only screen and (max-width: 375px) {
-        h3 {
-          font-size: 20px;
-        }
-
-        .header {
-          position: absolute;
-          width: 222px;
-          height: 35px;
-          left: 50px;
-          top: 50px;
-
-          background: #FFB800;
-          color: #FFB800;
+        .wrapper-content {
+          border: 2px solid #000000;
+          margin-top: 25px;
+          margin-right: 250px;
+          padding: 40px 25px 25px 25px;
+          width: 100%;
         }
       }
 
@@ -121,8 +90,8 @@
           position: absolute;
           width: 222px;
           height: 35px;
-          left: 120px;
-          top: 48px;
+          left: 80px;
+          top: 110px;
 
           background: #FFB800;
           color: #FFB800;
@@ -133,6 +102,7 @@
           margin-top: 25px;
           margin-right: 250px;
           padding: 40px 25px 25px 25px;
+          width: 100%:
         }
       }
 
@@ -140,7 +110,9 @@
 
 </head>
 <body>
-
+  <?php 
+    include('../main/header.php');
+  ?>
     <div class="container mb-4 mt-3">
       <h3>ภาพรวมจังหวัดสกลนคร</h3>
       <div class="header">.</div>
