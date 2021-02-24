@@ -19,7 +19,6 @@ $stmt = $conn->prepare($sql);
     $_SESSION['groupId']=$result[0]['groupId'];
     $_SESSION['districtCode']=$result[0]['districtCode'];
 
-
  
       header("Location: ../main/Healthdatarecord.php");
   }else{

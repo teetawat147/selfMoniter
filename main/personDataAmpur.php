@@ -1,15 +1,51 @@
 <?php 
   include('../include/connection.php');
 
-  $sqlPerson = "SELECT o.office_name,
-                  COUNT(p.officeId) AS countPerson,
-                  IF(ROUND(COUNT(p.officeId)/SUM(o.count_person)*100, 2) IS NOT NULL, ROUND(COUNT(p.officeId)/SUM(o.count_person)*100, 2), 0.00) AS percent
-                FROM office o
-                LEFT JOIN ampur47 a ON o.ampur_code = a.ampur_code
-                LEFT JOIN person p ON p.officeId = o.office_id
-                WHERE a.ampur_code = '".$_SESSION['districtCode']."'
-                GROUP BY o.office_name
-                ORDER BY o.office_id";
+  $sql ="";
+  switch ($_SESSION['groupId']) {
+    case '1':
+      $sql = "SELECT o.office_name,
+                COUNT(p.officeId) AS countPerson,
+                IF(ROUND(COUNT(p.officeId)/SUM(o.count_person)*100, 2) IS NOT NULL, ROUND(COUNT(p.officeId)/SUM(o.count_person)*100, 2), 0.00) AS percent
+              FROM office o
+              LEFT JOIN ampur47 a ON o.ampur_code = a.ampur_code
+              LEFT JOIN person p ON p.officeId = o.office_id
+              WHERE a.ampur_code = '".$_SESSION['districtCode']."'
+              GROUP BY o.office_name
+              ORDER BY o.office_id";
+      break;
+
+    case '2':
+      $sql = "SELECT o.office_name,
+                COUNT(p.officeId) AS countPerson,
+                IF(ROUND(COUNT(p.officeId)/SUM(o.count_person)*100, 2) IS NOT NULL, ROUND(COUNT(p.officeId)/SUM(o.count_person)*100, 2), 0.00) AS percent
+              FROM office o
+              LEFT JOIN ampur47 a ON o.ampur_code = a.ampur_code
+              LEFT JOIN person p ON p.officeId = o.office_id
+              WHERE a.ampur_code = '".$_SESSION['districtCode']."'
+              GROUP BY o.office_name
+              ORDER BY o.office_id";
+      break;
+
+    case "4":
+      $sql = "SELECT o.office_name,
+                COUNT(p.officeId) AS countPerson,
+                IF(ROUND(COUNT(p.officeId)/SUM(o.count_person)*100, 2) IS NOT NULL, ROUND(COUNT(p.officeId)/SUM(o.count_person)*100, 2), 0.00) AS percent
+              FROM office o
+              LEFT JOIN ampur47 a ON o.ampur_code = a.ampur_code
+              LEFT JOIN person p ON p.officeId = o.office_id
+              WHERE a.ampur_code = '".$_SESSION['districtCode']."'
+              AND p.groupId = '".$_SESSION['groupId']."'
+              GROUP BY o.office_name
+              ORDER BY o.office_id";
+      break;
+
+    default:
+      # code...
+      break;
+  }
+
+  $sqlPerson = $sql;
 
   $result = $conn -> prepare($sqlPerson);
   $result -> execute();
@@ -46,7 +82,7 @@
         width: 300px;
         height: 35px;
         left: 170px;
-        top: 60px;
+        top: 130px;
 
         background: #FFB800;
         color: #FFB800;
@@ -78,55 +114,38 @@
         margin-top: 15px;
       }
 
-      @media only screen and (max-width: 360px) {
-        h3 {
-          font-size: 24px;
-        }
-
+      @media only screen and (max-width: 568px) {
         .header {
           position: absolute;
-          width: 222px;
+          width: 10px;
           height: 35px;
-          left: 60px;
-          top: 55px;
+          left: 120px;
+          top: 115px;
 
           background: #FFB800;
           color: #FFB800;
         }
       }
 
-      @media only screen and (max-width: 414px) {
-        .header {
+      @media only screen and (max-width: 768px) {
+        .container .header {
           position: absolute;
-          width: 222px;
+          width: 200px;
           height: 35px;
-          left: 50px;
+          left: 80px;
+          top: 105px;
 
           background: #FFB800;
           color: #FFB800;
         }
-      }
 
-      @media only screen and (max-width: 320px) {
-        h3 {
-          font-size: 20px;
-        }
-      }
-
-      @media only screen and (max-width: 375px) {
-        h3 {
-          font-size: 20px;
-        }
-
-        .header {
-          position: absolute;
-          width: 222px;
-          height: 35px;
-          left: 50px;
-          top: 50px;
-
-          background: #FFB800;
-          color: #FFB800;
+        .wrapper-content {
+          border: 2px solid #000000;
+          margin-top: 25px;
+          margin-right: 250px;
+          padding: 40px 25px 25px 25px;
+          width: 100%;
+          top: 120px;
         }
       }
 
@@ -140,7 +159,7 @@
           width: 222px;
           height: 35px;
           left: 120px;
-          top: 48px;
+          top: 115px;
 
           background: #FFB800;
           color: #FFB800;
@@ -159,6 +178,10 @@
   </head>
   <body>
 
+  <?php 
+    include('../main/header.php');
+  ?>
+
     <div class="container mb-4 mt-3">
       <h3>ร้อยละของบุคลากร ระดับอำเภอ</h3>
       <div class="header">.</div>
@@ -168,7 +191,7 @@
               ?>
               <?php echo $rowPerson['office_name']; ?>
               <div class="progress-bar" style="width: <?php echo $rowPerson['totalPerson']; ?>%">
-                <div class="d-flex align-items-center chart-bar" style="width: <?php echo $rowPerson['percent']; ?>%; height:30px;">
+                <div class="d-flex align-items-center chart-bar" style="width: <?php echo $rowPerson['percent'] +0.5; ?>%; height:30px;">
                   <p><?php echo $rowPerson['percent']; ?>%</p>
                 </div>
               </div><br>
