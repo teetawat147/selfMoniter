@@ -54,8 +54,16 @@
 
     .btn-edit,
     .btn-delete {
-      width: 7ch;
-      margin-right: 10px;
+        width: 7ch;
+        margin-right: 10px;
+        
+    }
+
+
+    .btn-dismiss,
+    .btn-confirm-delete {
+      width: 80px;
+      text-align: center;
     }
 
     </style>
@@ -111,7 +119,7 @@
       <hr>
 
         <!-- ปุ่มเพิ่มข้อมูล (Insert data) -->
-      <center><a href="../main/bmiInsert.php?id=<?php echo html_entity_decode($rowBmi['id']); ?>" class="mb-3"><img src="../images/icon-addData.svg" alt="" class="img-add-data"></a></center>
+      <center><a href="../main/bmiInsert.php?id=<?php echo html_entity_decode($rowsBmi['id']); ?>" class="mb-3"><img src="../images/icon-addData.svg" alt="" class="img-add-data"></a></center>
 
       <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -127,7 +135,7 @@
             </div>
             
             <div class="modal-footer d-flex justify-content-center">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">ยกเลิก</button>
+                <button type="button" class="btn btn-secondary btn-dismiss mb-2" data-dismiss="modal">ยกเลิก</button>
                 <a class="btn btn-success btn-confirm-delete">ยืนยัน</a>
             </div>
           </div>
@@ -138,7 +146,7 @@
 
     <script>
       $('#confirm-delete').on('show.bs.modal', function(event) {
-        $(this).find('.btn-confirm-delete').attr('href', $(event.relateTarget).data('href'));
+            $(this).find('.btn-confirm-delete').attr('href', $(event.relatedTarget).data('href'));
       });
     </script>
 

@@ -111,7 +111,7 @@
       <!-- ปุ่มเพิ่มข้อมูล (Insert data) -->
       <center><a href="../main/waistInsert.php?waistId=<?php echo html_entity_decode($rowWaist['waistId']); ?>" class="btn-add-data mb-2"><img src="../images/icon-addData.svg" alt="" class="img-add-data"></a></center>
 
-
+      <!-- Modal -->
       <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content">
@@ -135,7 +135,6 @@
     </div>
 
     <script>
-
       $('#confirm-delete').on('show.bs.modal', function(event) {
             $(this).find('.btn-confirm-delete').attr('href', $(event.relatedTarget).data('href'));
       });

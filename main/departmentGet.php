@@ -1,14 +1,20 @@
 <?php
     include '../include/connection.php';
 
-    $sqlDept = "SELECT o.office_id, o.office_name, d.departmentName
+    if(!$_SESSION['fname']) {
+      header("location: ../main/login.php");
+    }
+
+    $sqlDept = "SELECT o.office_id, o.office_name, d.departmentId, d.departmentName
                 FROM `office` o
                 LEFT JOIN department d ON o.office_id = d.officeId
-                ORDER BY o.office_id";
+                ORDER BY o.office_id, d.departmentName";
 
     $result = $conn->prepare($sqlDept);
-    $result->execute();
+    $result -> execute();
     $rowsDept = $result->fetchAll(PDO::FETCH_ASSOC);
+
+    // print_r($rowsDept);
 ?>
 
 <!doctype html>
@@ -33,7 +39,7 @@
 
     <div class="container-fluid mt-2">
         <h3 class="text-center">แสดงข้อมูลแผนกงาน</h3><br>
-        <center><a href="../main/departmentInsert.php?departmentId=<?php echo $rowsDept['departmentId']; ?>" class="btn btn-primary mb-4">เพิ่มแผนกงาน</a></center>
+        <center><a href="../main/departmentInsert.php?departmentId=<?php echo $rowsDept['departmentId']; ?>" class="btn btn-primary mb-3">เพิ่มแผนกงาน</a></center>
 
         <table class="table" id="myTable" style="width: 100%;" data-toggle="table" data-search="true">
         <thead>
@@ -55,9 +61,9 @@
                 <td><?php echo $rowDept['office_name']; ?></td>
                 <td><?php echo $rowDept['departmentName']; ?></td>
                 <td>
-                  <center class="button">
-                    <a href="../main/departmentUpdate.php?departmentId=<?php echo $rowsDept['departmentId']; ?>" class="btn btn-warning"><i class="fas fa-edit"></i></a>
-                    <a class="btn btn-danger btn-delete" data-href="../main/departmentId?departmentId=<?php echo $rowsDept['departmentId']; ?>" data-toggle="modal" data-target="#confirm-delete"><i class="fas fa-trash-alt"></i></a>
+                  <center>
+                    <a href="../main/departmentUpdate.php?departmentId=<?php echo $rowDept['departmentId']; ?>" class="btn btn-warning btn-edit"><i class="fas fa-edit"></i></a>
+                    <button class="btn btn-danger btn-delete" data-href="../main/departmentDelete.php?departmentId=<?php echo $rowDept['departmentId']; ?>" data-toggle="modal" data-target="#confirm-delete"><i class="fas fa-trash-alt"></i></button>
                   </center>
                 </td>
               </tr>
@@ -71,16 +77,16 @@
       <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content">
-
+          
             <div class="modal-header">
               <h4 class="modal-title w-100 text-center">ยืนยันการลบ</h4>
               <button type="button" id="close-modal" class="close" data-dismiss="modal" aria-label="Close"><i class="fas fa-window-close"></i></button>
             </div>
-
+        
             <div class="modal-body text-center">
                 <p>คุณต้องการจะดำเนินการลบข้อมูลหรือไม่</p>
             </div>
-
+            
             <div class="modal-footer d-flex justify-content-center">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">ยกเลิก</button>
                 <a class="btn btn-success btn-confirm-delete">ยืนยัน</a>
@@ -97,9 +103,10 @@
     <script src="../js/tableToCards.js"></script>
 
     <script>
-        $('#confirm-delete').on('show.bs.modal', function(event) {
-            $(this).find('.btn-confirm-delete').attr('href', $(event.relateTarget).data('href'));
-        });
+      $('#confirm-delete').on('show.bs.modal', function(event) {
+            $(this).find('.btn-confirm-delete').attr('href', $(event.relatedTarget).data('href'));
+      });
     </script>
+
   </body>
 </html>
