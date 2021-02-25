@@ -30,8 +30,8 @@ $rowEdit = $result->fetch();
         include "./header.php";
     ?>
 
-<fieldset id="personUpdate" style="display:block;">
-        <div class = "container">
+    <fieldset id="personUpdate">
+        <div class ="container">
             <center><h3>แก้ไขข้อมูลหน่วยงาน</h3></center><br>
             <form action="officeGetUpdateSave.php" method="POST">
                 <div class="form-row">
@@ -95,14 +95,30 @@ $rowEdit = $result->fetch();
                             <label for="count_person">จำนวนเจ้าหน้าที่</label>
                             <input name="count_person" id="count_person" class="form-control" min="3" required type="text" data-error-msg="กรุณากรอก จำนวนพนักงาน" groupName="count_person" value="<?php echo $rowEdit['count_person']; ?>">
                         </div>
-                    </div>    
+                    </div>
 
                     <center>
                         <input type="hidden" name="office_id" id="office_id" value="<?php echo $rowEdit['office_id']; ?>">
                         <button type="submit" class="btn btn-primary">ยืนยัน</button>
-                        <button type="button" class="btn btn-primary">ยกเลิก</button>
+                        <button type="button" class="btn btn-secondary ml-3">ยกเลิก</button><br><br>
                     </center>
             </form>
+
+            <hr class="m-5 border border-dark">
+
+            <h3 class="text-center">เพิ่มแผนกงาน</h3>
+            <div class="form-row d-flex justify-content-center">
+                <div class="form-group col-md-6">
+                    <label for="departmentName">ชื่อแผนกงาน</label>
+                    <input name="departmentName" id="departmentName" class="form-control" min="3" type="text" value="<?php echo $rowDept['departmentName']; ?>" placeholder="กรุณากรอกชื่อแผนกงาน">
+                </div>
+
+                <div class="form-group col-md-6">
+                    <label for="countPersonDept">จำนวนเจ้าหน้าที่ในแผนกงาน</label>
+                    <input name="countPersonDept" id="countPersonDept" class="form-control" min="3" type="text" value="<?php echo $rowDept['countPersonDept']; ?>" placeholder="กรุณากรอกจำนวนเจ้าหน้าที่ในแผนกงาน">
+                </div>
+                <button class="btn btn-primary mb-5" type="submit">เพิ่มแผนกงาน</button>
+            </div>
         </div>
     </fieldset>
 
@@ -135,7 +151,6 @@ $rowEdit = $result->fetch();
 
             $("#provinceCode").change(function() {
                 let provinceCode = $(this).val();
-                // alert(provinceCode);
                 getAmpur(provinceCode);
             })
         });

@@ -16,10 +16,10 @@ if (!$_SESSION['fname']){
 
 
   $sql = "SELECT p.personId,
-            p.sexId,
+                p.sexId,
                 h.*,
-            h.healthWeight/((h.healthHeight/100)*(h.healthHeight/100)) AS bmi,
-            b.*, 
+                h.healthWeight/((h.healthHeight/100)*(h.healthHeight/100)) AS bmi,
+                b.*, 
                 d.diabetesName,
                 s.smokeName,
                 a.alcoholName,
@@ -125,168 +125,164 @@ if (!$_SESSION['fname']){
     include("../main/header.php");   
   ?>
 
-<div class="container" style="margin-top: 30px;">
-    <div class="table-responsive">
-        <table class="table">
-            <thead>
-                <tr>
-                    <th class="title-month" scope="col">หัวข้อ/เดือน</th>
-                    <th scope="col">ม.ค.</th>
-                    <th scope="col">ก.พ.</th>
-                    <th scope="col">มี.ค.</th>
-                    <th scope="col">เม.ย.</th>
-                    <th scope="col">พ.ค.</th>
-                    <th scope="col">มิ.ย.</th>
-                    <th scope="col">ก.ค.</th>
-                    <th scope="col">ส.ค.</th>
-                    <th scope="col">ก.ย.</th>
-                    <th scope="col">ต.ค.</th>
-                    <th scope="col">พ.ย.</th>
-                    <th scope="col">ธ.ค.</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <th scope="row">โรคเบาหวาน</th>
-                    <?php
-                    // print_r($rows);
-                        foreach($rows as $key => $row) {
-                    ?>
-                        <td><?php echo $row['diabetesName']; ?></td>
-                    <?php
-                        }
-                    ?>
-                </tr>
+    <div class="container" style="margin-top: 30px;">
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th class="title-month" scope="col">หัวข้อ/เดือน</th>
+                        <?php
+                            foreach ($rows as $key => $row) {
+                            ?>
+                                <th scope="col"><?php echo dateThai($row['inputDatetime']); ?></th>
+                            <?php
+                            }
+                        ?>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row">โรคเบาหวาน</th>
+                        <?php
+                        // print_r($rows);
+                            foreach($rows as $key => $row) {
+                                
+                        ?>
+                            <td><?php echo $row['diabetesName']; ?></td>
+                        <?php
+                            }
+                        ?>
+                    </tr>
 
-                <tr>
-                    <th scope="row">โรคความดัน</th>
-                    <?php
-                    // print_r($rows);
-                        foreach($rows as $key => $row) {
-                    ?>
-                        <td><?php echo $row['bloodName']; ?></td>
-                    <?php
-                        }
-                    ?>
-                </tr>
+                    <tr>
+                        <th scope="row">โรคความดัน</th>
+                        <?php
+                        // print_r($rows);
+                            foreach($rows as $key => $row) {
+                        ?>
+                            <td><?php echo $row['bloodName']; ?></td>
+                        <?php
+                            }
+                        ?>
+                    </tr>
 
-                <tr>
-                    <th scope="row">ส่วนสูง</th>
-                    <?php
-                    // print_r($rows);
-                        foreach($rows as $key => $row) {
-                    ?>
-                        <td><?php echo $row['healthHeight']; ?></td>
-                    <?php
-                        }
-                    ?>
-                </tr>
+                    <tr>
+                        <th scope="row">ส่วนสูง</th>
+                        <?php
+                        // print_r($rows);
+                            foreach($rows as $key => $row) {
+                        ?>
+                            <td><?php echo $row['healthHeight']; ?></td>
+                        <?php
+                            }
+                        ?>
+                    </tr>
 
-                <tr>
-                    <th scope="row">น้ำหนัก</th>
-                    <?php
-                    // print_r($rows);
-                        foreach($rows as $key => $row) {
-                    ?>
-                        <td><?php echo $row['healthWeight']; ?></td>
-                    <?php
-                        }
-                    ?>
-                </tr>
+                    <tr>
+                        <th scope="row">น้ำหนัก</th>
+                        <?php
+                        // print_r($rows);
+                            foreach($rows as $key => $row) {
+                        ?>
+                            <td><?php echo $row['healthWeight']; ?></td>
+                        <?php
+                            }
+                        ?>
+                    </tr>
 
-                <tr>
-                    <th scope="row">รอบเอว</th>
-                    <?php
-                    // print_r($rows);
-                        foreach($rows as $key => $row) {
-                    ?>
-                        <td><?php echo $row['waist']; ?></td>
-                    <?php
-                        }
-                    ?>
-                </tr>
+                    <tr>
+                        <th scope="row">รอบเอว</th>
+                        <?php
+                        // print_r($rows);
+                            foreach($rows as $key => $row) {
+                        ?>
+                            <td><?php echo $row['waist']; ?></td>
+                        <?php
+                            }
+                        ?>
+                    </tr>
 
-                <tr>
-                    <th scope="row">ความดันโลหิต (ค่าบน) </th>
-                    <?php
-                    // print_r($rows);
-                        foreach($rows as $key => $row) {
-                    ?>
-                        <td><?php echo $row['bpUpper']; ?></td>
-                    <?php
-                        }
-                    ?>
-                </tr>
+                    <tr>
+                        <th scope="row">ความดันโลหิต (ค่าบน) </th>
+                        <?php
+                        // print_r($rows);
+                            foreach($rows as $key => $row) {
+                        ?>
+                            <td><?php echo $row['bpUpper']; ?></td>
+                        <?php
+                            }
+                        ?>
+                    </tr>
 
-                <tr>
-                    <th scope="row">ความดันโลหิต (ความดันค่าล่าง)</th>
-                    <?php
-                    // print_r($rows);
-                        foreach($rows as $key => $row) {
-                    ?>
-                        <td><?php echo $row['bpLower']; ?></td>
-                    <?php
-                        }
-                    ?>
-                </tr>
+                    <tr>
+                        <th scope="row">ความดันโลหิต (ความดันค่าล่าง)</th>
+                        <?php
+                        // print_r($rows);
+                            foreach($rows as $key => $row) {
+                        ?>
+                            <td><?php echo $row['bpLower']; ?></td>
+                        <?php
+                            }
+                        ?>
+                    </tr>
 
-                <tr>
-                    <th scope="row">น้ำตาลในเลือด</th>
-                    <?php
-                    // print_r($rows);
-                        foreach($rows as $key => $row) {
-                    ?>
-                        <td><?php echo $row['bloodSugar']; ?></td>
-                    <?php
-                        }
-                    ?>
-                </tr>
+                    <tr>
+                        <th scope="row">น้ำตาลในเลือด</th>
+                        <?php
+                        // print_r($rows);
+                            foreach($rows as $key => $row) {
+                        ?>
+                            <td><?php echo $row['bloodSugar']; ?></td>
+                        <?php
+                            }
+                        ?>
+                    </tr>
 
-                <tr>
-                    <th scope="row">BMI</th>
-                    <?php
-                    // print_r($rows);
-                        foreach($rows as $key => $row) {
-                    ?>
-                        <td><?php echo $row['nameBmi']; ?></td>
-                    <?php
-                        }
-                    ?>
-                </tr>
+                    <tr>
+                        <th scope="row">BMI</th>
+                        <?php
+                        // print_r($rows);
+                            foreach($rows as $key => $row) {
+                        ?>
+                            <td><?php echo $row['nameBmi']; ?></td>
+                        <?php
+                            }
+                        ?>
+                    </tr>
 
-                <tr>
-                    <th scope="row">สูบบุหรี่</th>
-                    <?php
-                    // print_r($rows);
-                        foreach($rows as $key => $row) {
-                    ?>
-                        <td><?php echo $row['smokeName']; ?></td>
-                    <?php
-                        }
-                    ?>
-                </tr>
+                    <tr>
+                        <th scope="row">สูบบุหรี่</th>
+                        <?php
+                        // print_r($rows);
+                            foreach($rows as $key => $row) {
+                        ?>
+                            <td><?php echo $row['smokeName']; ?></td>
+                        <?php
+                            }
+                        ?>
+                    </tr>
+                    
+                    <tr>
+                        <th scope="row">ดื่มสุรา</th>
+                        <?php
+                        // print_r($rows);
+                            foreach($rows as $key => $row) {
+                        ?>
+                            <td><?php echo $row['alcoholName']; ?></td>
+                        <?php
+                            }
+                        ?>
+                    </tr>
+                </tbody>
+
+                <!-- cvd_score -->
                 
-                <tr>
-                    <th scope="row">ดื่มสุรา</th>
-                    <?php
-                    // print_r($rows);
-                        foreach($rows as $key => $row) {
-                    ?>
-                        <td><?php echo $row['alcoholName']; ?></td>
-                    <?php
-                        }
-                    ?>
-                </tr>
-            </tbody>
-
-            <!-- cvd_score -->
-            
-        </table>
+            </table>
+        </div>
+        
+        <div class="text-center">
+                <button type="button" class="btn btn-secondary" onclick="history.go(-1);">ปิด</button>
+        </div>
     </div>
-    
-    <div class="text-center">
-            <button type="button" class="btn btn-secondary" onclick="location.href='../main/index.php'">ปิด</button>
-    </div>
-</div>
   </body>
 </html>
