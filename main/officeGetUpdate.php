@@ -92,7 +92,7 @@ $rowEdit = $result->fetch();
 
                     <div class="form-row">
                         <div class="form-group col-md-12">
-                            <label for="count_person">จำนวนพนักงาน</label>
+                            <label for="count_person">จำนวนเจ้าหน้าที่</label>
                             <input name="count_person" id="count_person" class="form-control" min="3" required type="text" data-error-msg="กรุณากรอก จำนวนพนักงาน" groupName="count_person" value="<?php echo $rowEdit['count_person']; ?>">
                         </div>
                     </div>
