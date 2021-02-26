@@ -19,5 +19,6 @@
 $result = $conn -> prepare($sql);
 $result -> execute();
 
-print_r($result);
+// print_r($result);
+header('location: ../main/departmentGet.php');
 ?>

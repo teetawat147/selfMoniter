@@ -16,4 +16,5 @@
     $result = $conn -> prepare($sqlInsert);
     $result -> execute();
     header("location: ../main/bmiGet.php");
+    // print_r($sqlInsert);
 ?>

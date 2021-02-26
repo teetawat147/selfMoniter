@@ -1,5 +1,10 @@
 <?php
     include '../include/connection.php';
+
+    $sql ="SELECT * FROM department WHERE departmentId = '".$_GET['departmentId']."' ";
+    $result = $conn->prepare($sql);
+    $result -> execute();
+    $rowEdit = $result->fetch();
 ?>
 
 <!doctype html>
@@ -14,7 +19,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 
-    <title>เพิ่มแผนกงาน</title>
+    <title>แก้ไขแผนกงาน</title>
   </head>
   <body>
 
@@ -23,9 +28,9 @@
     ?>
 
     <div class="container">
-        <h3 class="text-center">เพิ่มแผนกงาน</h3><br>
+        <h3 class="text-center">แก้ไขแผนกงาน</h3><br>
 
-        <form action="departmentSaveInsert.php" method="POST">
+        <form action="departmentSaveUpdate.php" method="POST">
             <div class="form-row">
                 <div class="form-group col-md-12">
                     <label for="officeId">ชื่อหน่วยงาน</label>
@@ -37,7 +42,7 @@
                             $result -> execute();
                             while ($rowsOffice = $result -> fetch()) {
                             ?>
-                            <option value="<?php echo $rowsOffice['office_code']; ?>"><?php echo $rowsOffice['office_name']; ?></option>
+                            <option value="<?php echo $rowsOffice['office_id'];?>" <?php echo ($rowEdit['officeId']==$rowsOffice['office_id'])?"selected":"";?>><?php echo $rowsOffice['office_name'];?></option>
                         <?php
                             }
                             ?>
@@ -48,16 +53,17 @@
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label for="departmentName">ชื่อแผนกงาน</label>
-                    <input name="departmentName" id="departmentName" class="form-control" type="text" required data-error-msg="กรุณากรอกชื่อแผนกงาน">
+                    <input name="departmentName" id="departmentName" class="form-control" min="3" required type="text" data-error-msg="กรุณากรอกชื่อแผนกงาน" value="<?php echo $rowEdit['departmentName']; ?>">
                 </div>
 
                 <div class="form-group col-md-6">
                     <label for="countPersonDept">จำนวนเจ้าหน้าที่ในแผนกงาน</label>
-                    <input name="countPersonDept" id="countPersonDept" class="form-control" type="text" required data-error-msg="กรุณากรอกจำนวนเจ้าหน้าที่ในแผนกงาน">
+                    <input name="countPersonDept" id="countPersonDept" class="form-control" type="text" required data-error-msg="กรุณากรอกจำนวนเจ้าหน้าที่ในแผนกงาน" value="<?php echo $rowEdit['countPersonDept']; ?>">
                 </div>
             </div>
 
             <center>
+                <input type="hidden" name="departmentId" id="departmentId" value="<?php echo $rowEdit['departmentId']; ?>">
                 <button class="btn btn-success" type="submit">ตกลง</button>
                 <a href="../main/departmentGet.php" class="btn btn-secondary" role="button" aria-pressed="true">ยกเลิก</a>
             </center>
@@ -68,6 +74,22 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
     <script src="../js/tableToCards.js"></script>
+
+    <script>
+        $(function(){
+            $("#officeId").change(function() {               
+                let officeId = $(this).val();                 
+                $.ajax({
+                    method: "POST",
+                    url: "getDepartment.php",
+                    data: { officeId: officeId}
+                }).done(function(msg) {
+                    // alert(msg);
+                    $("#departmentId").html(msg);
+                });
+            })
+        });
+    </script>
 
   </body>
 </html>
