@@ -881,8 +881,6 @@ $str_history_cvd_score_data=implode(", ",$history_cvd_score_data);
               stepSize: <?php echo ceil($maxCountAll/10); ?>
             }
           }],
-
-          
         }
       }
     });

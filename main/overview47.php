@@ -116,21 +116,21 @@
     <div class="container mb-4 mt-3">
       <h3>ภาพรวมจังหวัดสกลนคร</h3>
       <div class="header">.</div>
-        <div class="wrapper-content">
-          <?php
-            foreach ($rowsPerson as $key => $rowPerson) {
-              $percent = round(($rowPerson['countPerson']/$rowPerson['totalPerson']*100) + 60, 2);
-              ?>
-              <?php echo $rowPerson['ampur_name']; ?>
-              <div class="progress-bar" style="width: <?php echo ($rowPerson['totalPerson']/10); ?>%">
-              <div class="d-flex align-items-center chart-bar" style="width: <?php echo $percent/10; ?>%; height:30px;">
-                  <p><?php echo $percent; ?>%</p>
-                </div>
-              </div><br>
-          <?php
-            }
-          ?>
-        </div>
+      <div class="wrapper-content">
+        <?php
+          foreach ($rowsPerson as $key => $rowPerson) {
+            $percent = round(($rowPerson['countPerson']/$rowPerson['totalPerson']*100) + 60, 2);
+            ?>
+            <?php echo $rowPerson['ampur_name']; ?>
+            <div class="progress-bar" style="width: <?php echo ($rowPerson['totalPerson']/10); ?>%">
+            <div class="d-flex align-items-center chart-bar" style="width: <?php echo $percent/10; ?>%; height:30px;">
+                <p><?php echo $percent; ?>%</p>
+              </div>
+            </div><br>
+        <?php
+          }
+        ?>
+      </div>
       </div>
     </div>
 
