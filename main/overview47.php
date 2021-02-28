@@ -49,7 +49,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
 
-    <title>ร้อยละของบุคลากร ระดับอำเภอ</title>
+    <title>ภาพรวมจังหวัดสกลนคร</title>
 
     <style>
       .header {
@@ -192,6 +192,7 @@
                 scales: {
                     xAxes: [{
                         ticks: {
+                            // max: <?php echo 10*$rowTotal['totalPerson']/100; ?>,
                             max: <?php echo $rowTotal['totalPerson']; ?>,
                             stepSize: 5
                         }

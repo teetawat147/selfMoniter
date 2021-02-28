@@ -235,7 +235,13 @@
                 scales: {
                     xAxes: [{
                         ticks: {
-                            max: <?php echo $rowsAmpur['totalPerson']; ?>,
+                            <?php
+                                if(($_SESSION['groupId'] == '2') or ($_SESSION['groupId'] == '1')) {
+                                ?>
+                                    max: <?php echo $rowsAmpur['totalPerson']; ?>,
+                            <?php
+                                }
+                                ?>
                             stepSize: 5
                         }
                     }]

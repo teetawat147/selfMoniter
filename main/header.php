@@ -44,6 +44,25 @@
       }
       ?>
 
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" ara-expanded="false">รายงาน</a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <?php 
+            if (($_SESSION['groupId'] == '1')) {
+              ?>
+              <a class="dropdown-item" href="../main/overview47.php">ภาพรวมจังหวัดสกลนคร</a>
+              <a class="dropdown-item" href="../main/personDataAmpur.php">ร้อยละของบุคลากรระดับอำเภอ</a>
+          <?php
+            }
+            else if(($_SESSION['groupId'] == '2') or ($_SESSION['groupId'] == '4')) {
+              ?>
+              <a class="dropdown-item" href="../main/personDataAmpur.php">ร้อยละของบุคลากรระดับอำเภอ</a>
+        <?php
+            }
+            ?>
+        </div>
+      </li>
+
     </ul>
     
 
