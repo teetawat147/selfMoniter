@@ -45,9 +45,7 @@
       break;
   }
 
-  $sqlPerson = $sql;
-
-  $result = $conn -> prepare($sqlPerson);
+  $result = $conn -> prepare($sql);
   $result -> execute();
   $rowsPerson = $result -> fetchAll(PDO::FETCH_ASSOC);
 
@@ -56,14 +54,30 @@
   // print_r($rowsPerson);
 
   
-  $sql = "SELECT a.ampur_name, SUM(o.count_person) AS totalPerson
+  $sqlAmpur = "SELECT a.ampur_name, SUM(o.count_person) AS totalPerson
           FROM ampur47 a
           LEFT JOIN office o ON a.ampur_code = o.ampur_code
           WHERE a.ampur_code =" .$_SESSION['districtCode'];
 
-  $result = $conn -> prepare($sql);
+  $result = $conn -> prepare($sqlAmpur);
   $result -> execute();
-  $rowAmpur = $result -> fetch();
+  $rowsAmpur = $result -> fetch(PDO::FETCH_ASSOC);
+
+  $historyLabel = array();
+  $historyData = array();
+  
+  foreach ($rowsPerson as $hKey => $historyValue) {
+      array_push($historyLabel, "'".$historyValue['office_name']."'");
+      array_push($historyData, $historyValue['percent']);
+  }
+
+  $strHistoryLabel = implode(", ", $historyLabel);
+  $strHistoryData = implode(", ", $historyData);
+
+//   echo "<br>str_history_label";
+//   print_r($strHistoryLabel);
+//   echo "<br>str_history_data";
+//   print_r($strHistoryData);
 ?>
 
 <!doctype html>
@@ -74,8 +88,6 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@0.7.0"></script>
-
 
     <title>ร้อยละของบุคลากรระดับอำเภอ</title>
 
@@ -158,55 +170,51 @@
 
     <main role="main">
         <div class="container mb-4 mt-3">
-        <?php
-            foreach ($rowsPerson as $key => $rowPerson) {
-            ?>
-                <h3>ร้อยละของบุคลากรระดับอำเภอ</h3>
-                <div class="content">
-                    <div class="header">.</div>
-                    <div class="wrapper-content">
-                        <canvas id="personAmpurChart" width="600" height="150"></canvas>
-                    </div><br>
-                </div>
+            <h3>ร้อยละของบุคลากรระดับอำเภอ</h3>
+            <div class="content">
+                <div class="header">.</div>
+                <div class="wrapper-content">
+                    <canvas id="personAmpurChart" width="100%" height="100%"></canvas>
+                </div><br>
+            </div>
         </div>
 
-        <p class="text-center">จำนวนการลงทะเบียนของบุคลากรในอำเภอ<?php echo $rowAmpur['ampur_name'];
-            echo " ".$rowAmpur['totalPerson']; ?> คน</p>
+        <div class="content-footer">
+            <p class="text-center">จำนวนการลงทะเบียนของบุคลากรในอำเภอ<?php echo $rowsAmpur['ampur_name'];
+            echo " ".$rowsAmpur['totalPerson']; ?> คน</p>
+        </div>
 
     </main>
 
-
     <!-- กราฟ -->
-    <!--  -->
-    <!--  -->
     <script>
-        let ctx = document.getElementById("personAmpurChart");
+        var ctx = document.getElementById("personAmpurChart").getContext('2d');
 
-        let data = {
-            labels: ["<?php echo $rowPerson['office_name']; ?>"],
+        var data = {
+            labels: [<?php echo $strHistoryLabel; ?>],
             datasets: [{
                 label: "ร้อยละของบุคลากรระดับอำเภอ",
-                data: [<?php echo $rowPerson['percent'];?>],
+                data: [<?php echo $strHistoryData; ?>],
                 backgroundColor: "rgba(84, 251, 80, 1.0)"
             }]
         }
 
-        let personAmpurChart = new Chart(ctx, {
+        var ctx = new Chart(ctx, {
             type: 'horizontalBar',
             data: data,
             options: {
                 "hover": {
-                "animationDuration": 1
+                    "animationDuration": 1
                 },
                 "animation": {
                     "onComplete": function() {
-                        let chartInstance = this.chart,
+                        var chartInstance = this.chart,
                         ctx = chartInstance.ctx;
 
                         this.data.datasets.forEach(function(dataset, i) {
-                            let meta = chartInstance.controller.getDatasetMeta(i);
+                            var meta = chartInstance.controller.getDatasetMeta(i);
                             meta.data.forEach(function(bar, index) {
-                                let data = dataset.data[index];
+                                var data = dataset.data[index];
                                 ctx.fillText(data + ' %', bar._model.x + 10, bar._model.y + 1);
                             });
                         });
@@ -215,21 +223,26 @@
                 tooltips: {
                     callbacks: {
                         label: function(tooltipItem, data) {
-                            let label = data.datasets[tooltipItem.datasetIndex].label || '';
+                            var label = data.datasets[tooltipItem.datasetIndex].label || '';
 
                             if(label) {
-                                label += 'คิดเป็น <?php echo $rowPerson['percent'];?> %';
+                                label += 'คิดเป็น %';
                             }
                             return label;
                         }
                     }
+                },
+                scales: {
+                    xAxes: [{
+                        ticks: {
+                            max: <?php echo $rowsAmpur['totalPerson']; ?>,
+                            stepSize: 5
+                        }
+                    }]
                 }
             }
         });
     </script>
-    <?php
-        }
-        ?>
 
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
