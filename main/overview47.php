@@ -192,8 +192,6 @@
                 scales: {
                     xAxes: [{
                         ticks: {
-                            // max: <?php echo 10*$rowTotal['totalPerson']/100; ?>,
-                            max: <?php echo $rowTotal['totalPerson']; ?>,
                             stepSize: 5
                         }
                     }]
