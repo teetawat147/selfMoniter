@@ -1,10 +1,10 @@
 <?php
   include('../include/connection.php');
-
   $sql = "SELECT * FROM count_ampur";
   $result = $conn -> prepare($sql);
   $result -> execute();
   $rowsOffice = $result -> fetchAll(PDO::FETCH_ASSOC);
+
 
 //   print_r($rowsOffice);
 
@@ -14,6 +14,7 @@ $historyAmpur = array();
 $historyAmpurLabel = array();
 
 foreach ($rowsOffice as $hkey => $historyValue) {
+
     // echo "history Value";
     // print_r($historyValue);
 
@@ -24,6 +25,8 @@ foreach ($rowsOffice as $hkey => $historyValue) {
 }
 $strHistoryAmpur=implode(", ",$historyAmpur);
 $strHistoryLabel=implode(", ",$historyAmpurLabel);
+
+
 
 ?>
 
@@ -46,13 +49,13 @@ $strHistoryLabel=implode(", ",$historyAmpurLabel);
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.4/jspdf.min.js"></script>
-    <script src='https://rawgit.com/gliffy/canvas2svg/master/canvas2svg.js'></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/canvg/3.0.7/umd.js" integrity="sha512-9cZtXG4J3AzjYnxA6XDibUfjudIYnMT03CmV8xZzdmFt6V2Fl6C6dxlXbsGTMWoLGRHSC+ljX9hYfPds/tFicg==" crossorigin="anonymous"></script>
+    <script scr="https://github.com/chmille4/Scribl/raw/master/lib/Scribl.svg.js"></script>
 
-  
-    <title>ReportAdminChangwat</title>
+
+    <title>รายงานเจ้าหน้าที่ระดับอำเภอ</title>
 
     <style>
+
       /* canvas
       {
         background-image: url('../images/white.jpg');
@@ -62,33 +65,33 @@ $strHistoryLabel=implode(", ",$historyAmpurLabel);
       {
         margin-top: 20px;
       }
-
       .content-title p
       {
         padding: 10px 10px;
         border-radius: 8px 8px 0 0;
         background: #F6F6F6;
       }
-
       .content-body
       {
         margin-top: -20px;
         border: 2px solid #F6F6F6;
       }
-
+      .content-body.pie-chart
+      {
+        display: flex;
+        justify-content: center;
+      }
       .content-body p
       {
         margin-top: 8px;
         padding: 0px 10px;
       }
-
       .content-body.risk p,
       .content-body.waist p,
       .content-body.high-pressure-normal p
       {
         line-height: 20px;
       }
-
       #p3,
       .content-title
       {
@@ -103,7 +106,6 @@ $strHistoryLabel=implode(", ",$historyAmpurLabel);
         transform: scale(1.05);
         cursor: pointer;
       }
-
       @media screen and (max-width: 423px)
       {
         button
@@ -120,9 +122,8 @@ $strHistoryLabel=implode(", ",$historyAmpurLabel);
 
     <div class="container">
       <br>
-      <center><h3>Report Admin Changwat</h3></center>
+      <center><h3>รายงานเจ้าหน้าที่ระดับอำเภอ</h3></center>
       <br>
-    
         <div class="content">
             <div class="dropdown d-flex justify-content-end mb-3">
                 <button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -131,12 +132,12 @@ $strHistoryLabel=implode(", ",$historyAmpurLabel);
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                     <a id="download-jpg" download="ChartImage.jpg" href="" class="btn btn-success float-right bg-flat-color-1" title="reportAdminChangwat">jpg</i></a>
                     <a id="download-png" download="ChartImage.png" href="" class="btn btn-success float-right bg-flat-color-1" title="reportAdminChangwat">png</a>
-                    <!-- <a id="download-svg" download="ChartImage.svg" href="" class="btn btn-success float-right bg-flat-color-1" title="reportAdminChangwat">svg</a> -->
+                    <a id="download-svg" download="ChartImage.svg" href="" class="btn btn-success float-right bg-flat-color-1" title="reportAdminChangwat">svg</a>
                     <button type="button" id="download-pdf" class="btn btn-success float-right bg-flat-color-1">pdf</button>
                 </div>
             </div>
-                
-    
+
+
             <div class="content-title">
                 <p>อำเภอ</p>
             <div class="content-body">
@@ -163,7 +164,7 @@ $strHistoryLabel=implode(", ",$historyAmpurLabel);
                     <td><?php echo $rowOffice['NEWCountPerson']; ?></td>
                     <td><?php echo $rowOffice['count_districtCode']; ?></td>
                     <td><?php echo round($rowOffice['Percent'], 2); ?></td>
-                
+
                 </tr>
                 <?php 
                 }
@@ -174,7 +175,7 @@ $strHistoryLabel=implode(", ",$historyAmpurLabel);
     </div>
 
     <script>
-    
+
     var ctx = document.getElementById("chart_ampur").getContext('2d');
 
         var data = {
@@ -194,18 +195,18 @@ $strHistoryLabel=implode(", ",$historyAmpurLabel);
                     "animationDuration": 1
                 },
                 "animation": {
-                  "onComplete": function() {
-                      var chartInstance = this.chart,
-                      ctx = chartInstance.ctx;
+                    "onComplete": function() {
+                        var chartInstance = this.chart,
+                        ctx = chartInstance.ctx;
 
-                      this.data.datasets.forEach(function(dataset, i) {
-                          var meta = chartInstance.controller.getDatasetMeta(i);
-                          meta.data.forEach(function(bar, index) {
-                              var data = dataset.data[index];
-                              ctx.fillText(data + ' %', bar._model.x - 20, bar._model.y - 10);
-                          });
-                      });
-                  }
+                        this.data.datasets.forEach(function(dataset, i) {
+                            var meta = chartInstance.controller.getDatasetMeta(i);
+                            meta.data.forEach(function(bar, index) {
+                                var data = dataset.data[index];
+                                ctx.fillText(data + ' %', bar._model.x - 20, bar._model.y - 10);
+                            });
+                        });
+                    }
                 },
                 tooltips: {
                     callbacks: {
@@ -235,6 +236,10 @@ $strHistoryLabel=implode(", ",$historyAmpurLabel);
             }
         });
 
+        exportImage("download-jpg", "chart_ampur", "image/jpg", "download-jpg");
+        exportImage("download-png", "chart_ampur", "image/png", "download-png");
+
+
         function exportImage(btnId, chartId, imageTo, buttonId) {
             document.getElementById(btnId).addEventListener("click", function() {
                 var url_base64jp = document.getElementById(chartId).toDataURL(imageTo);
@@ -257,20 +262,26 @@ $strHistoryLabel=implode(", ",$historyAmpurLabel);
         function downloadPDF() {
             var canvas = document.getElementById('chart_ampur');
             var canvasImg = canvas.toDataURL("image/jpg", 1.0);
-        
+
             var doc = new jsPDF('landscape');
             doc.setFontSize(20);
             doc.text(15, 15, "report changwat chart");
             doc.addImage(canvasImg, 'JPEG', 10, 10, 280, 150 );
             doc.save('reportAdminChangwat.pdf');
         }
-
-
-        exportImage("download-jpg", "chart_ampur", "image/jpg", "download-jpg");
-        exportImage("download-png", "chart_ampur", "image/png", "download-png");
         
 
+        var img = ctx.canvas.toDataURL("image/png");
+        document.getElementById('download-png').href = img;
+
+        var targetSVG = document.getElementById('download-svg');
+        CanvasToSVG.convert(ctx.canvas, targetSVG);
+        const downPngBtn = document.getElementById('download-png').href = targetSVG.firstChild.imageData;
+        console.log(downPngBtn);
+
     </script>
+
+    
 
   </body>
 </html>
