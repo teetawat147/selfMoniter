@@ -10,6 +10,12 @@
                 LEFT JOIN department d ON o.office_id = d.officeId
                 ORDER BY o.office_id, d.departmentName";
 
+    // $sqlDept = "SELECT DISTINCT o.office_id, o.office_name, d.departmentId, GROUP_CONCAT(d.departmentName) AS departmentName
+    //             FROM `office` o
+    //             LEFT JOIN department d ON o.office_id = d.officeId
+    //             GROUP BY o.office_id
+    //             ORDER BY o.office_id, d.departmentName";
+
     $result = $conn->prepare($sqlDept);
     $result -> execute();
     $rowsDept = $result->fetchAll(PDO::FETCH_ASSOC);
