@@ -6,14 +6,25 @@
   $result -> execute();
   $rowsOffice = $result -> fetchAll(PDO::FETCH_ASSOC);
 
-$historyAmpur= array();
-$historyAmpurLabel= array();
+//   print_r($rowsOffice);
+
+//   print_r($rowsOffice);
+
+$historyAmpur = array();
+$historyAmpurLabel = array();
 
 foreach ($rowsOffice as $hkey => $historyValue) {
-  array_push($historyAmpur,$historyValue['percent']);
-  array_push($historyAmpurLabel,$historyValue['ampur_name']);
+    // echo "history Value";
+    // print_r($historyValue);
+
+    $historyPercent = round($historyValue['Percent'], 2);
+
+  array_push($historyAmpur,$historyPercent);
+  array_push($historyAmpurLabel,"'".$historyValue['ampur_name']."'");
 }
 $strHistoryAmpur=implode(", ",$historyAmpur);
+$strHistoryLabel=implode(", ",$historyAmpurLabel);
+
 ?>
 
 
@@ -28,56 +39,25 @@ $strHistoryAmpur=implode(", ",$historyAmpur);
     <link href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.3/css/font-awesome.css'>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
     <link href="https://unpkg.com/bootstrap-table@1.18.2/dist/bootstrap-table.min.css" rel="stylesheet">
+    <link href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.3/css/font-awesome.css'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
     <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
     <script src='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js'></script>
     <script src="https://cdn.ckeditor.com/ckeditor5/25.0.0/classic/ckeditor.js"></script>
     <script src="../js/tableToCards.js"></script>
     <script src="https://unpkg.com/bootstrap-table@1.18.2/dist/bootstrap-table.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.4/jspdf.min.js"></script>
 
   
     <title>ReportAdminChangwat</title>
 
     <style>
-
-    button,
-    center a {
-      margin-top: 7px;
-      width: 12ch;
-    }
-
-    center div {
-      width: 120px;
-      height: 180px;
-    }
-
-    .img-add-data {
-      width: 50px;
-      height: 50px;
-      margin-bottom: 10px;
-    }
-
-    .btn-edit,
-    .btn-delete {
-      width: 7ch;
-      margin-right: 10px;
-    }
-
-    .title-main
+      /* canvas
       {
-        position: flex;
-        margin-top: 20px;
-        padding: 5px;
-        background-color: #D3D3D3;
-        border-radius: 8px;
-        text-align: center;
-      }
-
-      .title-main p,
-      canvas
-      {
-        margin-top: 5px;
-      }
+        background-image: url('../images/white.jpg');
+      } */
 
       .content
       {
@@ -122,17 +102,6 @@ $strHistoryAmpur=implode(", ",$historyAmpur);
         text-align: center;
       }
 
-      button
-      {
-        margin: 20px 30px;
-        padding: 2px 25px;
-        font-size: 14px;
-        background: #C4C4C4;
-        height: 30px;
-        border: 0px;
-        border-radius: 4px;
-      }
-
       button:hover
       {
         background-color: #e5e5e5;
@@ -156,112 +125,160 @@ $strHistoryAmpur=implode(", ",$historyAmpur);
       include "./header.php";
     ?>
 
-    <div class="container-fluid mt-2">
+    <div class="container">
       <br>
       <center><h3>Report Admin Changwat</h3></center>
       <br>
-      
-    <div class="content">
-      <div class="content-title">
-        <p>อำเภอ</p>
-      </div>
-      <div class="content-body">
-        <canvas id="chart_ampur"></canvas>
-      </div>
-    </div>
+    
+        <div class="content">
+            <div class="dropdown d-flex justify-content-end mb-3">
+                <button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-file-download"></i>
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a id="download-jpg" download="ChartImage.jpg" href="" class="btn btn-success float-right bg-flat-color-1" title="reportAdminChangwat">jpg</i></a>
+                    <a id="download-png" download="ChartImage.png" href="" class="btn btn-success float-right bg-flat-color-1" title="reportAdminChangwat">png</a>
+                    <a id="download-svg" download="ChartImage.svg" href="" class="btn btn-success float-right bg-flat-color-1" title="reportAdminChangwat">svg</a>
+                    <button type="button" id="download-pdf" class="btn btn-success float-right bg-flat-color-1">pdf</button>
+                </div>
+            </div>
+                
+    
+            <div class="content-title">
+                <p>อำเภอ</p>
+            <div class="content-body">
+                <canvas id="chart_ampur"></canvas>
+            </div>
+        </div>
 
-      <table class="table" id="myTable" style="width: 100%;" data-toggle="table" >
-        <thead>
-          <tr>
-              <th style="height: 70px; text-align: center; vertical-align: top;">อำเภอ</th>
-              <th style="height: 70px; text-align: center; vertical-align: top;">จำนวนเจ้าหน้าที่ทั้งหมด</th>
-              <th style="height: 70px; text-align: center; vertical-align: top;">จำนวนเจ้าหน้าที่ลงบันทึกข้อมูล</th>
-              <th style="height: 70px; text-align: center; vertical-align: top;">ร้อยละ</th>
-              <!-- <th data-card-footer></th> -->
-            </tr>
-        </thead>
-        <tbody>
-          <?php
-            foreach ($rowsOffice as $key => $rowOffice) {
-          ?>
-              <tr>
-                <td><?php echo $rowOffice['ampur_name']; ?></td>
-                <td><?php echo $rowOffice['NEWCountPerson']; ?></td>
-                <td><?php echo $rowOffice['count_districtCode']; ?></td>
-                <td><?php echo $rowOffice['Percent']; ?></td>
-               
-              </tr>
-            <?php 
-              }
+        <table class="table" id="myTable" style="width: 100%;" data-toggle="table" >
+            <thead>
+            <tr>
+                <th style="height: 70px; text-align: center; vertical-align: top;">อำเภอ</th>
+                <th style="height: 70px; text-align: center; vertical-align: top;">จำนวนเจ้าหน้าที่ทั้งหมด</th>
+                <th style="height: 70px; text-align: center; vertical-align: top;">จำนวนเจ้าหน้าที่ลงบันทึกข้อมูล</th>
+                <th style="height: 70px; text-align: center; vertical-align: top;">ร้อยละ</th><br><br><br>
+                <!-- <th data-card-footer></th> -->
+                </tr>
+            </thead>
+            <tbody>
+            <?php
+                foreach ($rowsOffice as $key => $rowOffice) {
             ?>
-        </tbody>
-      </table>
-      <hr>
+                <tr>
+                    <td><?php echo $rowOffice['ampur_name']; ?></td>
+                    <td><?php echo $rowOffice['NEWCountPerson']; ?></td>
+                    <td><?php echo $rowOffice['count_districtCode']; ?></td>
+                    <td><?php echo round($rowOffice['Percent'], 2); ?></td>
+                
+                </tr>
+                <?php 
+                }
+                ?>
+            </tbody>
+        </table>
+        <hr>
+    </div>
 
     <script>
     
-    let chart_ampurElem = document.getElementById('chart_ampur').getContext('2d');
-    let chart_ampur = new Chart(chart_ampurElem,{
-      type:"bar",
-      data:{
-        labels:[
-          <?php echo $historyAmpurLabel; ?>
-        ],
+    var ctx = document.getElementById("chart_ampur").getContext('2d');
 
-       datasets:[
-          {
-            label:"Risk",
-            data:[
-              <?php echo $strHistoryAmpur; ?>
-                ],
-            fill:false,
-            backgroundColor:[
-              "rgba(255, 99, 132, 0.2)",
-              "rgba(255, 159, 64, 0.2)",
-              "rgba(255, 205, 86, 0.2)",
-              "rgba(75, 192, 192, 0.2)",
-              "rgba(54, 162, 235, 0.2)",
-              "rgba(153, 102, 255, 0.2)",
-              "rgba(201, 203, 207, 0.2)"],
-            borderColor:[
-              "rgb(255, 99, 132)",
-              "rgb(255, 159, 64)",
-              "rgb(255, 205, 86)",
-              "rgb(75, 192, 192)",
-              "rgb(54, 162, 235)",
-              "rgb(153, 102, 255)",
-              "rgb(201, 203, 207)"],
-            borderWidth:5
-          }
-        ]
-      },
-      options:{
-        legend:{display:false},
-        annotation: {
-    annotations: [{
-        type: 'line',
-        mode: 'horizontal',
-        scaleID: 'y-axis-0',
-        value: '26',
-        borderColor: 'tomato',
-        borderWidth: 1
-    }],
-    drawTime: "afterDraw" // (default)
-},
-        scales:{
-                yAxes:[{
-                    ticks:{
-                    beginAtZero:true,
-                    max: <?php echo $maxCountAll+(10*$maxCountAll/100); ?>,
-                    min: 0,
-                    stepSize: <?php echo ceil($maxCountAll/10); ?>
+        var data = {
+            labels: [<?php echo $strHistoryLabel; ?>],
+            datasets: [{
+                label: "ร้อยละของเจ้าหน้าที่ระดับอำเภอ",
+                data: [<?php echo $strHistoryAmpur; ?>],
+                backgroundColor: "#50B432"
+            }]
+        }
+
+        var ctx = new Chart(ctx, {
+            type: 'bar',
+            data: data,
+            options: {
+                "hover": {
+                    "animationDuration": 1
+                },
+                "animation": {
+                    "onComplete": function() {
+                        var chartInstance = this.chart,
+                        ctx = chartInstance.ctx;
+
+                        this.data.datasets.forEach(function(dataset, i) {
+                            var meta = chartInstance.controller.getDatasetMeta(i);
+                            meta.data.forEach(function(bar, index) {
+                                var data = dataset.data[index];
+                                ctx.fillText(data + ' %', bar._model.x - 20, bar._model.y - 10);
+                            });
+                        });
                     }
-                }],
+                },
+                tooltips: {
+                    callbacks: {
+                        label: function(tooltipItem, data) {
+                            var label = data.datasets[tooltipItem.datasetIndex].label || '';
 
-                
-                }
+                            if(label) {
+                                label += 'คิดเป็น %';
+                            }
+                            return label;
+                        }
+                    }
+                },
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            stepSize: 20
+                        },
+                        gridLines: {
+                            display: true,
+                            drawOnChartArea: true,
+                            drawBorder: true
+                        }
+                    }]
+                },
+                responsive: true
             }
-            });
+        });
+
+        exportImage("download-jpg", "chart_ampur", "image/jpg", "download-jpg");
+        exportImage("download-png", "chart_ampur", "image/png", "download-png");
+
+
+        function exportImage(btnId, chartId, imageTo, buttonId) {
+            document.getElementById(btnId).addEventListener("click", function() {
+                var url_base64jp = document.getElementById(chartId).toDataURL(imageTo);
+                var a = document.getElementById(buttonId);
+                a.href = url_base64jp;
+            })
+        }
+
+        var backgroundColor = 'white';
+        Chart.plugins.register({
+            beforeDraw: function(c) {
+                var ctx = c.chart.ctx;
+                ctx.fillStyle = backgroundColor;
+                ctx.fillRect(0, 0, c.chart.width, c.chart.height);
+            }
+        });
+
+        document.getElementById('download-pdf').addEventListener("click", downloadPDF);
+
+        //donwload pdf from original canvas
+        function downloadPDF() {
+            var canvas = document.getElementById('chart_ampur');
+                //creates image
+            var canvasImg = canvas.toDataURL("image/jpg", 1.0);
+        
+            //creates PDF from img
+            var doc = new jsPDF('landscape');
+            doc.setFontSize(20);
+            doc.text(15, 15, "report changwat chart");
+            doc.addImage(canvasImg, 'JPEG', 10, 10, 280, 150 );
+            doc.save('reportAdminChangwat.pdf');
+        }
+
     </script>
 
   </body>
