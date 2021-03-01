@@ -36,19 +36,18 @@ $strHistoryLabel=implode(", ",$historyAmpurLabel);
     
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <link href='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css'>
-    <link href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.3/css/font-awesome.css'>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
     <link href="https://unpkg.com/bootstrap-table@1.18.2/dist/bootstrap-table.min.css" rel="stylesheet">
     <link href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.3/css/font-awesome.css'>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
     <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
     <script src='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js'></script>
-    <script src="https://cdn.ckeditor.com/ckeditor5/25.0.0/classic/ckeditor.js"></script>
     <script src="../js/tableToCards.js"></script>
     <script src="https://unpkg.com/bootstrap-table@1.18.2/dist/bootstrap-table.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.4/jspdf.min.js"></script>
+    <script src='https://rawgit.com/gliffy/canvas2svg/master/canvas2svg.js'></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/canvg/3.0.7/umd.js" integrity="sha512-9cZtXG4J3AzjYnxA6XDibUfjudIYnMT03CmV8xZzdmFt6V2Fl6C6dxlXbsGTMWoLGRHSC+ljX9hYfPds/tFicg==" crossorigin="anonymous"></script>
 
   
     <title>ReportAdminChangwat</title>
@@ -75,12 +74,6 @@ $strHistoryLabel=implode(", ",$historyAmpurLabel);
       {
         margin-top: -20px;
         border: 2px solid #F6F6F6;
-      }
-
-      .content-body.pie-chart
-      {
-        display: flex;
-        justify-content: center;
       }
 
       .content-body p
@@ -138,7 +131,7 @@ $strHistoryLabel=implode(", ",$historyAmpurLabel);
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                     <a id="download-jpg" download="ChartImage.jpg" href="" class="btn btn-success float-right bg-flat-color-1" title="reportAdminChangwat">jpg</i></a>
                     <a id="download-png" download="ChartImage.png" href="" class="btn btn-success float-right bg-flat-color-1" title="reportAdminChangwat">png</a>
-                    <a id="download-svg" download="ChartImage.svg" href="" class="btn btn-success float-right bg-flat-color-1" title="reportAdminChangwat">svg</a>
+                    <!-- <a id="download-svg" download="ChartImage.svg" href="" class="btn btn-success float-right bg-flat-color-1" title="reportAdminChangwat">svg</a> -->
                     <button type="button" id="download-pdf" class="btn btn-success float-right bg-flat-color-1">pdf</button>
                 </div>
             </div>
@@ -201,18 +194,18 @@ $strHistoryLabel=implode(", ",$historyAmpurLabel);
                     "animationDuration": 1
                 },
                 "animation": {
-                    "onComplete": function() {
-                        var chartInstance = this.chart,
-                        ctx = chartInstance.ctx;
+                  "onComplete": function() {
+                      var chartInstance = this.chart,
+                      ctx = chartInstance.ctx;
 
-                        this.data.datasets.forEach(function(dataset, i) {
-                            var meta = chartInstance.controller.getDatasetMeta(i);
-                            meta.data.forEach(function(bar, index) {
-                                var data = dataset.data[index];
-                                ctx.fillText(data + ' %', bar._model.x - 20, bar._model.y - 10);
-                            });
-                        });
-                    }
+                      this.data.datasets.forEach(function(dataset, i) {
+                          var meta = chartInstance.controller.getDatasetMeta(i);
+                          meta.data.forEach(function(bar, index) {
+                              var data = dataset.data[index];
+                              ctx.fillText(data + ' %', bar._model.x - 20, bar._model.y - 10);
+                          });
+                      });
+                  }
                 },
                 tooltips: {
                     callbacks: {
@@ -242,10 +235,6 @@ $strHistoryLabel=implode(", ",$historyAmpurLabel);
             }
         });
 
-        exportImage("download-jpg", "chart_ampur", "image/jpg", "download-jpg");
-        exportImage("download-png", "chart_ampur", "image/png", "download-png");
-
-
         function exportImage(btnId, chartId, imageTo, buttonId) {
             document.getElementById(btnId).addEventListener("click", function() {
                 var url_base64jp = document.getElementById(chartId).toDataURL(imageTo);
@@ -265,19 +254,21 @@ $strHistoryLabel=implode(", ",$historyAmpurLabel);
 
         document.getElementById('download-pdf').addEventListener("click", downloadPDF);
 
-        //donwload pdf from original canvas
         function downloadPDF() {
             var canvas = document.getElementById('chart_ampur');
-                //creates image
             var canvasImg = canvas.toDataURL("image/jpg", 1.0);
         
-            //creates PDF from img
             var doc = new jsPDF('landscape');
             doc.setFontSize(20);
             doc.text(15, 15, "report changwat chart");
             doc.addImage(canvasImg, 'JPEG', 10, 10, 280, 150 );
             doc.save('reportAdminChangwat.pdf');
         }
+
+
+        exportImage("download-jpg", "chart_ampur", "image/jpg", "download-jpg");
+        exportImage("download-png", "chart_ampur", "image/png", "download-png");
+        
 
     </script>
 
