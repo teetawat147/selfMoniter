@@ -166,12 +166,11 @@ $str_history_bpLower_data=implode(", ",$history_bpLower_data);
 $str_history_bloodsugar_data=implode(", ",$history_bloodsugar_data);
 $str_history_weight_data=implode(", ",$history_weight_data);
 $str_history_cvd_score_data=implode(", ",$history_cvd_score_data);
+
 // echo "<br>str_history_label";
 // print_r($str_history_label);
 // echo "<br>str_history_bmi_data";
 // print_r($str_history_bmi_data);
-
-
 ?>
 
 <!doctype html>
@@ -499,9 +498,6 @@ $str_history_cvd_score_data=implode(", ",$history_cvd_score_data);
   </div>
 </div>
 
-
-
-
   <script>
 
 
@@ -517,7 +513,7 @@ $str_history_cvd_score_data=implode(", ",$history_cvd_score_data);
             label:"BMI",
             data:[
               <?php echo $str_history_bmi_data; ?>
-                ],
+            ],
             fill:false,
             backgroundColor:[
               "rgba(255, 99, 132, 0.2)",
@@ -612,7 +608,7 @@ $str_history_cvd_score_data=implode(", ",$history_cvd_score_data);
         ],
         datasets:[
           {
-            label:"BMI",
+            label:"ค่า CVD",
             data:[
               <?php echo $str_history_cvd_score_data; ?>
                 ],
@@ -861,17 +857,16 @@ $str_history_cvd_score_data=implode(", ",$history_cvd_score_data);
       options:{
         legend:{display:false},
         annotation: {
-    annotations: [{
-        type: 'line',
-        mode: 'horizontal',
-        scaleID: 'y-axis-0',
-        value: '26',
-        borderColor: 'tomato',
-        borderWidth: 1
-    }],
-    drawTime: "afterDraw" // (default)
-},
-
+          annotations: [{
+            type: 'line',
+            mode: 'horizontal',
+            scaleID: 'y-axis-0',
+            value: '26',
+            borderColor: 'tomato',
+            borderWidth: 1
+          }],
+          drawTime: "afterDraw" // (default)
+        },
         scales:{
           yAxes:[{
             ticks:{
@@ -881,8 +876,6 @@ $str_history_cvd_score_data=implode(", ",$history_cvd_score_data);
               stepSize: <?php echo ceil($maxCountAll/10); ?>
             }
           }],
-
-          
         }
       }
     });
