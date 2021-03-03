@@ -19,7 +19,7 @@
       if (liff.isLoggedIn()) {
         // runApp()
         liff.logout();
-        window.location="../main/Healthdatarecord.php";
+        window.location="../main/healthDataRecord.php";
       } else {
         liff.login();
         window.location="../main/userRegister.php";
