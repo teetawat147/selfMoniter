@@ -52,7 +52,7 @@ include("../include/connection.php");
             <center>
                 <br>
                 <a href="../main/userRegister.php">สมัครเข้าใช้งาน</a>
-                <label for="password">ลืมรหัสผ่าน</label>
+                <a href="../main/forgetPassword.php" class="btn btn-link">ลืมรหัสผ่าน</a>
             </center>
         </div>  
         
