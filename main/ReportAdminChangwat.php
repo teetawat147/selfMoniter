@@ -143,7 +143,19 @@ $strHistoryLabel=implode(", ",$historyAmpurLabel);
             <div class="content-body">
                 <canvas id="chart_ampur"></canvas>
             </div>
-        </div>
+        </div><br><br><br>
+
+        <div class="dropdown d-flex justify-content-end mb-2">
+                <button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-file-download"></i>
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a id="download-jpg" download="ChartImage.jpg" href="" class="btn btn-success float-right bg-flat-color-1" title="reportAdminChangwat">jpg</i></a>
+                    <a id="download-png" download="ChartImage.png" href="" class="btn btn-success float-right bg-flat-color-1" title="reportAdminChangwat">png</a>
+                    <a id="download-svg" download="ChartImage.svg" href="" class="btn btn-success float-right bg-flat-color-1" title="reportAdminChangwat">svg</a>
+                    <button type="button" id="download-pdf" class="btn btn-success float-right bg-flat-color-1">pdf</button>
+                </div>
+            </div>
 
         <table class="table" id="myTable" style="width: 100%;" data-toggle="table" >
             <thead>
