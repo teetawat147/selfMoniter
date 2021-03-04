@@ -1,4 +1,6 @@
-<?php
+<?php	
+  header('Content-Type: text/html; charset=utf-8');
+
   include('../include/connection.php');
 
   $sql = "SELECT * FROM count_ampur";
@@ -26,16 +28,14 @@ foreach ($rowsOffice as $hkey => $historyValue) {
 $strHistoryAmpur=implode(", ",$historyAmpur);
 $strHistoryLabel=implode(", ",$historyAmpurLabel);
 
-
-
 ?>
 
 
 <!doctype html>
-<html lang="en">
+<html lang="th">
   <head>
-    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta charset="utf-8">
     
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <link href='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css'>
@@ -79,43 +79,40 @@ $strHistoryLabel=implode(", ",$historyAmpurLabel);
           </figure>
         </div>
 
-          <table id="myTable" class="table table-striped table-bordered" style="width: 100%;" data-toggle="table">
-            <thead>
+        <table id="myTable" class="table table-striped table-bordered" style="width: 100%;" data-toggle="table">
+          <thead>
+            <tr>
+              <th style="height: 70px; text-align: center; vertical-align: top;">อำเภอ</th>
+              <th style="height: 70px; text-align: center; vertical-align: top;">จำนวนเจ้าหน้าที่ทั้งหมด</th>
+              <th style="height: 70px; text-align: center; vertical-align: top;">จำนวนเจ้าหน้าที่ลงบันทึกข้อมูล</th>
+              <th style="height: 70px; text-align: center; vertical-align: top;">ร้อยละ</th>
+              <!-- <th data-card-footer></th> -->
+            </tr>
+          </thead>
+          <tbody>
+          <?php
+              foreach ($rowsOffice as $key => $rowOffice) {
+              ?>
               <tr>
-                <th style="height: 70px; text-align: center; vertical-align: top;">อำเภอ</th>
-                <th style="height: 70px; text-align: center; vertical-align: top;">จำนวนเจ้าหน้าที่ทั้งหมด</th>
-                <th style="height: 70px; text-align: center; vertical-align: top;">จำนวนเจ้าหน้าที่ลงบันทึกข้อมูล</th>
-                <th style="height: 70px; text-align: center; vertical-align: top;">ร้อยละ</th>
-                <!-- <th data-card-footer></th> -->
-              </tr>
-            </thead>
-            <tbody>
-            <?php
-                foreach ($rowsOffice as $key => $rowOffice) {
-                ?>
-                <tr>
-                    <td><?php echo $rowOffice['ampur_name']; ?></td>
-                    <td><?php echo $rowOffice['NEWCountPerson']; ?></td>
-                    <td><?php echo $rowOffice['count_districtCode']; ?></td>
-                    <td><?php echo round($rowOffice['Percent'], 2); ?></td>
+                  <td><?php echo $rowOffice['ampur_name']; ?></td>
+                  <td><?php echo $rowOffice['NEWCountPerson']; ?></td>
+                  <td><?php echo $rowOffice['count_districtCode']; ?></td>
+                  <td><?php echo round($rowOffice['Percent'], 2); ?></td>
 
-                </tr>
-                <?php 
-                }
-                ?>
-            </tbody>
-          </table>
-        <hr>
+              </tr>
+              <?php 
+              }
+              ?>
+          </tbody>
+        </table>
       </div>
     </div>
 
 
     <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="../js/tableToCards.js"></script>
     <script src="https://unpkg.com/bootstrap-table@1.18.2/dist/bootstrap-table.min.js"></script>
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.4/jspdf.min.js"></script> -->
     
     <script src="https://code.highcharts.com/highcharts.js"></script>
     <script src="https://code.highcharts.com/modules/exporting.js"></script>
@@ -297,7 +294,7 @@ $strHistoryLabel=implode(", ",$historyAmpurLabel);
             'info': true,
             "autoWidth": true,
             'language': data,
-            dom: 'Bfrt<"col-md-6 inline"i> <"col-md-6 inline"p>',
+            dom: 'Bfrtip<"col-md-6 inline"i> <"col-md-6 inline"p>',
             buttons: {
               dom: {
                 container: {
@@ -316,34 +313,7 @@ $strHistoryLabel=implode(", ",$historyAmpurLabel);
                   titleAttr: 'Copy',
                   className: 'btn btn-app export barras',
                   exportOptions: {
-                    columns: [0, 1]
-                  }
-                },
-                {
-                  extend: 'pdfHtml5',
-                  text: '<i class="fa fa-file-pdf-o"></i> PDF',
-                  title: 'PDF',
-                  titleAttr: 'PDF',
-                  className: 'btn btn-app export pdf',
-                  exportOptions: {
-                    columns: [0, 1]
-                  },
-                  customize: function(doc) {
-                    doc.styles.title = {
-                      color: '#50B432',
-                      fontSize: '30',
-                      alignment: 'center'
-                    }
-                    doc.styles['td:nth-child(2)'] = {
-                      width: '100px',
-                      'max-width': '100px'
-                    },
-                    doc.styles.tableHeader = {
-                      fillColor: '#50B432',
-                      color: 'white',
-                      alignment: 'center'
-                    },
-                    doc.content[1].margin = [100, 0, 100, 0]
+                    columns: ':visible'
                   }
                 },
                 {
@@ -353,27 +323,26 @@ $strHistoryLabel=implode(", ",$historyAmpurLabel);
                   titleAttr: 'Excel',
                   className: 'btn btn-app export excel',
                   exportOptions: {
-                    columns: [0, 1]
+                    columns: ':visible'
                   },
                 },
                 {
-                  extend: 'csvHtml5',
-                  text: '<i class="fa fa-file-text-o"></i> CSV',
-                  title: 'CSV',
-                  titleAttr: 'CSV',
-                  className: 'btn btn-app export csv',
+                  extend: 'print',
+                  text: '<i class="fa fa-file-pdf-o"></i> PDF',
+                  // title: 'Save to PDF',
+                  // titleAttr: 'Save to PDF',
+                  className: 'btn btn-app export pdf',
                   exportOptions: {
-                    columns: [0, 1]
-                  }
+                    columns: ':visible'
+                  },
+                  printer: 'Save as PDF'
                 },
                 {
                   extend: 'print',
                   text: '<i class="fa fa-print"></i> Print',
-                  title: 'Print',
-                  titleAttr: 'Print',
                   className: 'btn btn-app export print',
                   exportOptions: {
-                    columns: [0, 1]
+                    columns: ':visible'
                   }
                 }
               ]
