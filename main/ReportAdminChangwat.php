@@ -79,7 +79,7 @@ $strHistoryLabel=implode(", ",$historyAmpurLabel);
           </figure>
         </div>
 
-          <table id="myTable" class="table table-striped table-bordered" style="width: 100%;" data-toggle="table" >
+          <table id="myTable" class="table table-striped table-bordered" style="width: 100%;" data-toggle="table">
             <thead>
               <tr>
                 <th style="height: 70px; text-align: center; vertical-align: top;">อำเภอ</th>
