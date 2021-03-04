@@ -71,74 +71,13 @@ $strHistoryLabel=implode(", ",$historyAmpurLabel);
       <br>
       <center><h3>รายงานเจ้าหน้าที่ระดับอำเภอ</h3></center>
       <br>
-<<<<<<< HEAD
       <div class="content">
-        <!-- <div class="dropdown d-flex justify-content-end mb-3">
-          <button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              <i class="fas fa-file-download"></i>
-          </button>
-          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-              <a id="download-jpg" download="ChartImage.jpg" href="" class="btn btn-success float-right bg-flat-color-1" title="reportAdminChangwat">jpg</i></a>
-              <a id="download-png" download="ChartImage.png" href="" class="btn btn-success float-right bg-flat-color-1" title="reportAdminChangwat">png</a>
-              <a id="download-svg" href="" class="btn btn-success float-right bg-flat-color-1">svg</a>
-              <button type="button" id="download-pdf" class="btn btn-success float-right bg-flat-color-1">pdf</button>
-          </div>
-        </div> -->
 
         <div class="content-title">
-          <!-- <div class="content-body">
-              <canvas id="chart_ampur" width="1100" height="550"></canvas>
-          </div> -->
           <figure class="highcharts-figure">
             <div id="chart-ampur"></div>
           </figure>
         </div>
-=======
-        <div class="content">
-            <div class="dropdown d-flex justify-content-end mb-3">
-                <button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="fas fa-file-download"></i>
-                </button>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <a id="download-jpg" download="ChartImage.jpg" href="" class="btn btn-success float-right bg-flat-color-1" title="reportAdminChangwat">jpg</i></a>
-                    <a id="download-png" download="ChartImage.png" href="" class="btn btn-success float-right bg-flat-color-1" title="reportAdminChangwat">png</a>
-                    <a id="download-svg" download="ChartImage.svg" href="" class="btn btn-success float-right bg-flat-color-1" title="reportAdminChangwat">svg</a>
-                    <button type="button" id="download-pdf" class="btn btn-success float-right bg-flat-color-1">pdf</button>
-                </div>
-            </div>
-
-
-            <div class="content-title">
-                <p>อำเภอ</p>
-            <div class="content-body">
-                <canvas id="chart_ampur"></canvas>
-            </div>
-        </div><br><br><br>
-
-        <div class="dropdown d-flex justify-content-end mb-2">
-                <button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="fas fa-file-download"></i>
-                </button>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <a id="download-jpg" download="ChartImage.jpg" href="" class="btn btn-success float-right bg-flat-color-1" title="reportAdminChangwat">jpg</i></a>
-                    <a id="download-png" download="ChartImage.png" href="" class="btn btn-success float-right bg-flat-color-1" title="reportAdminChangwat">png</a>
-                    <a id="download-svg" download="ChartImage.svg" href="" class="btn btn-success float-right bg-flat-color-1" title="reportAdminChangwat">svg</a>
-                    <button type="button" id="download-pdf" class="btn btn-success float-right bg-flat-color-1">pdf</button>
-                </div>
-            </div>
->>>>>>> f8a21af2a4ca279a5cfa26c5b2ae12f32209d51a
-
-        <!-- <div class="dropdown d-flex justify-content-end mb-3">
-          <button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              <i class="fas fa-file-download"></i>
-          </button>
-          <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
-            <a href="#">csv</a>
-            <a href="#">Text</a>
-            <a href="#">Copy</a>
-            <a href="#">Word</a>
-          </div>
-        </div> -->
 
           <table id="myTable" class="table table-striped table-bordered" style="width: 100%;" data-toggle="table" >
             <thead>
