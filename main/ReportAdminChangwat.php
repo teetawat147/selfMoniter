@@ -7,7 +7,7 @@
 
   switch ($_SESSION['groupId']) {
     case '1':
-      $sql = "SELECT * FROM count_ampur";
+      $sql = "SELECT * FROM count_ampur order by ampur_code";
       break;
     
     default:
@@ -323,7 +323,7 @@ $strHistoryLabel=implode(", ",$historyAmpurLabel);
             "paging": false,
             "lengthChange": true,
             "searching": true,
-            "ordering": true,
+            "ordering": false,
             'info': true,
             "autoWidth": true,
             'language': data,
