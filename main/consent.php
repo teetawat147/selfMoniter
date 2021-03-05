@@ -120,7 +120,7 @@ if (!$_SESSION['fname']){
       </center>
        
       <center>
-        <button type="back" class="btn btn-primary">ย้อนกลับ</button>
+        <a class="btn btn-primary" href="../main/userRegister.php" role="button">ย้อนกลับ</a>
         <button type="cancel" class="btn btn-primary">ยกเลิก</button>
                        
         <!-- Button trigger modal -->

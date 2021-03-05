@@ -100,182 +100,183 @@ include("../include/connection.php");
 <body>
     <fieldset id="userRegister" style="display:block;">
         <div class = "container">
-        <center>
-        <div class="container progressive">
-            <ul class="progressbar">
-                <li class="active">ลงทะเบียน</li>
-                <li >ข้อตกลง</li>
-            </ul>
-        </div>
-        </center>
-          <h3>ลงทะเบียน</h3>
-    <form class="form" action="userRegisterInsert.php" method="POST">
-        <input type="hidden" name="lineId" id="lineId" value="<?php echo (isset($_GET['lineId']))?$_GET['lineId']:"";?>" >
-        
-        <div class="form-row">
-            <div class="form-group col-md-12">
-                <label for="cid">เลขบัตรประจำตัวประชาชน</label>
-                <input name="cid" id="cid" class="form-control" min="3" required type="text" data-error-msg="กรุณากรอกเลขบัตรประจำตัวประชาชน">
-            </div>
-        </div>
-
-        <div class="form-row">
-            <div class="form-group col-md-6">
-                <label for="fname">ชื่อ</label>
-                <input name="fname" id="fname" class="form-control" min="3" required type="text" data-error-msg="กรุณากรอกชื่อ">
-            </div>
-        
-
-        
-            <div class="form-group col-md-6">
-                <label for="lname">นามสกุล</label>
-                <input name="lname" id="lname" class="form-control" min="3"  type="text" data-error-msg="กรุณากรอกนามสกุล">
-            </div>
-        </div>
-
-        <div class="form-row">
-            <div class="form-group col-md-12">
-                <label for="birthdate">วันเกิด</label>
-                <input name="birthdate" id="birthdate" class="form-control" min="3" required type="date" data-error-msg="กรุณากรอกวันเกิด">
-            </div>
-        </div>
-        
-
-        <div class="form-row">
-            <div class="form-group col-md-6">
-                <label for="sexId">เพศ</label>
-                <select name='sexId' id='sexId' class='form-control' required data-error-msg="กรุณาเลือกเพศ">
-                    <option selected disabled>Choose...</option>
-                    <?php 
-                    $sql ="select * from sex";
-                    $result = $conn->prepare($sql);
-                    $result->execute();
-                    while($row = $result->fetch()) {
-                        ?>
-                         <option value="<?php echo $row['sexId'];?>"><?php echo $row['sexName'];?></option>
-                        <?php   
-                    }
-                    ?>
-                </select>
-            </div>
-                 
-            <div class="form-group col-md-6">
-                <label for="phone">เบอร์โทรศัพท์</label>
-                <input name="phone" id="phone" class="form-control" min="3" required type="text" data-error-msg="กรุณากรอกเบอร์โทรศัพท์">
-                
-            </div>
-        </div>
-
-        <div class="form-row">
-            <div class="form-group col-md-6">
-                <label for="address">ที่อยู่</label>
-                <input name="address" id="address" class="form-control" min="3" required type="text" data-error-msg="กรุณากรอกที่อยู่">
-                
-            </div>
-              
-            <div class="form-group col-md-6">
-                <label for="provinceCode">จังหวัด</label>
-                <select name='provinceCode' id='provinceCode' class='form-control' required data-error-msg="กรุณากรอกชื่อจังหวัด">
-                    <option selected disabled>Choose...</option>
-                    <?php 
-                    $sql ="select * from changwat order by changwat_name";
-                    $result = $conn->prepare($sql);
-                    $result->execute();
-                    while($row = $result->fetch()) {
-                        ?>
-                         <option value="<?php echo $row['changwat_code'];?>"><?php echo $row['changwat_name'];?></option>
-                        <?php   
-                    }
-                    ?>
-                </select>
-            </div>
-        </div>
-
-        <div class="form-row">
-            <div id="div-districtCode" class="form-group col-md-6">
-                <label for="districtCode">อำเภอ</label>
-                <select name='districtCode' id='districtCode' class='form-control' required data-error-msg="กรุณากรอกชื่ออำเภอ">
-                    <option selected disabled>Choose...</option>
-                </select>              
-            </div>
-        
-            
-            <div id="div-subdistrictCode" class="form-group col-md-6">
-                <label for="subdistrictCode">ตำบล</label>
-                <select name='subdistrictCode' id='subdistrictCode' class='form-control' required data-error-msg="กรุณากรอกชื่อตำบล">
-                    <option selected disabled>Choose...</option>
-                </select>              
-               
-            </div>
-        </div>
-
-        <div class="form-row">   
-            <div  class="form-group col-md-12">
-                <label for="officeId">ชื่อหน่วยงาน</label>
-                <select name='officeId' id='officeId' class='form-control' required data-error-msg="กรุณากรอกชื่อหน่วยงาน">
-                    <option selected disabled>Choose...</option>
-                    <?php 
-                    $sql ="select * from office";
-                    $result = $conn->prepare($sql);
-                    $result->execute();
-                    while($row = $result->fetch()) {
-                        ?>
-                         <option value="<?php echo $row['office_id'];?>"><?php echo $row['office_name'];?></option>
-                        <?php   
-                    }
-                    ?>
-                </select>
-            </div>
-        </div>
-
-        <div class="form-row">   
-            <div  class="form-group col-md-12">
-                <label for="departmentId">ชื่อแผนก</label>
-                <select name='departmentId' id='departmentId' class='form-control' required data-error-msg="กรุณากรอกชื่อแผนก">
-                    <option selected disabled>Choose...</option>
-                </select>
-            </div>
-        </div>
-
-        <div class="form-row">
-            <div class="form-group col-md-6">
-                <label for="personWeight">น้ำหนัก</label>
-                <input name="personWeight" id="personWeight" class="form-control" min="3" required type="text" data-error-msg="กรุณากรอกน้ำหนัก">
-            </div>
-        
-            <div class="form-group col-md-6">
-                <label for="personHeight">ส่วนสูง</label>
-                <input name="personHeight" id="personHeight" class="form-control" min="3" required type="text" data-error-msg="กรุณากรอกส่วนสูง">
-                
-            </div>
-        </div>
-  
-        <div class="form-row">
-            <div class="form-group col-md-12">
-                <label for="email">Email</label>
-                <input name="email" id="email" class="form-control" min="3" required type="text" data-error-msg="กรุณากรอก Email">
-            </div>
-         
-            <div class="form-group col-md-12">
-                <label for="password">Password</label>
-                <input name="password" id="password" class="form-control" min="3" required type="password" data-error-msg="กรุณากรอก Password">
-            </div>
-        </div>
-
             <center>
-                <button type="submit" class="btn btn-primary">สมัครใช้งาน</button> 
-                <button type="button" class="btn btn-secondary">ยกเลิก</button>              
-            </center> 
+            <div class="container progressive">
+                <ul class="progressbar">
+                    <li class="active">ลงทะเบียน</li>
+                    <li >ข้อตกลง</li>
+                </ul>
+            </div>
+            </center>
+            <h3>ลงทะเบียน</h3>
+            <form class="form" action="userRegisterInsert.php" method="POST">
+                <input type="hidden" name="lineId" id="lineId" value="<?php echo (isset($_GET['lineId']))?$_GET['lineId']:"";?>" >
+                
+                <div class="form-row">
+                    <div class="form-group col-md-12">
+                        <label for="cid">เลขบัตรประจำตัวประชาชน</label>
+                        <input name="cid" id="cid" class="form-control" min="3" required type="text" data-error-msg="กรุณากรอกเลขบัตรประจำตัวประชาชน">
+                    </div>
+                </div>
 
-    </fieldset>          
-    </form>
-</div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="fname">ชื่อ</label>
+                        <input name="fname" id="fname" class="form-control" min="3" required type="text" data-error-msg="กรุณากรอกชื่อ">
+                    </div>
+                
+
+                
+                    <div class="form-group col-md-6">
+                        <label for="lname">นามสกุล</label>
+                        <input name="lname" id="lname" class="form-control" min="3"  type="text" data-error-msg="กรุณากรอกนามสกุล">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-12">
+                        <label for="birthdate">วันเกิด</label>
+                        <input name="birthdate" id="birthdate" class="form-control" min="3" required type="date" data-error-msg="กรุณากรอกวันเกิด">
+                    </div>
+                </div>
+                
+
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="sexId">เพศ</label>
+                        <select name='sexId' id='sexId' class='form-control' required data-error-msg="กรุณาเลือกเพศ">
+                            <option selected disabled>Choose...</option>
+                            <?php 
+                            $sql ="select * from sex";
+                            $result = $conn->prepare($sql);
+                            $result->execute();
+                            while($row = $result->fetch()) {
+                                ?>
+                                <option value="<?php echo $row['sexId'];?>"><?php echo $row['sexName'];?></option>
+                                <?php   
+                            }
+                            ?>
+                        </select>
+                    </div>
+                        
+                    <div class="form-group col-md-6">
+                        <label for="phone">เบอร์โทรศัพท์</label>
+                        <input name="phone" id="phone" class="form-control" min="3" required type="text" data-error-msg="กรุณากรอกเบอร์โทรศัพท์">
+                        
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="address">ที่อยู่</label>
+                        <input name="address" id="address" class="form-control" min="3" required type="text" data-error-msg="กรุณากรอกที่อยู่">
+                        
+                    </div>
+                    
+                    <div class="form-group col-md-6">
+                        <label for="provinceCode">จังหวัด</label>
+                        <select name='provinceCode' id='provinceCode' class='form-control' required data-error-msg="กรุณากรอกชื่อจังหวัด">
+                            <option selected disabled>Choose...</option>
+                            <?php 
+                            $sql ="select * from changwat order by changwat_name";
+                            $result = $conn->prepare($sql);
+                            $result->execute();
+                            while($row = $result->fetch()) {
+                                ?>
+                                <option value="<?php echo $row['changwat_code'];?>"><?php echo $row['changwat_name'];?></option>
+                                <?php   
+                            }
+                            ?>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div id="div-districtCode" class="form-group col-md-6">
+                        <label for="districtCode">อำเภอ</label>
+                        <select name='districtCode' id='districtCode' class='form-control' required data-error-msg="กรุณากรอกชื่ออำเภอ">
+                            <option selected disabled>Choose...</option>
+                        </select>              
+                    </div>
+                
+                    
+                    <div id="div-subdistrictCode" class="form-group col-md-6">
+                        <label for="subdistrictCode">ตำบล</label>
+                        <select name='subdistrictCode' id='subdistrictCode' class='form-control' required data-error-msg="กรุณากรอกชื่อตำบล">
+                            <option selected disabled>Choose...</option>
+                        </select>              
+                    
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div  class="form-group col-md-12">
+                        <label for="officeId">ชื่อหน่วยงาน</label>
+                        <select name='officeId' id='officeId' class='form-control' required data-error-msg="กรุณากรอกชื่อหน่วยงาน">
+                            <option selected disabled>Choose...</option>
+                            <?php 
+                            $sql ="select * from office";
+                            $result = $conn->prepare($sql);
+                            $result->execute();
+                            while($row = $result->fetch()) {
+                                ?>
+                                <option value="<?php echo $row['office_id'];?>"><?php echo $row['office_name'];?></option>
+                                <?php   
+                            }
+                            ?>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">   
+                    <div  class="form-group col-md-12">
+                        <label for="departmentId">ชื่อแผนก</label>
+                        <select name='departmentId' id='departmentId' class='form-control' required data-error-msg="กรุณากรอกชื่อแผนก">
+                            <option selected disabled>Choose...</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="personWeight">น้ำหนัก</label>
+                        <input name="personWeight" id="personWeight" class="form-control" min="3" required type="text" data-error-msg="กรุณากรอกน้ำหนัก">
+                    </div>
+                
+                    <div class="form-group col-md-6">
+                        <label for="personHeight">ส่วนสูง</label>
+                        <input name="personHeight" id="personHeight" class="form-control" min="3" required type="text" data-error-msg="กรุณากรอกส่วนสูง">
+                        
+                    </div>
+                </div>
+        
+                <div class="form-row">
+                    <div class="form-group col-md-12">
+                        <label for="email">Email</label>
+                        <input name="email" id="email" class="form-control" min="3" required type="text" data-error-msg="กรุณากรอก Email">
+                    </div>
+                
+                    <div class="form-group col-md-12">
+                        <label for="password">Password</label>
+                        <!-- <input name="password" id="password" class="form-control" min="3" required type="password" data-error-msg="กรุณากรอก Password"> -->
+                        
+                        <input name="password" id="password" class="form-control" min="3" required type="password" data-error-msg="กรุณากรอก password">
+                    </div>
+                </div>
+
+                    <center>
+                        <button type="submit" class="btn btn-primary">สมัครใช้งาน</button> 
+                        <button type="button" class="btn btn-secondary">ยกเลิก</button>              
+                    </center>
+            </form> 
+        </div>
+    </fieldset>
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>  
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-    <script src ="https://www.jquery-az.com/boots/js/validate-bootstrap/validate-bootstrap.jquery.min.js" ></script>
+    <script src ="https://www.jquery-az.com/boots/js/validate-bootstrap/validate-bootstrap.jquery.min.js"></script>
 
     <script>
         $(function(){
@@ -322,6 +323,31 @@ include("../include/connection.php");
                 });
             })
         });
+
+        $(function() {
+        // console.log($('form'));
+        $('form').validator({
+            alert:'',
+            // validateSelecters:'input[type="text"],input[type="email"],input[type="number"],select,textarea','input[type=password]',
+            validHandlers: {
+                '.customhandler':function(input) {
+                    //may do some formatting before validating
+                    input.val(input.val().toUpperCase());
+                    //return true if valid
+                    return input.val() === 'JQUERY' ? true : false;
+                }
+            }
+        });
+
+            $('form').submit(function(e) {
+
+                if ($('form').validator('check') < 1) {
+                }else{
+                    e.preventDefault();
+                    return false;
+                }
+            })
+        })
     </script>
   </body>
 </html>
