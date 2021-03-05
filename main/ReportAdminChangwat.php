@@ -1,9 +1,19 @@
 <?php	
-  header('Content-Type: text/html; charset=utf-8');
-
   include('../include/connection.php');
 
-  $sql = "SELECT * FROM count_ampur";
+  if(!($_SESSION['fname'])) {
+    header("location: ../main/login.php");
+  }
+
+  switch ($_SESSION['groupId']) {
+    case '1':
+      $sql = "SELECT * FROM count_ampur";
+      break;
+    
+    default:
+      break;
+  }
+
   $result = $conn -> prepare($sql);
   $result -> execute();
   $rowsOffice = $result -> fetchAll(PDO::FETCH_ASSOC);
@@ -50,6 +60,13 @@ $strHistoryLabel=implode(", ",$historyAmpurLabel);
 
     <style>
 
+      .button {
+        position: relative;
+        left: 763px;
+        top: 38px;
+        z-index: 1;
+      }
+
       .flex-content {
         display: flex;
         justify-content: flex-end;
@@ -58,6 +75,16 @@ $strHistoryLabel=implode(", ",$historyAmpurLabel);
 
       .flex-content button {
         margin-left: 10px;
+      }
+
+
+      @media only screen and (max-width: 768px) {
+        .button {
+          position: relative;
+          width: 85px;
+          top: 38px;
+          left: 0px;
+        }
       }
 
     </style>
@@ -79,32 +106,38 @@ $strHistoryLabel=implode(", ",$historyAmpurLabel);
           </figure>
         </div>
 
-        <table id="myTable" class="table table-striped table-bordered" style="width: 100%;" data-toggle="table">
-          <thead>
-            <tr>
-              <th style="height: 70px; text-align: center; vertical-align: top;">อำเภอ</th>
-              <th style="height: 70px; text-align: center; vertical-align: top;">จำนวนเจ้าหน้าที่ทั้งหมด</th>
-              <th style="height: 70px; text-align: center; vertical-align: top;">จำนวนเจ้าหน้าที่ลงบันทึกข้อมูล</th>
-              <th style="height: 70px; text-align: center; vertical-align: top;">ร้อยละ</th>
-              <!-- <th data-card-footer></th> -->
-            </tr>
-          </thead>
-          <tbody>
-          <?php
-              foreach ($rowsOffice as $key => $rowOffice) {
-              ?>
-              <tr>
-                  <td><?php echo $rowOffice['ampur_name']; ?></td>
-                  <td><?php echo $rowOffice['NEWCountPerson']; ?></td>
-                  <td><?php echo $rowOffice['count_districtCode']; ?></td>
-                  <td><?php echo round($rowOffice['Percent'], 2); ?></td>
+        <button class="btn btn-secondary button" id="export"><i class="fa fa-file-word-o" aria-hidden="true"></i> Word</button>
 
-              </tr>
-              <?php 
-              }
-              ?>
-          </tbody>
-        </table>
+        <div id="docx">
+          <div class="word-section1">
+            <table id="myTable" class="table table-striped table-bordered" style="width: 100%;" data-toggle="table">
+              <thead>
+                <tr>
+                  <th style="height: 70px; text-align: center; vertical-align: top;">อำเภอ</th>
+                  <th style="height: 70px; text-align: center; vertical-align: top;">จำนวนเจ้าหน้าที่ทั้งหมด</th>
+                  <th style="height: 70px; text-align: center; vertical-align: top;">จำนวนเจ้าหน้าที่ลงบันทึกข้อมูล</th>
+                  <th style="height: 70px; text-align: center; vertical-align: top;">ร้อยละ</th>
+                  <!-- <th data-card-footer></th> -->
+                </tr>
+              </thead>
+              <tbody>
+              <?php
+                  foreach ($rowsOffice as $key => $rowOffice) {
+                  ?>
+                  <tr>
+                      <td><?php echo $rowOffice['ampur_name']; ?></td>
+                      <td><?php echo $rowOffice['NEWCountPerson']; ?></td>
+                      <td><?php echo $rowOffice['count_districtCode']; ?></td>
+                      <td><?php echo round($rowOffice['Percent'], 2); ?></td>
+
+                  </tr>
+                  <?php 
+                  }
+                  ?>
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -329,17 +362,6 @@ $strHistoryLabel=implode(", ",$historyAmpurLabel);
                 {
                   extend: 'print',
                   text: '<i class="fa fa-file-pdf-o"></i> PDF',
-                  // title: 'Save to PDF',
-                  // titleAttr: 'Save to PDF',
-                  className: 'btn btn-app export pdf',
-                  exportOptions: {
-                    columns: ':visible'
-                  },
-                  printer: 'Save as PDF'
-                },
-                {
-                  extend: 'print',
-                  text: '<i class="fa fa-print"></i> Print',
                   className: 'btn btn-app export print',
                   exportOptions: {
                     columns: ':visible'
@@ -349,6 +371,44 @@ $strHistoryLabel=implode(", ",$historyAmpurLabel);
             }
           });
         });
+
+
+        window.export.onclick = function() {
+ 
+        if (!window.Blob) {
+            alert('Your legacy browser does not support this action.');
+            return;
+        }
+
+        var html, link, blob, url, css;
+        
+        // EU A4 use: size: 841.95pt 595.35pt; //แนวนอน
+        // EU A4 use: size: 595.35pt 841.95pt ; //แนวตั้ง
+        // US Letter use: size:11.0in 8.5in;
+        
+        css = (
+          '<style>' +
+          '@page word-section1{size: 595.35pt 841.95pt;mso-page-orientation: portrait;}' +
+          'div.word-section1 {page: word-section1;}' +
+          'table{border-collapse:collapse;}td{border:1px gray solid;width:5em;padding:2px;}'+
+          '</style>'
+        );
+        
+        html = window.docx.innerHTML;
+        blob = new Blob(['\ufeff', css + html], {
+          type: 'application/msword'
+        });
+        url = URL.createObjectURL(blob);
+        link = document.createElement('A');
+        link.href = url;
+        // Set default file name. 
+        // Word will append file extension - do not add an extension here.
+        link.download = 'reportAdminChangwat';
+        document.body.appendChild(link);
+        if (navigator.msSaveOrOpenBlob ) navigator.msSaveOrOpenBlob( blob, 'reportAdminChangwat.doc'); // IE10-11
+            else link.click();  // other browsers
+        document.body.removeChild(link);
+      };
 
     </script>
 
