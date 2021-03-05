@@ -241,7 +241,7 @@ include("../include/connection.php");
                     </div>
                     <div class="form-group col-md-6">
                         <label for="password">Password</label>
-                        <input onfocus="this.type='password'" onsubmit="this.type='text'" name="password" id="password" class="form-control" min="3" required type="text" data-error-msg="กรุณากรอก password">
+                        <input oninput="this.type='password'" name="password" id="password" class="form-control" min="3" required type="text" data-error-msg="กรุณากรอก password" autocomplete="off">
                     </div>
                 </div>
                     <center>
