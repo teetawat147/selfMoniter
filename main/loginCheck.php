@@ -20,7 +20,7 @@ $stmt = $conn->prepare($sql);
     $_SESSION['districtCode']=$result[0]['districtCode'];
 
  
-      header("Location: ../main/Healthdatarecord.php");
+      header("Location: ../main/healthDataRecord.php");
   }else{
     $_SESSION['personId']='';
     $_SESSION['fname']='';

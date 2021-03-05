@@ -103,23 +103,6 @@ $rowEdit = $result->fetch();
                         <button type="button" class="btn btn-secondary ml-3">ยกเลิก</button><br><br>
                     </center>
             </form>
-
-            <hr class="m-5 border border-dark">
-
-            <h3 class="text-center">เพิ่มแผนกงาน</h3>
-            <div class="form-row d-flex justify-content-center">
-                <div class="form-group col-md-6">
-                    <label for="departmentName">ชื่อแผนกงาน</label>
-                    <input name="departmentName" id="departmentName" class="form-control" min="3" type="text" value="<?php echo $rowDept['departmentName']; ?>" placeholder="กรุณากรอกชื่อแผนกงาน">
-                </div>
-
-                <div class="form-group col-md-6">
-                    <label for="countPersonDept">จำนวนเจ้าหน้าที่ในแผนกงาน</label>
-                    <input name="countPersonDept" id="countPersonDept" class="form-control" min="3" type="text" value="<?php echo $rowDept['countPersonDept']; ?>" placeholder="กรุณากรอกจำนวนเจ้าหน้าที่ในแผนกงาน">
-                </div>
-                <button class="btn btn-primary mb-5" type="submit">เพิ่มแผนกงาน</button>
-            </div>
-        </div>
     </fieldset>
 
 

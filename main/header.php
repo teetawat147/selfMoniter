@@ -50,13 +50,13 @@
           <?php 
             if (($_SESSION['groupId'] == '1')) {
               ?>
-              <a class="dropdown-item" href="../main/overview47.php">ภาพรวมจังหวัดสกลนคร</a>
-              <a class="dropdown-item" href="../main/personDataAmpur.php">ร้อยละของบุคลากรระดับอำเภอ</a>
+              <a class="dropdown-item" href="../main/reportAdminChangwat.php">รายงานเจ้าหน้าที่ระดับอำเภอ</a>
+              <a class="dropdown-item" href="../main/reportAdminAmpur">รายงานเจ้าหน้าที่ระดับอำเภอของแต่ละหน่วยงาน</a>
           <?php
             }
             else if(($_SESSION['groupId'] == '2') or ($_SESSION['groupId'] == '4')) {
               ?>
-              <a class="dropdown-item" href="../main/personDataAmpur.php">ร้อยละของบุคลากรระดับอำเภอ</a>
+              <a class="dropdown-item" href="../main/reportAdminAmpur.php">รายงานเจ้าหน้าที่ระดับอำเภอของแต่ละหน่วยงาน</a>
         <?php
             }
             ?>

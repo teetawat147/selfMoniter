@@ -17,5 +17,5 @@ $result->execute();
 $lastId = $conn->lastInsertId();
 $_SESSION['personWeight']=$_POST['personWeight'];
 $_SESSION['personHeight']=$_POST['personHeight'];
-header("Location: ../main/Healthdatarecord.php");
+header("Location: ../main/healthDataRecord.php");
 ?>
