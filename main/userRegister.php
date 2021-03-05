@@ -328,7 +328,6 @@ include("../include/connection.php");
         // console.log($('form'));
         $('form').validator({
             alert:'',
-            // validateSelecters:'input[type="text"],input[type="email"],input[type="number"],select,textarea','input[type=password]',
             validHandlers: {
                 '.customhandler':function(input) {
                     //may do some formatting before validating

@@ -170,6 +170,7 @@ if (!$_SESSION['fname']){
         $(function() {
         console.log($('form'));
         $('form').validator({
+            alert:'',
             validHandlers: {
                 '.customhandler':function(input) {
                     //may do some formatting before validating
