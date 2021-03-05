@@ -21,80 +21,88 @@ include("../include/connection.php");
     
      <style>
         .container {
-  width: 100%;
-}
+            width: 100%;
+        }
 
-.progressbar {
-  counter-reset: step;
-}
-.progressbar li {
-  list-style: none;
-  display: inline-block;
-  width: 30.33%;
-  position: relative;
-  text-align: center;
-  cursor: pointer;
-}
-.progressbar li:before {
-  content: counter(step);
-  counter-increment: step;
-  width: 30px;
-  height: 30px;
-  line-height : 30px;
-  border: 1px solid #ddd;
-  border-radius: 1%;
-  display: block;
-  text-align: center;
-  margin: 0 auto 10px auto;
-  background-color: #fff;
-}
-.progressbar li:after {
-  content: "";
-  position: absolute;
-  width: 100%;
-  height: 1px;
-  background-color: #ddd;
-  top: 15px;
-  left: -50%;
-  z-index : -1;
-}
-.progressbar li:first-child:after {
-  content: none;
-}
-.progressbar li.active {
-  color: green;
-}
-.progressbar li.active:before {
-  border-color: green;
-} 
-.progressbar li.active + li:after {
-  background-color: green;
-}
+        .progressbar {
+            counter-reset: step;
+        }
 
-.progressive {
-    padding-top: 20px;
-}
+        .progressbar li {
+            list-style: none;
+            display: inline-block;
+            width: 30.33%;
+            position: relative;
+            text-align: center;
+            cursor: pointer;
+        }
 
-.body {
-    margin-top: 15px;
-}
+        .progressbar li:before {
+            content: counter(step);
+            counter-increment: step;
+            width: 30px;
+            height: 30px;
+            line-height : 30px;
+            border: 1px solid #ddd;
+            border-radius: 1%;
+            display: block;
+            text-align: center;
+            margin: 0 auto 10px auto;
+            background-color: #fff;
+        }
 
-.button {
-    display: flex;
-    justify-content: center;
-}
+        .progressbar li:after {
+            content: "";
+            position: absolute;
+            width: 100%;
+            height: 1px;
+            background-color: #ddd;
+            top: 15px;
+            left: -50%;
+            z-index : -1;
+        }
 
-.btn-cancel,
-.btn-next
-{
-    border-radius: 5px;
-    padding: 10px 30px;
-    background: #C4C4C4;
-    margin: 0px 50px;
-}
-.has-error .help-block{
-    color: red;
-}
+        .progressbar li:first-child:after {
+            content: none;
+        }
+
+        .progressbar li.active {
+            color: green;
+        }
+
+        .progressbar li.active:before {
+            border-color: green;
+        } 
+
+        .progressbar li.active + li:after {
+            background-color: green;
+        }
+
+        .progressive {
+            padding-top: 20px;
+        }
+
+        .body {
+            margin-top: 15px;
+        }
+
+        .button {
+            display: flex;
+            justify-content: center;
+        }
+
+        .btn-cancel,
+        .btn-next
+        {
+            border-radius: 5px;
+            padding: 10px 30px;
+            background: #C4C4C4;
+            margin: 0px 50px;
+        }
+        form .error {
+            color: #ff0000;
+            border-color: #ff0000;
+        }
 </style>
 </head>
 <body>
@@ -109,34 +117,34 @@ include("../include/connection.php");
             </div>
             </center>
             <h3>ลงทะเบียน</h3>
-            <form class="form" action="userRegisterInsert.php" method="POST">
+            <form class="form" action="userRegisterInsert.php" method="POST" name="userRegister">
                 <input type="hidden" name="lineId" id="lineId" value="<?php echo (isset($_GET['lineId']))?$_GET['lineId']:"";?>" >
                 
                 <div class="form-row">
                     <div class="form-group col-md-12">
                         <label for="cid">เลขบัตรประจำตัวประชาชน</label>
-                        <input name="cid" id="cid" class="form-control" min="3" required type="text" data-error-msg="กรุณากรอกเลขบัตรประจำตัวประชาชน">
+                        <input name="cid" id="cid" class="form-control" min="3" type="text">
                     </div>
                 </div>
 
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label for="fname">ชื่อ</label>
-                        <input name="fname" id="fname" class="form-control" min="3" required type="text" data-error-msg="กรุณากรอกชื่อ">
+                        <input name="fname" id="fname" class="form-control" min="3" type="text">
                     </div>
                 
 
                 
                     <div class="form-group col-md-6">
                         <label for="lname">นามสกุล</label>
-                        <input name="lname" id="lname" class="form-control" min="3"  type="text" data-error-msg="กรุณากรอกนามสกุล">
+                        <input name="lname" id="lname" class="form-control" min="3"  type="text">
                     </div>
                 </div>
 
                 <div class="form-row">
                     <div class="form-group col-md-12">
                         <label for="birthdate">วันเกิด</label>
-                        <input name="birthdate" id="birthdate" class="form-control" min="3" required type="date" data-error-msg="กรุณากรอกวันเกิด">
+                        <input name="birthdate" id="birthdate" class="form-control" min="3" type="date">
                     </div>
                 </div>
                 
@@ -144,7 +152,7 @@ include("../include/connection.php");
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label for="sexId">เพศ</label>
-                        <select name='sexId' id='sexId' class='form-control' required data-error-msg="กรุณาเลือกเพศ">
+                        <select name='sexId' id='sexId' class='form-control' data-error-msg="กรุณาเลือกเพศ">
                             <option selected disabled>Choose...</option>
                             <?php 
                             $sql ="select * from sex";
@@ -161,7 +169,7 @@ include("../include/connection.php");
                         
                     <div class="form-group col-md-6">
                         <label for="phone">เบอร์โทรศัพท์</label>
-                        <input name="phone" id="phone" class="form-control" min="3" required type="text" data-error-msg="กรุณากรอกเบอร์โทรศัพท์">
+                        <input name="phone" id="phone" class="form-control" min="3" type="text">
                         
                     </div>
                 </div>
@@ -169,13 +177,13 @@ include("../include/connection.php");
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label for="address">ที่อยู่</label>
-                        <input name="address" id="address" class="form-control" min="3" required type="text" data-error-msg="กรุณากรอกที่อยู่">
+                        <input name="address" id="address" class="form-control" min="3" type="text">
                         
                     </div>
                     
                     <div class="form-group col-md-6">
                         <label for="provinceCode">จังหวัด</label>
-                        <select name='provinceCode' id='provinceCode' class='form-control' required data-error-msg="กรุณากรอกชื่อจังหวัด">
+                        <select name='provinceCode' id='provinceCode' class='form-control'>
                             <option selected disabled>Choose...</option>
                             <?php 
                             $sql ="select * from changwat order by changwat_name";
@@ -194,7 +202,7 @@ include("../include/connection.php");
                 <div class="form-row">
                     <div id="div-districtCode" class="form-group col-md-6">
                         <label for="districtCode">อำเภอ</label>
-                        <select name='districtCode' id='districtCode' class='form-control' required data-error-msg="กรุณากรอกชื่ออำเภอ">
+                        <select name='districtCode' id='districtCode' class='form-control'>
                             <option selected disabled>Choose...</option>
                         </select>              
                     </div>
@@ -202,7 +210,7 @@ include("../include/connection.php");
                     
                     <div id="div-subdistrictCode" class="form-group col-md-6">
                         <label for="subdistrictCode">ตำบล</label>
-                        <select name='subdistrictCode' id='subdistrictCode' class='form-control' required data-error-msg="กรุณากรอกชื่อตำบล">
+                        <select name='subdistrictCode' id='subdistrictCode' class='form-control'>
                             <option selected disabled>Choose...</option>
                         </select>              
                     
@@ -212,7 +220,7 @@ include("../include/connection.php");
                 <div class="form-row">
                     <div  class="form-group col-md-12">
                         <label for="officeId">ชื่อหน่วยงาน</label>
-                        <select name='officeId' id='officeId' class='form-control' required data-error-msg="กรุณากรอกชื่อหน่วยงาน">
+                        <select name='officeId' id='officeId' class='form-control'>
                             <option selected disabled>Choose...</option>
                             <?php 
                             $sql ="select * from office";
@@ -231,7 +239,7 @@ include("../include/connection.php");
                 <div class="form-row">   
                     <div  class="form-group col-md-12">
                         <label for="departmentId">ชื่อแผนก</label>
-                        <select name='departmentId' id='departmentId' class='form-control' required data-error-msg="กรุณากรอกชื่อแผนก">
+                        <select name='departmentId' id='departmentId' class='form-control'>
                             <option selected disabled>Choose...</option>
                         </select>
                     </div>
@@ -240,27 +248,25 @@ include("../include/connection.php");
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label for="personWeight">น้ำหนัก</label>
-                        <input name="personWeight" id="personWeight" class="form-control" min="3" required type="text" data-error-msg="กรุณากรอกน้ำหนัก">
+                        <input name="personWeight" id="personWeight" class="form-control" min="3" type="text">
                     </div>
                 
                     <div class="form-group col-md-6">
                         <label for="personHeight">ส่วนสูง</label>
-                        <input name="personHeight" id="personHeight" class="form-control" min="3" required type="text" data-error-msg="กรุณากรอกส่วนสูง">
+                        <input name="personHeight" id="personHeight" class="form-control" min="3" type="text">
                         
                     </div>
                 </div>
         
                 <div class="form-row">
-                    <div class="form-group col-md-12">
+                    <div class="form-group col-md-6">
                         <label for="email">Email</label>
-                        <input name="email" id="email" class="form-control" min="3" required type="text" data-error-msg="กรุณากรอก Email">
+                        <input name="email" id="email" class="form-control" min="3" type="text">
                     </div>
                 
-                    <div class="form-group col-md-12">
+                    <div class="form-group col-md-6">
                         <label for="password">Password</label>
-                        <!-- <input name="password" id="password" class="form-control" min="3" required type="password" data-error-msg="กรุณากรอก Password"> -->
-                        
-                        <input name="password" id="password" class="form-control" min="3" required type="password" data-error-msg="กรุณากรอก password">
+                        <input name="password" id="password" class="form-control" min="3" type="password">
                     </div>
                 </div>
 
@@ -274,9 +280,15 @@ include("../include/connection.php");
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
     <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>  
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
     <script src ="https://www.jquery-az.com/boots/js/validate-bootstrap/validate-bootstrap.jquery.min.js"></script>
+
+    <script src="vendor/jquery/dist/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
+    <script src="vendor/jquery-validation/dist/jquery.validate.min.js"></script>
 
     <script>
         $(function(){
@@ -344,6 +356,114 @@ include("../include/connection.php");
                 }else{
                     e.preventDefault();
                     return false;
+                }
+            })
+        })
+
+        $(function() {
+            $("form[name='userRegister']").validate({
+                rules: {
+                    password: {
+                        required: true
+                    },
+                    cid: {
+                        required: true
+                    },
+                    birthdate: {
+                        required: true
+                    },
+                    sexId: {
+                        required: true
+                    },
+                    phone: {
+                        required: true
+                    },
+                    address: {
+                        required: true
+                    },
+                    provinceCode: {
+                        required: true
+                    },
+                    districtCode: {
+                        required: true
+                    },
+                    subdistrictCode: {
+                        required: true
+                    },
+                    officeId: {
+                        required: true
+                    },
+                    departmentId: {
+                        required: true
+                    },
+                    personWeight: {
+                        required: true
+                    },
+                    personHeight: {
+                        required: true
+                    },
+                    email: {
+                        required: true
+                    },
+                    fname: {
+                        required: true
+                    },
+                    lname: {
+                        required: true
+                    }
+                },
+                messages: {
+                    password: {
+                        required: 'กรุณากรอกรหัสผ่าน'
+                    },
+                    cid: {
+                        required: 'กรุณากรอกเลขบัตรประจำตัวประชาชน'
+                    },
+                    lname: {
+                        required: 'กรุณากรอกนามสกุล'
+                    },
+                    birthdate: {
+                        required: 'กรุณากรอกวันเกิด'
+                    },
+                    sexId: {
+                        required: 'กรุณาเลือกเพศ'
+                    },
+                    phone: {
+                        required: 'กรุณากรอกเบอร์โทรศัพท์'
+                    },
+                    address: {
+                        required: 'กรุณากรอกที่อยู่'
+                    },
+                    provinceCode: {
+                        required: 'กรุณากรอกชื่อจังหวัด'
+                    },
+                    districtCode: {
+                        required: 'กรุณากรอกชื่ออำเภอ'
+                    },
+                    subdistrictCode: {
+                        required: 'กรุณากรอกชื่อตำบล'
+                    },
+                    officeId: {
+                        required: 'กรุณากรอกชื่อหน่วยงาน'
+                    },
+                    departmentId: {
+                        required: 'กรุณากรอกชื่อแผนก'
+                    },
+                    personWeight: {
+                        required: 'กรุณากรอกน้ำหนัก'
+                    },
+                    personHeight: {
+                        required: 'กรุณากรอกส่วนสูง'
+                    },
+                    email: {
+                        required: 'กรุณากรอก Email'
+                    },
+                    fname: {
+                        required: 'กรุณากรอกชื่อ'
+                    }
+                },
+                submitHandler: function(form) {
+                    form.submit();
                 }
             })
         })
