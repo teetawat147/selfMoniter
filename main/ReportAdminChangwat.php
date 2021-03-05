@@ -56,7 +56,7 @@ $strHistoryLabel=implode(", ",$historyAmpurLabel);
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.5.2/css/buttons.bootstrap4.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
 
-    <title>รายงานเจ้าหน้าที่ระดับอำเภอ</title>
+    <title>รายงานเจ้าหน้าที่ระดับจังหวัด</title>
 
     <style>
 
@@ -96,7 +96,7 @@ $strHistoryLabel=implode(", ",$historyAmpurLabel);
 
     <div class="container">
       <br>
-      <center><h3>รายงานเจ้าหน้าที่ระดับอำเภอ</h3></center>
+      <center><h3>รายงานเจ้าหน้าที่ระดับจังหวัด</h3></center>
       <br>
       <div class="content">
 
@@ -168,107 +168,12 @@ $strHistoryLabel=implode(", ",$historyAmpurLabel);
 
     <script>
 
-    // var ctx = document.getElementById("chart_ampur").getContext('2d');
-
-    //     var data = {
-    //         labels: [<?php echo $strHistoryLabel; ?>],
-    //         datasets: [{
-    //             label: "ร้อยละของเจ้าหน้าที่ระดับอำเภอ",
-    //             data: [<?php echo $strHistoryAmpur; ?>],
-    //             backgroundColor: "#50B432"
-    //         }]
-    //     }
-
-    //     var ctx = new Chart(ctx, {
-    //         type: 'bar',
-    //         data: data,
-    //         options: {
-    //             "hover": {
-    //                 "animationDuration": 1
-    //             },
-    //             "animation": {
-    //                 "onComplete": function() {
-    //                     var chartInstance = this.chart,
-    //                     ctx = chartInstance.ctx;
-
-    //                     this.data.datasets.forEach(function(dataset, i) {
-    //                         var meta = chartInstance.controller.getDatasetMeta(i);
-    //                         meta.data.forEach(function(bar, index) {
-    //                             var data = dataset.data[index];
-    //                             ctx.fillText(data + ' %', bar._model.x - 20, bar._model.y - 10);
-    //                         });
-    //                     });
-    //                 }
-    //             },
-    //             tooltips: {
-    //                 callbacks: {
-    //                     label: function(tooltipItem, data) {
-    //                         var label = data.datasets[tooltipItem.datasetIndex].label || '';
-
-    //                         if(label) {
-    //                             label += 'คิดเป็น %';
-    //                         }
-    //                         return label;
-    //                     }
-    //                 }
-    //             },
-    //             scales: {
-    //                 yAxes: [{
-    //                     ticks: {
-    //                         stepSize: 20
-    //                     },
-    //                     gridLines: {
-    //                         display: true,
-    //                         drawOnChartArea: true,
-    //                         drawBorder: true
-    //                     }
-    //                 }]
-    //             },
-    //             responsive: false
-    //         }
-    //     });
-
-    //     exportImage("download-jpg", "chart_ampur", "image/jpg", "download-jpg");
-    //     exportImage("download-png", "chart_ampur", "image/png", "download-png");
-
-
-    //     function exportImage(btnId, chartId, imageTo, buttonId) {
-    //         document.getElementById(btnId).addEventListener("click", function() {
-    //             var url_base64jp = document.getElementById(chartId).toDataURL(imageTo);
-    //             var a = document.getElementById(buttonId);
-    //             a.href = url_base64jp;
-    //         })
-    //     }
-
-    //     var backgroundColor = 'white';
-    //     Chart.plugins.register({
-    //         beforeDraw: function(c) {
-    //             var ctx = c.chart.ctx;
-    //             ctx.fillStyle = backgroundColor;
-    //             ctx.fillRect(0, 0, c.chart.width, c.chart.height);
-    //         }
-    //     });
-
-        // document.getElementById('download-pdf').addEventListener("click", downloadPDF);
-
-        // function downloadPDF() {
-        //     var canvas = document.getElementById('chart_ampur');
-        //     var canvasImg = canvas.toDataURL("image/jpg", 1.0);
-
-        //     var doc = new jsPDF('landscape');
-        //     doc.setFontSize(20);
-        //     doc.text(15, 15, "report changwat chart");
-        //     doc.addImage(canvasImg, 'JPEG', 10, 10, 280, 150 );
-        //     doc.save('รายงานเจ้าหน้าที่ระดับอำเภอ.pdf');
-        // }
-
-
         Highcharts.chart('chart-ampur', {
           chart: {
             type: 'column'
           },
           title: {
-            text: 'รายงานเจ้าหน้าที่ระดับอำเภอ'
+            text: 'รายงานเจ้าหน้าที่ระดับจังหวัด'
           },
           xAxis: {
             categories: [
@@ -323,7 +228,7 @@ $strHistoryLabel=implode(", ",$historyAmpurLabel);
             "paging": false,
             "lengthChange": true,
             "searching": true,
-            "ordering": true,
+            "ordering": false,
             'info': true,
             "autoWidth": true,
             'language': data,
