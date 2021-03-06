@@ -8,8 +8,9 @@ $stmt = $conn->prepare($sql);
   // set the resulting array to associative
   $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
   // print_r($result);
-  if(count($result)>0){
-      
+
+  
+  if (count($result)>0) {
     $_SESSION['personId']=$result[0]['personId'];
     $_SESSION['fname']=$result[0]['fname'];
     $_SESSION['lname']=$result[0]['lname'];
@@ -19,9 +20,9 @@ $stmt = $conn->prepare($sql);
     $_SESSION['groupId']=$result[0]['groupId'];
     $_SESSION['districtCode']=$result[0]['districtCode'];
 
- 
-      header("Location: ../main/healthDataRecord.php");
-  }else{
+    header("Location: ../main/healthDataRecord.php");
+  }
+  else{
     $_SESSION['personId']='';
     $_SESSION['fname']='';
     $_SESSION['lname']='';
@@ -31,6 +32,6 @@ $stmt = $conn->prepare($sql);
     $_SESSION['groupId']='';
     $_SESSION['districtCode']='';
 
-      header("Location: ../main/login.php");
+    header("Location: ../main/login.php");
   }
 ?>
