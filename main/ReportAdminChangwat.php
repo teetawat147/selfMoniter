@@ -63,7 +63,7 @@ $strHistoryLabel=implode(", ",$historyAmpurLabel);
       .button {
         position: relative;
         left: 763px;
-        top: 38px;
+        top: 96px;
         z-index: 1;
       }
 
@@ -76,16 +76,26 @@ $strHistoryLabel=implode(", ",$historyAmpurLabel);
       .flex-content button {
         margin-left: 10px;
       }
+      
+      @media only screen and (max-width: 1125px) {
+        .button {
+          position: relative;
+          width: 85px;
+          top: 96px;
+          left: 580px;
+        }
+      }
 
 
       @media only screen and (max-width: 768px) {
         .button {
           position: relative;
           width: 85px;
-          top: 38px;
-          left: 0px;
+          top: 96px;
+          left: 35px;
         }
       }
+
 
     </style>
   </head>
@@ -110,7 +120,7 @@ $strHistoryLabel=implode(", ",$historyAmpurLabel);
 
         <div id="docx">
           <div class="word-section1">
-            <table id="myTable" class="table table-striped table-bordered" style="width: 100%;" data-toggle="table">
+            <table id="myTable" class="table table-striped table-bordered" style="width: 100%;" data-toggle="table" data-search="true">
               <thead>
                 <tr>
                   <th style="height: 70px; text-align: center; vertical-align: top;">อำเภอ</th>
@@ -213,7 +223,7 @@ $strHistoryLabel=implode(", ",$historyAmpurLabel);
         });
         
         var data = {
-          "sSearch": "ค้นหา :",
+          // "sSearch": "ค้นหา :",
           "sUrl": "",
           "sLoadingRecords": "กำลังบันทึก",
           "buttons": {
@@ -227,7 +237,7 @@ $strHistoryLabel=implode(", ",$historyAmpurLabel);
           var table = $('#myTable').DataTable({
             "paging": false,
             "lengthChange": true,
-            "searching": true,
+            "searching": false,
             "ordering": false,
             'info': true,
             "autoWidth": true,
