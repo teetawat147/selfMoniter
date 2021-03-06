@@ -4,44 +4,37 @@
   $sql ="";
   switch ($_SESSION['groupId']) {
     case '1':
-      $sql = "SELECT o.office_name,
-                COUNT(p.officeId) AS countPerson,
-                IF(ROUND(COUNT(p.officeId)/SUM(o.count_person)*100, 2) IS NOT NULL, ROUND(COUNT(p.officeId)/SUM(o.count_person)*100, 2), 0.00) AS percent
-              FROM office o
-              LEFT JOIN ampur47 a ON o.ampur_code = a.ampur_code
-              LEFT JOIN person p ON p.officeId = o.office_id
-              WHERE a.ampur_code = '".$_SESSION['districtCode']."'
-              GROUP BY o.office_name
-              ORDER BY o.office_id";
+      $sql = "SELECT o.office_name, SUM(o.count_person) AS totalPerson,
+            (SELECT COUNT(p.officeId) FROM person p WHERE p.officeId = o.office_id) AS countPerson,
+            (SELECT IF(ROUND(COUNT(p.officeId)/SUM(o.count_person)*100, 2) IS NOT NULL ,ROUND(COUNT(p.officeId)/SUM(o.count_person)*100, 2), 0.00) FROM person p WHERE p.officeId = o.office_id) AS percent
+            FROM office o
+            WHERE o.ampur_code = 1
+            GROUP BY o.office_name
+            ORDER BY o.office_id";
       break;
 
     case '2':
-      $sql = "SELECT o.office_name,
-                COUNT(p.officeId) AS countPerson,
-                IF(ROUND(COUNT(p.officeId)/SUM(o.count_person)*100, 2) IS NOT NULL, ROUND(COUNT(p.officeId)/SUM(o.count_person)*100, 2), 0.00) AS percent
-              FROM office o
-              LEFT JOIN ampur47 a ON o.ampur_code = a.ampur_code
-              LEFT JOIN person p ON p.officeId = o.office_id
-              WHERE a.ampur_code = '".$_SESSION['districtCode']."'
-              GROUP BY o.office_name
-              ORDER BY o.office_id";
+      $sql = "SELECT o.office_name, SUM(o.count_person) AS totalPerson,
+            (SELECT COUNT(p.officeId) FROM person p WHERE p.officeId = o.office_id) AS countPerson,
+            (SELECT IF(ROUND(COUNT(p.officeId)/SUM(o.count_person)*100, 2) IS NOT NULL ,ROUND(COUNT(p.officeId)/SUM(o.count_person)*100, 2), 0.00) FROM person p WHERE p.officeId = o.office_id) AS percent
+            FROM office o
+            WHERE o.ampur_code = 1
+            GROUP BY o.office_name
+            ORDER BY o.office_id";
       break;
 
     case "4":
-      $sql = "SELECT o.office_name,
-                COUNT(p.officeId) AS countPerson,
-                IF(ROUND(COUNT(p.officeId)/SUM(o.count_person)*100, 2) IS NOT NULL, ROUND(COUNT(p.officeId)/SUM(o.count_person)*100, 2), 0.00) AS percent
-              FROM office o
-              LEFT JOIN ampur47 a ON o.ampur_code = a.ampur_code
-              LEFT JOIN person p ON p.officeId = o.office_id
-              WHERE a.ampur_code = '".$_SESSION['districtCode']."'
-              AND p.groupId = '".$_SESSION['groupId']."'
-              GROUP BY o.office_name
-              ORDER BY o.office_id";
+      $sql = "SELECT o.office_name, SUM(o.count_person) AS totalPerson,
+            (SELECT COUNT(p.officeId) FROM person p WHERE p.officeId = o.office_id) AS countPerson,
+            (SELECT IF(ROUND(COUNT(p.officeId)/SUM(o.count_person)*100, 2) IS NOT NULL ,ROUND(COUNT(p.officeId)/SUM(o.count_person)*100, 2), 0.00) FROM person p WHERE p.officeId = o.office_id) AS percent
+            FROM office o
+            WHERE o.ampur_code = 1
+            AND o.office_id = 1
+            GROUP BY o.office_name
+            ORDER BY o.office_id";
       break;
 
     default:
-      # code...
       break;
   }
 

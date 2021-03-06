@@ -1,44 +1,37 @@
 <?php 
   include('../include/connection.php');
 
-  $sql ="";
+  // $sql ="";
   switch ($_SESSION['groupId']) {
     case '1':
-      $sql = "SELECT o.office_name,
-                COUNT(p.officeId) AS countPerson,
-                IF(ROUND(COUNT(p.officeId)/SUM(o.count_person)*100, 2) IS NOT NULL, ROUND(COUNT(p.officeId)/SUM(o.count_person)*100, 2), 0.00) AS percent
+      $sql = "SELECT o.office_name, SUM(o.count_person) AS totalPerson,
+              (SELECT COUNT(p.officeId) FROM person p WHERE p.officeId = o.office_id) AS countPerson,
+              (SELECT IF(ROUND(COUNT(p.officeId)/SUM(o.count_person)*100, 2) IS NOT NULL ,ROUND(COUNT(p.officeId)/SUM(o.count_person)*100, 2), 0.00) FROM person p WHERE p.officeId = o.office_id) AS percent
               FROM office o
-              LEFT JOIN ampur47 a ON o.ampur_code = a.ampur_code
-              LEFT JOIN person p ON p.officeId = o.office_id
-              WHERE a.ampur_code = '".$_SESSION['districtCode']."'
+              WHERE o.ampur_code = '".$_SESSION['districtCode']."'
               GROUP BY o.office_name
               ORDER BY o.office_id";
       break;
 
     case '2':
-      $sql = "SELECT o.office_name,
-                COUNT(p.officeId) AS countPerson,
-                IF(ROUND(COUNT(p.officeId)/SUM(o.count_person)*100, 2) IS NOT NULL, ROUND(COUNT(p.officeId)/SUM(o.count_person)*100, 2), 0.00) AS percent
+      $sql = "SELECT o.office_name, SUM(o.count_person) AS totalPerson,
+              (SELECT COUNT(p.officeId) FROM person p WHERE p.officeId = o.office_id) AS countPerson,
+              (SELECT IF(ROUND(COUNT(p.officeId)/SUM(o.count_person)*100, 2) IS NOT NULL ,ROUND(COUNT(p.officeId)/SUM(o.count_person)*100, 2), 0.00) FROM person p WHERE p.officeId = o.office_id) AS percent
               FROM office o
-              LEFT JOIN ampur47 a ON o.ampur_code = a.ampur_code
-              LEFT JOIN person p ON p.officeId = o.office_id
-              WHERE a.ampur_code = '".$_SESSION['districtCode']."'
+              WHERE o.ampur_code = '".$_SESSION['districtCode']."'
               GROUP BY o.office_name
               ORDER BY o.office_id";
       break;
 
     case "4":
-      $sql = "SELECT o.office_name,
-                COUNT(p.officeId) AS countPerson,
-                IF(ROUND(COUNT(p.officeId)/SUM(o.count_person)*100, 2) IS NOT NULL, ROUND(COUNT(p.officeId)/SUM(o.count_person)*100, 2), 0.00) AS percent
+      $sql = "SELECT o.office_name, SUM(o.count_person) AS totalPerson,
+              (SELECT COUNT(p.officeId) FROM person p WHERE p.officeId = o.office_id) AS countPerson,
+              (SELECT IF(ROUND(COUNT(p.officeId)/SUM(o.count_person)*100, 2) IS NOT NULL ,ROUND(COUNT(p.officeId)/SUM(o.count_person)*100, 2), 0.00) FROM person p WHERE p.officeId = o.office_id) AS percent
               FROM office o
-              LEFT JOIN ampur47 a ON o.ampur_code = a.ampur_code
-              LEFT JOIN person p ON p.officeId = o.office_id
-              WHERE a.ampur_code = '".$_SESSION['districtCode']."'
-              AND p.groupId = '".$_SESSION['groupId']."'
+              WHERE o.office_id = '".$_SESSION['officeId']."'
               GROUP BY o.office_name
               ORDER BY o.office_id";
-      break;
+              break;
 
     default:
       # code...
@@ -48,6 +41,8 @@
   $result = $conn -> prepare($sql);
   $result -> execute();
   $rowsPerson = $result -> fetchAll(PDO::FETCH_ASSOC);
+
+  // print_r($rowsPerson);
 
   // print_r($rowsPerson);
   // echo "<br>session:";
@@ -103,7 +98,7 @@
       .button {
         position: relative;
         left: 763px;
-        top: 38px;
+        top: 96px;
         z-index: 1;
       }
 
@@ -117,13 +112,20 @@
         margin-left: 10px;
       }
 
+      @media only screen and (max-width: 1125px) {
+        .button {
+          position: relative;
+          width: 96px;
+          left: 580px;
+        }
+      }
 
       @media only screen and (max-width: 768px) {
         .button {
           position: relative;
           width: 85px;
-          top: 38px;
-          left: 0px;
+          top: 96px;
+          left: 35px;
         }
       }
 
@@ -150,7 +152,7 @@
 
         <div id="docx">
           <div class="word-section1">
-            <table id="myTable" class="table table-striped table-bordered" style="width: 100%;" data-toggle="table">
+            <table id="myTable" class="table table-striped table-bordered" style="width: 100%;" data-toggle="table" data-search="true">
               <thead>
                 <tr>
                   <th style="height: 70px; text-align: center; vertical-align: top;">อำเภอ</th>
@@ -166,9 +168,9 @@
                   ?>
                   <tr>
                       <td><?php echo $rowPerson['office_name']; ?></td>
-                      <td><?php echo $rowPerson['NEWCountPerson']; ?></td>
-                      <td><?php echo $rowPerson['count_districtCode']; ?></td>
-                      <td><?php echo round($rowPerson['Percent'], 2); ?></td>
+                      <td><?php echo $rowPerson['totalPerson']; ?></td>
+                      <td><?php echo $rowPerson['countPerson']; ?></td>
+                      <td><?php echo $rowPerson['percent']; ?></td>
 
                   </tr>
                   <?php 
@@ -180,7 +182,6 @@
         </div>
       </div>
     </div>
-
 
     <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
@@ -207,101 +208,6 @@
     <script src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.colVis.min.js"></script>
 
     <script>
-
-    // var ctx = document.getElementById("chart_ampur").getContext('2d');
-
-    //     var data = {
-    //         labels: [<?php echo $strHistoryLabel; ?>],
-    //         datasets: [{
-    //             label: "ร้อยละของเจ้าหน้าที่ระดับอำเภอ",
-    //             data: [<?php echo $strHistoryAmpur; ?>],
-    //             backgroundColor: "#50B432"
-    //         }]
-    //     }
-
-    //     var ctx = new Chart(ctx, {
-    //         type: 'bar',
-    //         data: data,
-    //         options: {
-    //             "hover": {
-    //                 "animationDuration": 1
-    //             },
-    //             "animation": {
-    //                 "onComplete": function() {
-    //                     var chartInstance = this.chart,
-    //                     ctx = chartInstance.ctx;
-
-    //                     this.data.datasets.forEach(function(dataset, i) {
-    //                         var meta = chartInstance.controller.getDatasetMeta(i);
-    //                         meta.data.forEach(function(bar, index) {
-    //                             var data = dataset.data[index];
-    //                             ctx.fillText(data + ' %', bar._model.x - 20, bar._model.y - 10);
-    //                         });
-    //                     });
-    //                 }
-    //             },
-    //             tooltips: {
-    //                 callbacks: {
-    //                     label: function(tooltipItem, data) {
-    //                         var label = data.datasets[tooltipItem.datasetIndex].label || '';
-
-    //                         if(label) {
-    //                             label += 'คิดเป็น %';
-    //                         }
-    //                         return label;
-    //                     }
-    //                 }
-    //             },
-    //             scales: {
-    //                 yAxes: [{
-    //                     ticks: {
-    //                         stepSize: 20
-    //                     },
-    //                     gridLines: {
-    //                         display: true,
-    //                         drawOnChartArea: true,
-    //                         drawBorder: true
-    //                     }
-    //                 }]
-    //             },
-    //             responsive: false
-    //         }
-    //     });
-
-    //     exportImage("download-jpg", "chart_ampur", "image/jpg", "download-jpg");
-    //     exportImage("download-png", "chart_ampur", "image/png", "download-png");
-
-
-    //     function exportImage(btnId, chartId, imageTo, buttonId) {
-    //         document.getElementById(btnId).addEventListener("click", function() {
-    //             var url_base64jp = document.getElementById(chartId).toDataURL(imageTo);
-    //             var a = document.getElementById(buttonId);
-    //             a.href = url_base64jp;
-    //         })
-    //     }
-
-    //     var backgroundColor = 'white';
-    //     Chart.plugins.register({
-    //         beforeDraw: function(c) {
-    //             var ctx = c.chart.ctx;
-    //             ctx.fillStyle = backgroundColor;
-    //             ctx.fillRect(0, 0, c.chart.width, c.chart.height);
-    //         }
-    //     });
-
-        // document.getElementById('download-pdf').addEventListener("click", downloadPDF);
-
-        // function downloadPDF() {
-        //     var canvas = document.getElementById('chart_ampur');
-        //     var canvasImg = canvas.toDataURL("image/jpg", 1.0);
-
-        //     var doc = new jsPDF('landscape');
-        //     doc.setFontSize(20);
-        //     doc.text(15, 15, "report changwat chart");
-        //     doc.addImage(canvasImg, 'JPEG', 10, 10, 280, 150 );
-        //     doc.save('รายงานเจ้าหน้าที่ระดับอำเภอ.pdf');
-        // }
-
 
         Highcharts.chart('chart-ampur', {
           chart: {
@@ -336,7 +242,7 @@
           },
           series: [{
             name: "ร้อยละ",
-            data: [<?php echo $strHistoryAmpur; ?>],
+            data: [<?php echo $strHistoryData; ?>],
             color: '#50B432'
           }],
           legend: {
@@ -348,7 +254,7 @@
         });
         
         var data = {
-          "sSearch": "ค้นหา :",
+          // "sSearch": "ค้นหา :",
           "sUrl": "",
           "sLoadingRecords": "กำลังบันทึก",
           "buttons": {
@@ -362,8 +268,8 @@
           var table = $('#myTable').DataTable({
             "paging": false,
             "lengthChange": true,
-            "searching": true,
-            "ordering": true,
+            "searching": false,
+            "ordering": false,
             'info': true,
             "autoWidth": true,
             'language': data,
@@ -443,9 +349,9 @@
         link.href = url;
         // Set default file name. 
         // Word will append file extension - do not add an extension here.
-        link.download = 'reportAdminChangwat';
+        link.download = 'reportAdminAmpur';
         document.body.appendChild(link);
-        if (navigator.msSaveOrOpenBlob ) navigator.msSaveOrOpenBlob( blob, 'reportAdminChangwat.doc'); // IE10-11
+        if (navigator.msSaveOrOpenBlob ) navigator.msSaveOrOpenBlob( blob, 'reportAdminAmpur.doc'); // IE10-11
             else link.click();  // other browsers
         document.body.removeChild(link);
       };
