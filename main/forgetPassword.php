@@ -9,13 +9,13 @@
   </head>
   <body>
     <div class="container">
-        <h3 class="mt-3">ลืมหรหัสผ่าน</h3>
+        <h3 class="mt-3">ลืมรหัสผ่าน</h3>
         <form action="changePasswordUpdate.php" method="POST">
 
             <div class="form-row">
                 <div class="form-group col-md-12">
-                    <label for="oldPassword">Email</label>
-                    <input type="password" name="oldPassword" class="form-control" id="oldPassword">
+                    <label for="email">Email</label>
+                    <input type="email" name="email" class="form-control" id="email">
                 </div>
             </div>
 
