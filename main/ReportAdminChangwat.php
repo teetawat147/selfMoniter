@@ -44,7 +44,7 @@ $strHistoryLabel=implode(", ",$historyAmpurLabel);
 <!doctype html>
 <html lang="th">
   <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
     
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
@@ -86,16 +86,15 @@ $strHistoryLabel=implode(", ",$historyAmpurLabel);
         }
       }
 
-
       @media only screen and (max-width: 768px) {
+        .flex-content {
+          width: 75%;
+        }
+
         .button {
-          position: relative;
-          width: 85px;
-          top: 96px;
-          left: 35px;
+          left: 77%;
         }
       }
-
 
     </style>
   </head>
@@ -259,7 +258,7 @@ $strHistoryLabel=implode(", ",$historyAmpurLabel);
                   text: '<i class="fa fa-clipboard"></i> Copy',
                   title: 'Text',
                   titleAttr: 'Copy',
-                  className: 'btn btn-app export barras',
+                  className: 'btn btn-app export copy',
                   exportOptions: {
                     columns: ':visible'
                   }

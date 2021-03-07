@@ -94,7 +94,6 @@
     <title>รายงานเจ้าหน้าที่ระดับอำเภอ</title>
 
     <style>
-
       .button {
         position: relative;
         left: 763px;
@@ -111,21 +110,23 @@
       .flex-content button {
         margin-left: 10px;
       }
-
+      
       @media only screen and (max-width: 1125px) {
         .button {
           position: relative;
-          width: 96px;
+          width: 85px;
+          top: 96px;
           left: 580px;
         }
       }
 
       @media only screen and (max-width: 768px) {
+        .flex-content {
+          width: 75%;
+        }
+
         .button {
-          position: relative;
-          width: 85px;
-          top: 96px;
-          left: 35px;
+          left: 77%;
         }
       }
 
