@@ -30,7 +30,7 @@ foreach ($rowsOffice as $hkey => $historyValue) {
     // echo "history Value";
     // print_r($historyValue);
 
-    $historyPercent = round($historyValue['Percent'], 2);
+  $historyPercent = round($historyValue['Percent'], 2);
 
   array_push($historyAmpur,$historyPercent);
   array_push($historyAmpurLabel,"'".$historyValue['ampur_name']."'");
@@ -256,8 +256,8 @@ $strHistoryLabel=implode(", ",$historyAmpurLabel);
                 {
                   extend: 'copyHtml5',
                   text: '<i class="fa fa-clipboard"></i> Copy',
-                  title: 'Text',
-                  titleAttr: 'Copy',
+                  title: 'รายงานเจ้าหน้าที่ระดับจังหวัด',
+                  titleAttr: 'รายงานเจ้าหน้าที่ระดับจังหวัด',
                   className: 'btn btn-app export copy',
                   exportOptions: {
                     columns: ':visible'
@@ -266,8 +266,8 @@ $strHistoryLabel=implode(", ",$historyAmpurLabel);
                 {
                   extend: 'excelHtml5',
                   text: '<i class="fa fa-file-excel-o"></i> Excel',
-                  title: 'Excel',
-                  titleAttr: 'Excel',
+                  title: 'รายงานเจ้าหน้าที่ระดับจังหวัด',
+                  titleAttr: 'รายงานเจ้าหน้าที่ระดับจังหวัด',
                   className: 'btn btn-app export excel',
                   exportOptions: {
                     columns: ':visible'
@@ -290,7 +290,7 @@ $strHistoryLabel=implode(", ",$historyAmpurLabel);
         window.export.onclick = function() {
  
         if (!window.Blob) {
-            alert('Your legacy browser does not support this action.');
+            alert('เบราว์เซอร์ของท่านไม่สนับสนุน กรุณาลองเปลี่ยนเบราว์เซอร์ใหม่ (Chrome , Microsoft edge Chromium)');
             return;
         }
 
@@ -317,9 +317,9 @@ $strHistoryLabel=implode(", ",$historyAmpurLabel);
         link.href = url;
         // Set default file name. 
         // Word will append file extension - do not add an extension here.
-        link.download = 'reportAdminChangwat';
+        link.download = 'รายงานเจ้าหน้าที่ระดับจังหวัด';
         document.body.appendChild(link);
-        if (navigator.msSaveOrOpenBlob ) navigator.msSaveOrOpenBlob( blob, 'reportAdminChangwat.doc'); // IE10-11
+        if (navigator.msSaveOrOpenBlob ) navigator.msSaveOrOpenBlob( blob, 'รายงานเจ้าหน้าที่ระดับจังหวัด.doc'); // IE10-11
             else link.click();  // other browsers
         document.body.removeChild(link);
       };

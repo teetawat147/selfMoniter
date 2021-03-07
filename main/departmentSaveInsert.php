@@ -7,13 +7,13 @@
                 departmentName,
                 personId,
                 inputDatetime,
-                countPersonDept
+                totalPersonDept
             ) VALUE (
                 '".$_POST['officeId']."',
                 '".$_POST['departmentName']."',
                 '".$_SESSION['personId']."',
                 '".$datetime."',
-                '".$_POST['countPersonDept']."'
+                '".$_POST['totalPersonDept']."'
             )";
 
 $result = $conn -> prepare($sql);

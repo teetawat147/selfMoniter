@@ -6,7 +6,7 @@
             " officeId = '".$_POST['officeId']."' ".
             " ,departmentName = '".$_POST['departmentName']."' ".
             " ,personId = '".$_SESSION['personId']."' ".
-            " ,countPersonDept = '".$_POST['countPersonDept']."' ".
+            " ,totalPersonDept = '".$_POST['totalPersonDept']."' ".
             " WHERE departmentId = '".$_POST['departmentId']."' ";
 
     $result = $conn -> prepare($sql)    ;

@@ -52,8 +52,8 @@
                 </div>
 
                 <div class="form-group col-md-6">
-                    <label for="countPersonDept">จำนวนเจ้าหน้าที่ในแผนกงาน</label>
-                    <input name="countPersonDept" id="countPersonDept" class="form-control" type="text" required data-error-msg="กรุณากรอกจำนวนเจ้าหน้าที่ในแผนกงาน">
+                    <label for="totalPersonDept">จำนวนเจ้าหน้าที่ในแผนกงาน</label>
+                    <input name="totalPersonDept" id="totalPersonDept" class="form-control" type="text" required data-error-msg="กรุณากรอกจำนวนเจ้าหน้าที่ในแผนกงาน">
                 </div>
             </div>
 

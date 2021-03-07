@@ -1,40 +1,56 @@
-<?php 
+<?php	
   include('../include/connection.php');
 
-  if (!($_SESSION['fname'])) {
+  if(!($_SESSION['fname'])) {
     header("location: ../main/login.php");
   }
 
-  // $sql ="";
   switch ($_SESSION['groupId']) {
     case '1':
-      $sql = "SELECT o.office_name, SUM(o.count_person) AS totalPerson,
-              (SELECT COUNT(p.officeId) FROM person p WHERE p.officeId = o.office_id) AS countPerson,
-              (SELECT IF(ROUND(COUNT(p.officeId)/SUM(o.count_person)*100, 2) IS NOT NULL ,ROUND(COUNT(p.officeId)/SUM(o.count_person)*100, 2), 0.00) FROM person p WHERE p.officeId = o.office_id) AS percent
-              FROM office o
-              WHERE o.ampur_code = '".$_SESSION['districtCode']."'
-              GROUP BY o.office_name
-              ORDER BY o.office_id";
+      $sql = "SELECT a.ampur_code,
+                a.ampur_name,
+                o.office_id,
+                o.office_name,
+                d.departmentId,
+                d.departmentName,
+                d.totalPersonDept,
+                (SELECT COUNT(p.departmentId) FROM person p WHERE p.departmentId = d.departmentId) AS countPersonDept,
+                (SELECT ROUND((COUNT(p.departmentId)/d.totalPersonDept)*100, 2) FROM person p WHERE p.departmentId = d.departmentId) AS percent
+            FROM office o
+            LEFT JOIN ampur47 a ON o.ampur_code = a.ampur_code
+            LEFT JOIN department d ON d.officeId = o.office_id
+            WHERE a.ampur_code = '".$_SESSION['districtCode']."'
+            GROUP BY o.office_name, d.departmentName
+            ORDER BY o.office_id, d.departmentId";
       break;
 
     case '2':
-      $sql = "SELECT o.office_name, SUM(o.count_person) AS totalPerson,
-              (SELECT COUNT(p.officeId) FROM person p WHERE p.officeId = o.office_id) AS countPerson,
-              (SELECT IF(ROUND(COUNT(p.officeId)/SUM(o.count_person)*100, 2) IS NOT NULL ,ROUND(COUNT(p.officeId)/SUM(o.count_person)*100, 2), 0.00) FROM person p WHERE p.officeId = o.office_id) AS percent
-              FROM office o
-              WHERE o.ampur_code = '".$_SESSION['districtCode']."'
-              GROUP BY o.office_name
-              ORDER BY o.office_id";
+      $sql = "SELECT a.ampur_code,
+                a.ampur_name,
+                o.office_id,
+                o.office_name,
+                d.departmentId,
+                d.departmentName,
+                d.totalPersonDept,
+                (SELECT COUNT(p.departmentId) FROM person p WHERE p.departmentId = d.departmentId) AS countPersonDept,
+                (SELECT ROUND((COUNT(p.departmentId)/d.totalPersonDept)*100, 2) FROM person p WHERE p.departmentId = d.departmentId) AS percent
+            FROM office o
+            LEFT JOIN ampur47 a ON o.ampur_code = a.ampur_code
+            LEFT JOIN department d ON d.officeId = o.office_id
+            WHERE a.ampur_code = '".$_SESSION['districtCode']."'
+            GROUP BY o.office_name, d.departmentName
+            ORDER BY o.office_id, d.departmentId";
       break;
 
     case "4":
-      $sql = "SELECT o.office_name, SUM(o.count_person) AS totalPerson,
-              (SELECT COUNT(p.officeId) FROM person p WHERE p.officeId = o.office_id) AS countPerson,
-              (SELECT IF(ROUND(COUNT(p.officeId)/SUM(o.count_person)*100, 2) IS NOT NULL ,ROUND(COUNT(p.officeId)/SUM(o.count_person)*100, 2), 0.00) FROM person p WHERE p.officeId = o.office_id) AS percent
-              FROM office o
-              WHERE o.office_id = '".$_SESSION['officeId']."'
-              GROUP BY o.office_name
-              ORDER BY o.office_id";
+      $sql = "SELECT o.office_id, o.office_name,d.departmentId, d.departmentName, d.totalPersonDept,
+                (SELECT COUNT(p.departmentId) FROM person p WHERE p.departmentId = d.departmentId) AS countPersonDept,
+                (SELECT ROUND((COUNT(p.departmentId)/d.totalPersonDept)*100, 2) FROM person p WHERE p.departmentId = d.departmentId) AS percent
+                FROM department d
+                LEFT JOIN office o ON o.office_id = d.officeId
+                WHERE d.officeId = '".$_SESSION['officeId']."'
+                GROUP BY d.departmentName
+                ORDER BY d.departmentId";
               break;
 
     default:
@@ -42,48 +58,36 @@
       break;
   }
 
-  $result = $conn -> prepare($sql);
-  $result -> execute();
-  $rowsPerson = $result -> fetchAll(PDO::FETCH_ASSOC);
+$result = $conn -> prepare($sql);
+$result -> execute();
+$rowsDept = $result -> fetchAll(PDO::FETCH_ASSOC);
 
-  // print_r($rowsPerson);
+$historyLabel = array();
+$historyData = array();
 
-  // print_r($rowsPerson);
-  // echo "<br>session:";
-  // print_r($rowsPerson);
+foreach ($rowsDept as $key => $historyValue) {
+    array_push($historyLabel, '"'.$historyValue['departmentName'].'"');
+    array_push($historyData, $historyValue['percent']);
+}
 
-  
-  $sqlAmpur = "SELECT a.ampur_name, SUM(o.count_person) AS totalPerson
-          FROM ampur47 a
-          LEFT JOIN office o ON a.ampur_code = o.ampur_code
-          WHERE a.ampur_code =" .$_SESSION['districtCode'];
+$strHistoryData = implode(", ", $historyData);
+$strHistoryLabel = implode(", ", $historyLabel);
 
-  $result = $conn -> prepare($sqlAmpur);
-  $result -> execute();
-  $rowsAmpur = $result -> fetch(PDO::FETCH_ASSOC);
+// print_r($strHistoryData);
+// print_r($strHistoryLabel);
 
-  $historyLabel = array();
-  $historyData = array();
-  
-  foreach ($rowsPerson as $hKey => $historyValue) {
-      array_push($historyLabel, "'".$historyValue['office_name']."'");
-      array_push($historyData, $historyValue['percent']);
-  }
+$sqlTotalDept = "SELECT SUM(totalPersonDept) AS allTotalDept FROM department WHERE officeId = '".$_SESSION['officeId']."' ";
 
-  $strHistoryLabel = implode(", ", $historyLabel);
-  $strHistoryData = implode(", ", $historyData);
-
-//   echo "<br>str_history_label";
-//   print_r($strHistoryLabel);
-//   echo "<br>str_history_data";
-//   print_r($strHistoryData);
+$result = $conn -> prepare($sqlTotalDept);
+$result -> execute();
+$rowTotalDept = $result -> fetch(PDO::FETCH_ASSOC);
 ?>
 
 
 <!doctype html>
 <html lang="th">
   <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
     
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
@@ -95,9 +99,10 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.5.2/css/buttons.bootstrap4.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
 
-    <title>รายงานเจ้าหน้าที่ระดับอำเภอ</title>
+    <title>รายงานเจ้าหน้าที่ระดับจังหวัด</title>
 
     <style>
+
       .button {
         position: relative;
         left: 763px;
@@ -143,13 +148,13 @@
 
     <div class="container">
       <br>
-      <center><h3>รายงานเจ้าหน้าที่ระดับอำเภอ</h3></center>
+      <center><h3>รายงานเจ้าหน้าที่ระดับกลุ่มงาน</h3></center>
       <br>
       <div class="content">
 
         <div class="content-title">
           <figure class="highcharts-figure">
-            <div id="chart-ampur"></div>
+            <div id="chart-dept"></div>
           </figure>
         </div>
 
@@ -160,7 +165,8 @@
             <table id="myTable" class="table table-striped table-bordered" style="width: 100%;" data-toggle="table" data-search="true">
               <thead>
                 <tr>
-                  <th style="height: 70px; text-align: center; vertical-align: top;">อำเภอ</th>
+                  <th style="height: 70px; text-align: center; vertical-align: top;">สถานบริการ</th>
+                  <th style="height: 70px; text-align: center; vertical-align: top;">กลุ่มงาน</th>
                   <th style="height: 70px; text-align: center; vertical-align: top;">จำนวนเจ้าหน้าที่ทั้งหมด</th>
                   <th style="height: 70px; text-align: center; vertical-align: top;">จำนวนเจ้าหน้าที่ลงบันทึกข้อมูล</th>
                   <th style="height: 70px; text-align: center; vertical-align: top;">ร้อยละ</th>
@@ -169,13 +175,14 @@
               </thead>
               <tbody>
               <?php
-                  foreach ($rowsPerson as $key => $rowPerson) {
+                  foreach ($rowsDept as $key => $rowDept) {
                   ?>
                   <tr>
-                      <td><?php echo $rowPerson['office_name']; ?></td>
-                      <td><?php echo $rowPerson['totalPerson']; ?></td>
-                      <td><?php echo $rowPerson['countPerson']; ?></td>
-                      <td><?php echo $rowPerson['percent']; ?></td>
+                      <td><?php echo $rowDept['office_name']; ?></td>
+                      <td><?php echo $rowDept['departmentName']; ?></td>
+                      <td><?php echo $rowDept['totalPersonDept']; ?></td>
+                      <td><?php echo $rowDept['countPersonDept']; ?></td>
+                      <td><?php echo $rowDept['percent']; ?></td>
 
                   </tr>
                   <?php 
@@ -187,6 +194,7 @@
         </div>
       </div>
     </div>
+
 
     <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
@@ -214,12 +222,12 @@
 
     <script>
 
-        Highcharts.chart('chart-ampur', {
+        Highcharts.chart('chart-dept', {
           chart: {
             type: 'column'
           },
           title: {
-            text: 'รายงานเจ้าหน้าที่ระดับอำเภอ'
+            text: 'รายงานเจ้าหน้าที่ระดับกลุ่มงาน'
           },
           xAxis: {
             categories: [<?php echo $strHistoryLabel; ?>],
@@ -255,7 +263,7 @@
             enabled: false
           }
         });
-        
+
         var data = {
           // "sSearch": "ค้นหา :",
           "sUrl": "",
@@ -291,9 +299,9 @@
                 {
                   extend: 'copyHtml5',
                   text: '<i class="fa fa-clipboard"></i> Copy',
-                  title: 'Text',
-                  titleAttr: 'Copy',
-                  className: 'btn btn-app export barras',
+                  title: 'รายงานเจ้าหน้าที่ระดับกลุ่มงาน',
+                  titleAttr: 'รายงานเจ้าหน้าที่ระดับกลุ่มงาน',
+                  className: 'btn btn-app export copy',
                   exportOptions: {
                     columns: ':visible'
                   }
@@ -301,8 +309,8 @@
                 {
                   extend: 'excelHtml5',
                   text: '<i class="fa fa-file-excel-o"></i> Excel',
-                  title: 'Excel',
-                  titleAttr: 'Excel',
+                  title: 'รายงานเจ้าหน้าที่ระดับกลุ่มงาน',
+                  titleAttr: 'รายงานเจ้าหน้าที่ระดับกลุ่มงาน',
                   className: 'btn btn-app export excel',
                   exportOptions: {
                     columns: ':visible'
@@ -325,7 +333,7 @@
         window.export.onclick = function() {
  
         if (!window.Blob) {
-            alert('Your legacy browser does not support this action.');
+            alert('เบราว์เซอร์ของท่านไม่สนับสนุน กรุณาลองเปลี่ยนเบราว์เซอร์ใหม่ (Chrome , Microsoft edge Chromium)');
             return;
         }
 
@@ -352,9 +360,9 @@
         link.href = url;
         // Set default file name. 
         // Word will append file extension - do not add an extension here.
-        link.download = 'reportAdminAmpur';
+        link.download = 'รายงานเจ้าหน้าที่ระดับกลุ่มงาน';
         document.body.appendChild(link);
-        if (navigator.msSaveOrOpenBlob ) navigator.msSaveOrOpenBlob( blob, 'reportAdminAmpur.doc'); // IE10-11
+        if (navigator.msSaveOrOpenBlob ) navigator.msSaveOrOpenBlob( blob, 'รายงานเจ้าหน้าที่ระดับกลุ่มงาน.doc'); // IE10-11
             else link.click();  // other browsers
         document.body.removeChild(link);
       };
