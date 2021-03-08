@@ -10,21 +10,21 @@
       $where="";
       break;
     case "2":
-      $where=" where districtCode='".$_SESSION['districtCode']."' ";
+      $where=" WHERE p.districtCode = '".$_SESSION['districtCode']."' AND g.groupId >= '".$_SESSION['groupId']."' ";
       break;
     case "3":
-      $where=" where officeId='".$_SESSION['officeId']."' ";
+      $where=" WHERE p.officeId = '".$_SESSION['officeId']."' AND g.groupId > '".$_SESSION['groupId']."' ORDER BY g.groupId ";
       break;
   
     default:
-      # code...
       break;
   }
+
   $sql = "SELECT CONCAT(p.fname, ' ', p.lname) AS name, o.office_name, p.personId, g.groupName
             FROM person p 
             LEFT JOIN office o ON p.officeId = o.office_id
-            left join `group` g on p.groupId = g.groupId 
-            ".$where."";
+            LEFT JOIN `group` g on p.groupId = g.groupId
+            ".$where." ";
   // echo $sql;
   $result = $conn -> prepare($sql);
   $result -> execute();

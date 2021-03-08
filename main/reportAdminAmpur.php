@@ -8,17 +8,17 @@
   // $sql ="";
   switch ($_SESSION['groupId']) {
     case '1':
-      $sql = "SELECT o.office_name, SUM(o.count_person) AS totalPerson,
+      $sql = "SELECT o.office_id, o.office_name, SUM(o.count_person) AS totalPerson,
               (SELECT COUNT(p.officeId) FROM person p WHERE p.officeId = o.office_id) AS countPerson,
               (SELECT IF(ROUND(COUNT(p.officeId)/SUM(o.count_person)*100, 2) IS NOT NULL ,ROUND(COUNT(p.officeId)/SUM(o.count_person)*100, 2), 0.00) FROM person p WHERE p.officeId = o.office_id) AS percent
               FROM office o
-              WHERE o.ampur_code = '".$_SESSION['districtCode']."'
+              WHERE o.ampur_code = '".$_GET['ampur_code']."'
               GROUP BY o.office_name
               ORDER BY o.office_id";
       break;
 
     case '2':
-      $sql = "SELECT o.office_name, SUM(o.count_person) AS totalPerson,
+      $sql = "SELECT o.office_id, o.office_name, SUM(o.count_person) AS totalPerson,
               (SELECT COUNT(p.officeId) FROM person p WHERE p.officeId = o.office_id) AS countPerson,
               (SELECT IF(ROUND(COUNT(p.officeId)/SUM(o.count_person)*100, 2) IS NOT NULL ,ROUND(COUNT(p.officeId)/SUM(o.count_person)*100, 2), 0.00) FROM person p WHERE p.officeId = o.office_id) AS percent
               FROM office o
@@ -28,7 +28,7 @@
       break;
 
     case "4":
-      $sql = "SELECT o.office_name, SUM(o.count_person) AS totalPerson,
+      $sql = "SELECT o.office_id, o.office_name, SUM(o.count_person) AS totalPerson,
               (SELECT COUNT(p.officeId) FROM person p WHERE p.officeId = o.office_id) AS countPerson,
               (SELECT IF(ROUND(COUNT(p.officeId)/SUM(o.count_person)*100, 2) IS NOT NULL ,ROUND(COUNT(p.officeId)/SUM(o.count_person)*100, 2), 0.00) FROM person p WHERE p.officeId = o.office_id) AS percent
               FROM office o
@@ -51,16 +51,6 @@
   // print_r($rowsPerson);
   // echo "<br>session:";
   // print_r($rowsPerson);
-
-  
-  $sqlAmpur = "SELECT a.ampur_name, SUM(o.count_person) AS totalPerson
-          FROM ampur47 a
-          LEFT JOIN office o ON a.ampur_code = o.ampur_code
-          WHERE a.ampur_code =" .$_SESSION['districtCode'];
-
-  $result = $conn -> prepare($sqlAmpur);
-  $result -> execute();
-  $rowsAmpur = $result -> fetch(PDO::FETCH_ASSOC);
 
   $historyLabel = array();
   $historyData = array();
@@ -160,23 +150,24 @@
             <table id="myTable" class="table table-striped table-bordered" style="width: 100%;" data-toggle="table" data-search="true">
               <thead>
                 <tr>
-                  <th style="height: 70px; text-align: center; vertical-align: top;">อำเภอ</th>
-                  <th style="height: 70px; text-align: center; vertical-align: top;">จำนวนเจ้าหน้าที่ทั้งหมด</th>
-                  <th style="height: 70px; text-align: center; vertical-align: top;">จำนวนเจ้าหน้าที่ลงบันทึกข้อมูล</th>
-                  <th style="height: 70px; text-align: center; vertical-align: top;">ร้อยละ</th>
-                  <!-- <th data-card-footer></th> -->
+                  <th class="text-center">อำเภอ</th>
+                  <th class="text-center">จำนวนเจ้าหน้าที่ทั้งหมด</th>
+                  <th class="text-center">จำนวนเจ้าหน้าที่ลงบันทึกข้อมูล</th>
+                  <th class="text-center">ร้อยละ</th>
+                  <th data-card-footer></th>
                 </tr>
               </thead>
               <tbody>
               <?php
+                  // print_r($rowsPerson);
                   foreach ($rowsPerson as $key => $rowPerson) {
                   ?>
                   <tr>
-                      <td><?php echo $rowPerson['office_name']; ?></td>
+                      <td class="text-left"><?php echo $rowPerson['office_name']; ?></td>
                       <td><?php echo $rowPerson['totalPerson']; ?></td>
                       <td><?php echo $rowPerson['countPerson']; ?></td>
                       <td><?php echo $rowPerson['percent']; ?></td>
-
+                      <td><a href="../main/reportAdminDept.php?office_id=<?php echo $rowPerson['office_id']; ?>" class="btn btn-info">เข้าถึง</a></td>
                   </tr>
                   <?php 
                   }
@@ -216,7 +207,7 @@
 
         Highcharts.chart('chart-ampur', {
           chart: {
-            type: 'column'
+            type: 'bar'
           },
           title: {
             text: 'รายงานเจ้าหน้าที่ระดับอำเภอ'

@@ -18,9 +18,7 @@
   $result -> execute();
   $rowsOffice = $result -> fetchAll(PDO::FETCH_ASSOC);
 
-//   print_r($rowsOffice);
-
-//   print_r($rowsOffice);
+  // print_r($rowsOffice);
 
 $historyAmpur = array();
 $historyAmpurLabel = array();
@@ -122,11 +120,11 @@ $strHistoryLabel=implode(", ",$historyAmpurLabel);
             <table id="myTable" class="table table-striped table-bordered" style="width: 100%;" data-toggle="table" data-search="true">
               <thead>
                 <tr>
-                  <th style="height: 70px; text-align: center; vertical-align: top;">อำเภอ</th>
-                  <th style="height: 70px; text-align: center; vertical-align: top;">จำนวนเจ้าหน้าที่ทั้งหมด</th>
-                  <th style="height: 70px; text-align: center; vertical-align: top;">จำนวนเจ้าหน้าที่ลงบันทึกข้อมูล</th>
-                  <th style="height: 70px; text-align: center; vertical-align: top;">ร้อยละ</th>
-                  <!-- <th data-card-footer></th> -->
+                  <th class="text-center">อำเภอ</th>
+                  <th class="text-center">จำนวนเจ้าหน้าที่ทั้งหมด</th>
+                  <th class="text-center">จำนวนเจ้าหน้าที่ลงบันทึกข้อมูล</th>
+                  <th class="text-center">ร้อยละ</th>
+                  <th data-card-footer></th>
                 </tr>
               </thead>
               <tbody>
@@ -138,6 +136,7 @@ $strHistoryLabel=implode(", ",$historyAmpurLabel);
                       <td><?php echo $rowOffice['NEWCountPerson']; ?></td>
                       <td><?php echo $rowOffice['count_districtCode']; ?></td>
                       <td><?php echo round($rowOffice['Percent'], 2); ?></td>
+                      <td class="d-flex justify-content-center"><a href="../main/reportAdminAmpur.php?ampur_code=<?php echo $rowOffice['ampur_code']; ?>" class="btn btn-info access">เข้าถึง</a></td>
 
                   </tr>
                   <?php 
@@ -179,7 +178,7 @@ $strHistoryLabel=implode(", ",$historyAmpurLabel);
 
         Highcharts.chart('chart-ampur', {
           chart: {
-            type: 'column'
+            type: 'bar'
           },
           title: {
             text: 'รายงานเจ้าหน้าที่ระดับจังหวัด'
@@ -192,6 +191,7 @@ $strHistoryLabel=implode(", ",$historyAmpurLabel);
           },
           yAxis: {
             title: false,
+            min: 0,
             max: 100
           },
           tooltip: {
@@ -220,6 +220,8 @@ $strHistoryLabel=implode(", ",$historyAmpurLabel);
             enabled: false
           }
         });
+        
+
         
         var data = {
           // "sSearch": "ค้นหา :",

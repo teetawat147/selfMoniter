@@ -192,8 +192,24 @@ $rowEdit = $result->fetch();
                         <div  class="form-group col-md-12">
                             <label for="groupId">สิทธิ์การใช้งาน</label>
                             <select name='groupId' id='groupId' class='form-control' required data-error-msg="กรุณาเลือกสิทธิ์การใช้งาน" >
-                                <?php 
-                                $sql ="select * from `group`";
+                                <?php
+                                switch ($_SESSION['groupId']) {
+                                    case '1':
+                                        $sql = "SELECT * FROM `group`";
+                                        break;
+
+                                    case '2':
+                                        $sql = "SELECT * FROM `group` WHERE groupId > 1";
+                                        break;
+
+                                    case '3':
+                                        $sql = "SELECT * FROM `group` WHERE groupId > 2";
+                                        break;
+                                    
+                                    default:
+                                        break;
+                                }
+                                
                                 $result = $conn->prepare($sql);
                                 $result->execute();
                                 while($row = $result->fetch()) {
