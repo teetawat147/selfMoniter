@@ -52,21 +52,15 @@ if (!$_SESSION['fname']){
         <div class="form-row">   
             <div class="form-group col-md-12">
                 <label for="smokeId">คุณเป็นโรคความดันโลหิตใช่หรือไม่</label>
-                <!-- <select id="smokeId" class="form-control" required>
-                <option selected></option>
-                <option>ใช่</option>
-                <option>ไม่ใช่</option>
-                </select> -->
-            <br>
-            <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="bloodId" id="bloodId" value="1" required data-error-msg="กรุณาเลือกข้อมูล">
-                <label class="form-check-label" for="inlineRadio3">ใช่</label>
-            
-            <!-- <div class="form-check form-check-inline"> -->
-                <input style ="margin-left: 30px;" class="form-check-input" type="radio" name="bloodId" id="bloodId" value="2" required data-error-msg="กรุณาเลือกข้อมูล">
-                <label class="form-check-label" for="inlineRadio4">ไม่ใช่</label>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="bloodId" id="bloodId" value="1" required data-error-msg="กรุณาเลือกข้อมูล">
+                    <label class="form-check-label" for="inlineRadio3">ใช่</label>
+                
+                <!-- <div class="form-check form-check-inline"> -->
+                    <input style ="margin-left: 30px;" class="form-check-input" type="radio" name="bloodId" id="bloodId" value="2" required data-error-msg="กรุณาเลือกข้อมูล">
+                    <label class="form-check-label" for="inlineRadio4">ไม่ใช่</label>
                 </div>
-           </div>
+            </div>
         </div>
 
         <div class="form-row">
