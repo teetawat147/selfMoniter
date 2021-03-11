@@ -7,21 +7,19 @@
 
   switch ($_SESSION['groupId']) {
     case '1':
-      $sql = "SELECT a.ampur_code,
-                a.ampur_name,
-                o.office_id,
-                o.office_name,
-                d.departmentId,
-                d.departmentName,
-                d.totalPersonDept,
-                (SELECT COUNT(p.departmentId) FROM person p WHERE p.departmentId = d.departmentId) AS countPersonDept,
-                (SELECT ROUND((COUNT(p.departmentId)/d.totalPersonDept)*100, 2) FROM person p WHERE p.departmentId = d.departmentId) AS percent
+      $sql = "SELECT o.office_id,
+              o.office_name,
+              d.departmentId,
+              d.departmentName,
+              d.totalPersonDept,
+              (SELECT COUNT(p.departmentId) FROM person p WHERE p.departmentId = d.departmentId) AS countPersonDept,
+              (SELECT ROUND((COUNT(p.departmentId)/d.totalPersonDept)*100, 2) FROM person p WHERE p.departmentId = d.departmentId) AS percent
             FROM office o
             LEFT JOIN ampur47 a ON o.ampur_code = a.ampur_code
             LEFT JOIN department d ON d.officeId = o.office_id
-            WHERE a.ampur_code = '".$_SESSION['districtCode']."'
+            WHERE o.office_id = '".$_GET['office_id']."'
             GROUP BY o.office_name, d.departmentName
-            ORDER BY o.office_id, d.departmentId";
+            ORDER BY o.ampur_code, o.office_id";
       break;
 
     case '2':
@@ -54,13 +52,16 @@
               break;
 
     default:
-      # code...
       break;
   }
+
+  // print_r($sql);
 
 $result = $conn -> prepare($sql);
 $result -> execute();
 $rowsDept = $result -> fetchAll(PDO::FETCH_ASSOC);
+
+// print_r($rowsDept);
 
 $historyLabel = array();
 $historyData = array();
@@ -224,7 +225,7 @@ $rowTotalDept = $result -> fetch(PDO::FETCH_ASSOC);
 
         Highcharts.chart('chart-dept', {
           chart: {
-            type: 'column'
+            type: 'bar'
           },
           title: {
             text: 'รายงานเจ้าหน้าที่ระดับกลุ่มงาน'

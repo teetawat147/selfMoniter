@@ -51,9 +51,9 @@
           <?php 
             if (($_SESSION['groupId'] == '1')) {
               ?>
-              <a class="dropdown-item" href="../main/reportAdminChangwat.php">รายงานเจ้าหน้าที่ระดับอำเภอ</a>
-              <a class="dropdown-item" href="../main/reportAdminAmpur.php">รายงานเจ้าหน้าที่ระดับอำเภอของแต่ละหน่วยงาน</a>
-              <a class="dropdown-item" href="../main/reportAdminDept.php">รายงานเจ้าหน้าที่ระดับกลุ่มงาน</a>
+              <a class="dropdown-item" href="../main/reportAdminChangwat.php">รายงานเจ้าหน้าที่ระดับจังหวัด</a>
+              <!-- <a class="dropdown-item" href="../main/reportAdminAmpur.php">รายงานเจ้าหน้าที่ระดับอำเภอของแต่ละหน่วยงาน</a>
+              <a class="dropdown-item" href="../main/reportAdminDept.php">รายงานเจ้าหน้าที่ระดับกลุ่มงาน</a> -->
           <?php
             }
             else if(($_SESSION['groupId'] == '2') or ($_SESSION['groupId'] == '4')) {
