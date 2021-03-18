@@ -357,7 +357,6 @@ if (!$_SESSION['fname']){
 
       <div class="button d-flex justify-content-center">
         <button type="button" onclick="window.location.href='../main/historyHealth.php'">ดูประวัติการบันทึกสุขภาพ</button>
-        <button type="button" onclick="window.location.href='../main/index.php'">ปิด</button>
       
       </div>
     </div>
