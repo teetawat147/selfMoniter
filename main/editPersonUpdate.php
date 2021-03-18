@@ -225,7 +225,7 @@ $rowEdit = $result->fetch();
                     <center>
                         <input type="hidden" name="personId" id="personId" value="<?php echo $rowEdit['personId']; ?>">
                         <button type="submit" class="btn btn-primary">ยืนยัน</button>
-                        <button type="button" class="btn btn-primary">ยกเลิก</button>
+                        <a href="../main/personGet.php" class="btn btn-secondary" role="button" aria-pressed="true">ยกเลิก</a>
                     </center>
             </form>
         </div>
