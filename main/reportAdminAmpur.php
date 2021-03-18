@@ -38,19 +38,12 @@
               break;
 
     default:
-      # code...
       break;
   }
 
   $result = $conn -> prepare($sql);
   $result -> execute();
   $rowsPerson = $result -> fetchAll(PDO::FETCH_ASSOC);
-
-  // print_r($rowsPerson);
-
-  // print_r($rowsPerson);
-  // echo "<br>session:";
-  // print_r($rowsPerson);
 
   $historyLabel = array();
   $historyData = array();
@@ -63,8 +56,8 @@
   $strHistoryLabel = implode(", ", $historyLabel);
   $strHistoryData = implode(", ", $historyData);
 
-//   echo "<br>str_history_label";
-//   print_r($strHistoryLabel);
+  // // echo "<br><br>str_history_label";
+  // print_r($strHistoryLabel);
 //   echo "<br>str_history_data";
 //   print_r($strHistoryData);
 ?>

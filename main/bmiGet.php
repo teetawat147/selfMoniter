@@ -131,12 +131,12 @@
             </div>
         
             <div class="modal-body text-center">
-                <p>คุณต้องการจะดำเนินการลบข้อมูลหรือไม่</p>
+              <p>คุณต้องการจะดำเนินการลบข้อมูลหรือไม่</p>
             </div>
             
             <div class="modal-footer d-flex justify-content-center">
-                <button type="button" class="btn btn-secondary btn-dismiss mb-2" data-dismiss="modal">ยกเลิก</button>
-                <a class="btn btn-success btn-confirm-delete">ยืนยัน</a>
+              <button type="button" class="btn btn-secondary btn-dismiss mb-2" data-dismiss="modal">ยกเลิก</button>
+              <a class="btn btn-success btn-confirm-delete">ยืนยัน</a>
             </div>
           </div>
         </div>
