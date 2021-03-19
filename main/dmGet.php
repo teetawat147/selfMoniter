@@ -79,7 +79,7 @@
       include "./header.php";
     ?>
     <div class="container-fluid mt-2">
-      <h3>ระดับรายน้ำตาลในเลือด</h3>
+      <h3>ระดับน้ำตาลในเลือด</h3>
       <table class="table" id="myTable">
         <thead>
           <tr>
