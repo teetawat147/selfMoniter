@@ -30,7 +30,7 @@
                 // $(target).html(msg);
                 console.log(msg);
                 if (msg=='Ok'){
-                    window.location="../main/healthDataRecord.php?lineId="+lineId;
+                    window.location="../main/index.php";
                 }else{
                     window.location="../main/userRegister.php?lineId="+lineId;
                 }
