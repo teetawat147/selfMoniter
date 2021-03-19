@@ -3,8 +3,6 @@
 
   if(!($_SESSION['fname'])) {
     header("location: ../main/login.php");
-  } else if(!isset($_GET['ampur_code'])){
-    header("location: ../main/reportAdminChangwat.php");
   }
 
   switch ($_SESSION['groupId']) {
@@ -24,34 +22,29 @@
             ORDER BY o.ampur_code, o.office_id";
       break;
 
-    case '2':
-      $sql = "SELECT a.ampur_code,
-                a.ampur_name,
-                o.office_id,
-                o.office_name,
-                d.departmentId,
-                d.departmentName,
-                d.totalPersonDept,
-                (SELECT COUNT(p.departmentId) FROM person p WHERE p.departmentId = d.departmentId) AS countPersonDept,
-                (SELECT ROUND((COUNT(p.departmentId)/d.totalPersonDept)*100, 2) FROM person p WHERE p.departmentId = d.departmentId) AS percent
-            FROM office o
-            LEFT JOIN ampur47 a ON o.ampur_code = a.ampur_code
-            LEFT JOIN department d ON d.officeId = o.office_id
-            WHERE a.ampur_code = '".$_SESSION['districtCode']."'
-            GROUP BY o.office_name, d.departmentName
-            ORDER BY o.office_id, d.departmentId";
-      break;
+      case '2':
+        $sql = "SELECT o.office_id, o.office_name,d.departmentId, d.departmentName, d.totalPersonDept,
+                (SELECT IF(COUNT(p.departmentId) IS NOT NULL, COUNT(p.departmentId), 0) FROM person p WHERE p.departmentId = d.departmentId) AS countPersonDept,
+                (SELECT IF(ROUND((COUNT(p.departmentId)/d.totalPersonDept)*100, 2) IS NOT NULL, ROUND((COUNT(p.departmentId)/d.totalPersonDept)*100, 2), 0) FROM person p WHERE p.departmentId = d.departmentId) AS percent
+                FROM office o
+                LEFT JOIN ampur47 a ON o.ampur_code = a.ampur_code
+                LEFT JOIN department d ON d.officeId = o.office_id
+                WHERE a.ampur_code = '".$_SESSION['districtCode']."'
+                GROUP BY o.office_name, d.departmentName
+                ORDER BY o.office_id, d.departmentId";
+        break;
 
     case "4":
       $sql = "SELECT o.office_id, o.office_name,d.departmentId, d.departmentName, d.totalPersonDept,
-                (SELECT COUNT(p.departmentId) FROM person p WHERE p.departmentId = d.departmentId) AS countPersonDept,
-                (SELECT ROUND((COUNT(p.departmentId)/d.totalPersonDept)*100, 2) FROM person p WHERE p.departmentId = d.departmentId) AS percent
-                FROM department d
-                LEFT JOIN office o ON o.office_id = d.officeId
-                WHERE d.officeId = '".$_SESSION['officeId']."'
-                GROUP BY d.departmentName
-                ORDER BY d.departmentId";
-              break;
+              (SELECT COUNT(p.departmentId) FROM person p WHERE p.departmentId = d.departmentId) AS countPersonDept,
+              (SELECT ROUND((COUNT(p.departmentId)/d.totalPersonDept)*100, 2) FROM person p WHERE p.departmentId = d.departmentId) AS percent
+              FROM department d
+              LEFT JOIN office o ON o.office_id = d.officeId
+              WHERE d.officeId = '".$_SESSION['officeId']."'
+              GROUP BY d.departmentName
+              ORDER BY d.departmentId";
+
+        break;
 
     default:
       break;
