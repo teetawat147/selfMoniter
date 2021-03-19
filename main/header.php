@@ -27,11 +27,11 @@
                 ?>
                 <a class="dropdown-item" href="../main/bmiGet.php">ระดับ BMI</a>
                 <a class="dropdown-item" href="../main/cvdScoreGet.php">ระดับ CVD risk</a>
-                <a class="dropdown-item" href="../main/waistGet.php">ระดับ รอบเอว</a>
-                <a class="dropdown-item" href="../main/bpGet.php">ระดับ BP</a>
-                <a class="dropdown-item" href="../main/dmGet.php">ระดับ DM</a>
-                <a class="dropdown-item" href="../main/smokeGet.php">ระดับ การสูบบุหรี่</a>
-                <a class="dropdown-item" href="../main/alcoholGet.php">ระดับ การดื่มสุรา</a>
+                <a class="dropdown-item" href="../main/waistGet.php">ระดับรอบเอว</a>
+                <a class="dropdown-item" href="../main/bpGet.php">ระดับความดัน</a>
+                <a class="dropdown-item" href="../main/dmGet.php">ระดับน้ำตาลในเลือด</a>
+                <a class="dropdown-item" href="../main/smokeGet.php">ระดับการสูบบุหรี่</a>
+                <a class="dropdown-item" href="../main/alcoholGet.php">ระดับการดื่มสุรา</a>
                 <a class="dropdown-item" href="../main/officeGet.php">หน่วยงาน</a>
                 <a class="dropdown-item" href="../main/departmentGet.php">แผนกงาน</a>
 

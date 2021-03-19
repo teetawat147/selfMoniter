@@ -33,6 +33,7 @@ foreach ($rowsOffice as $hkey => $historyValue) {
   array_push($historyAmpur,$historyPercent);
   array_push($historyAmpurLabel,"'".$historyValue['ampur_name']."'");
 }
+
 $strHistoryAmpur=implode(", ",$historyAmpur);
 $strHistoryLabel=implode(", ",$historyAmpurLabel);
 

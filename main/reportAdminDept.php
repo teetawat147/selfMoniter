@@ -3,6 +3,8 @@
 
   if(!($_SESSION['fname'])) {
     header("location: ../main/login.php");
+  } else if(!isset($_GET['ampur_code'])){
+    header("location: ../main/reportAdminChangwat.php");
   }
 
   switch ($_SESSION['groupId']) {
