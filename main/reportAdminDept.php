@@ -261,7 +261,6 @@ $rowTotalDept = $result -> fetch(PDO::FETCH_ASSOC);
         });
 
         var data = {
-          // "sSearch": "ค้นหา :",
           "sUrl": "",
           "sLoadingRecords": "กำลังบันทึก",
           "buttons": {
