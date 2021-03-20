@@ -128,7 +128,7 @@ if (!$_SESSION['fname']){
     if($key>0){
       array_push($cvd_level_label,"'".$rows_cvd_level[$key-1]['cvd_level']."'");
       array_push($cvd_level_data,$rows_cvd_level[$key-1]['countAll']);
-      $maxCountAll=($maxCountAll<$rows_cvd_level[$key-1]['countAll'])?$rows_cvd_level[$key]['countAll']:$maxCountAll;
+      $maxCountAll=($maxCountAll<$rows_cvd_level[$key-1]['countAll'])?$rows_cvd_level[$key-1]['countAll']:$maxCountAll;
     }else{
       array_push($cvd_level_label,"'".$i."'");
       array_push($cvd_level_data,0);
@@ -466,7 +466,7 @@ if (!$_SESSION['fname']){
 
 
         let chartRiskElem = document.getElementById('chart-risk').getContext('2d');
-        let chartRisk = new Chart(chartRiskElem,{
+        let chartRisk = new Chart(chartRiskElem, {
           type:"bar",
           data:{
             labels:[
@@ -501,7 +501,7 @@ if (!$_SESSION['fname']){
             ]
           },
           options:{
-            legend:{display:false},
+            legend:{ display: false },
             annotation: {
               annotations: [{
               type: 'line',
@@ -513,104 +513,18 @@ if (!$_SESSION['fname']){
               }],
               drawTime: "afterDraw" // (default)
             },
-
             scales:{
               yAxes:[{
                 ticks:{
-                  beginAtZero:true,
+                  beginAtZero: true,
                   max: <?php echo $maxCountAll+(10*$maxCountAll/100); ?>,
                   min: 0,
                   stepSize: <?php echo $maxCountAll/10; ?>
                 }
               }],
-
-              
             }
           }
         });
-
-
-
-      function chartTestBar() {
-        let options = {
-          series: [{
-          name: 'BMI',
-          data: [31, 40, 28, 51, 42, 109, 100]
-          // data: [<?php echo $str_history_bmi_data; ?>]
-        }],
-          chart: {
-          height: 400,
-          type: 'area'
-        },
-        dataLabels: {
-          enabled: false
-        },
-        stroke: {
-          curve: 'smooth'
-        },
-        xaxis: {
-          categories: ['ม.ค.','มี.ค.','พ.ค.','ก.ค.','ก.ย.','พ.ค.']
-        },
-        yaxis: {
-          tickAmount: 7,
-          min: 0,
-          max: 140
-        }
-      };
-
-        let chart = new ApexCharts(document.getElementById('chart-line-test'), options);
-        chart.render();
-      }
-
-      function chartTestLine(typeChart, nameChart, categories, tickAmount, minValue, maxValue) {
-        let options = {
-          chart: {
-            type: typeChart
-          },
-          series: [{
-            name: nameChart,
-            data: [5, 10, 2, 15, 12, 10]
-          }],
-          xaxis: {
-            categories: categories
-          }, 
-          yaxis: {
-            tickAmount: tickAmount,
-            min: minValue,
-            max: maxValue
-          },
-          // colors: ['#008FFB']
-        }
-
-        let chart = new ApexCharts(document.getElementById('chart-bar-test'), options);
-        chart.render();
-      }
-
-      function chartTestPie() {
-        let options = {
-          series: [100, 55, 13, 43, 22], // data
-          chart: {
-            width: 500,
-            type: 'pie',
-        },
-        labels: ['BMI1', 'BMI2', 'BMI3', 'BMI4', 'BMI5'],
-        responsive: [{
-          breakpoint: 480,
-          options: {
-            chart: {
-              width: 200
-            },
-            legend: {
-              position: 'bottom'
-            }
-          }
-        }]
-        };
-
-        let chart = new ApexCharts(document.getElementById('chart-pie-test'), options);
-        chart.render();
-      }
-
 
       </script>
   </body>
@@ -618,16 +532,14 @@ if (!$_SESSION['fname']){
 
 
 <?php 
-function arraySearch2D($array,$findKey,$findValue){
-  $_return=0;
-  foreach ($array as $key => $value) {
-    if ($value[$findKey]==$findValue){
-      $_return=$key+1;
-      break;
+  function arraySearch2D($array, $findKey, $findValue) {
+    $_return = 0;
+    foreach ($array as $key => $value) {
+      if ($value[$findKey] == $findValue){
+        $_return = $key+1;
+        break;
+      }
     }
+    return $_return;
   }
-  return $_return;
-}
-
-
 ?>
