@@ -3,6 +3,8 @@
 
   if(!($_SESSION['fname'])) {
     header("location: ../main/login.php");
+  } else if ($_SESSION['groupId'] == 1 && !($_GET['office_id'])) {
+    header("location: ../main/reportAdminChangwat.php");
   }
 
   switch ($_SESSION['groupId']) {
