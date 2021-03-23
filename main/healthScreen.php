@@ -820,65 +820,66 @@ $str_history_cvd_score_data=implode(", ",$history_cvd_score_data);
 
 
     let chartRiskElem = document.getElementById('chart-risk').getContext('2d');
-    let chartRisk = new Chart(chartRiskElem,{
-      type:"bar",
-      data:{
-        labels:[
-          <?php echo $str_cvd_level_label; ?>
-        ],
+        let chartRisk = new Chart(chartRiskElem,{
+          type:"bar",
+          data:{
+            labels:[
+              <?php echo $str_cvd_level_label; ?>
+            ],
 
-       datasets:[
-          {
-            label:"Risk",
-            data:[
-              <?php echo $str_cvd_level_data; ?>
-                ],
-            fill:false,
-            backgroundColor:[
-              "rgba(255, 99, 132, 0.2)",
-              "rgba(255, 159, 64, 0.2)",
-              "rgba(255, 205, 86, 0.2)",
-              "rgba(75, 192, 192, 0.2)",
-              "rgba(54, 162, 235, 0.2)",
-              "rgba(153, 102, 255, 0.2)",
-              "rgba(201, 203, 207, 0.2)"],
-            borderColor:[
-              "rgb(255, 99, 132)",
-              "rgb(255, 159, 64)",
-              "rgb(255, 205, 86)",
-              "rgb(75, 192, 192)",
-              "rgb(54, 162, 235)",
-              "rgb(153, 102, 255)",
-              "rgb(201, 203, 207)"],
-            borderWidth:5
-          }
-        ]
-      },
-      options:{
-        legend:{display:false},
-        annotation: {
-          annotations: [{
-            type: 'line',
-            mode: 'horizontal',
-            scaleID: 'y-axis-0',
-            value: '26',
-            borderColor: 'tomato',
-            borderWidth: 1
-          }],
-          drawTime: "afterDraw" // (default)
-        },
-        scales:{
-          yAxes:[{
-            ticks:{
-              beginAtZero:true,
-              max: <?php echo $maxCountAll+(10*$maxCountAll/100); ?>,
-              min: 0,
-              stepSize: <?php echo ceil($maxCountAll/10); ?>
+           datasets:[
+              {
+                label:"Risk",
+                data:[
+                  <?php echo $str_cvd_level_data; ?>
+                    ],
+                fill:false,
+                backgroundColor:[
+                  "rgba(255, 99, 132, 0.2)",
+                  "rgba(255, 159, 64, 0.2)",
+                  "rgba(255, 205, 86, 0.2)",
+                  "rgba(75, 192, 192, 0.2)",
+                  "rgba(54, 162, 235, 0.2)",
+                  "rgba(153, 102, 255, 0.2)",
+                  "rgba(201, 203, 207, 0.2)"],
+                borderColor:[
+                  "rgb(255, 99, 132)",
+                  "rgb(255, 159, 64)",
+                  "rgb(255, 205, 86)",
+                  "rgb(75, 192, 192)",
+                  "rgb(54, 162, 235)",
+                  "rgb(153, 102, 255)",
+                  "rgb(201, 203, 207)"],
+                borderWidth:5
+              }
+            ]
+          },
+          options:{
+            legend:{ display: false },
+            annotation: {
+              annotations: [{
+              type: 'line',
+              mode: 'horizontal',
+              scaleID: 'y-axis-0',
+              value: '26',
+              borderColor: 'tomato',
+              borderWidth: 1
+              }],
+              drawTime: "afterDraw" // (default)
+            },
+            scales:{
+              yAxes:[{
+                ticks:{
+                  beginAtZero: true,
+                  max: <?php echo $maxCountAll+(10*$maxCountAll/100); ?>,
+                  min: 0,
+                  stepSize: <?php echo $maxCountAll/10; ?>
+                }
+              }],
             }
-          }],
-        }
-      }
-    });
+          }
+        });
+
   </script>
   </body>
 </html>
